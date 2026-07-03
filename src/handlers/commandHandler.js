@@ -45,6 +45,7 @@ export const createCommandHandler = ({ loader, botState }) => async ({ sock, msg
 
     await db.update((store) => { store.stats.commands += 1; });
     logger.info(`Command ${command.name} from ${msg.key.remoteJid}`);
+    await sock.sendPresenceUpdate('composing', msg.key.remoteJid).catch(() => {});
     await command.execute({ sock, msg, args, text, prefix, commandName, loader, db, config, botState });
   } catch (error) {
     logger.error('Command handler error', error.stack || error.message);
