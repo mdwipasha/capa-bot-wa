@@ -9,13 +9,14 @@ export const rateLimit = async (msg) => {
   const number = senderNumber(msg);
   const data = await db.read();
   if (data.blocked[number]) return { allowed: false, reason: 'Nomor ini diblokir karena spam.' };
-  const record = userHits.get(number) || { count: 0, resetAt: now() + config.spamWindowMs };
+  const key = `${msg.__sessionId || 'default'}:${number}`;
+  const record = userHits.get(key) || { count: 0, resetAt: now() + config.spamWindowMs };
   if (now() > record.resetAt) {
     record.count = 0;
     record.resetAt = now() + config.spamWindowMs;
   }
   record.count += 1;
-  userHits.set(number, record);
+  userHits.set(key, record);
   if (record.count >= config.spamBlockHits) {
     return { allowed: false, reason: 'Auto block: aktivitas spam terdeteksi.' };
   }

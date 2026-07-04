@@ -7,8 +7,8 @@ export default {
   category: 'owner',
   description: 'Menghapus session Baileys.',
   ownerOnly: true,
-  async execute({ sock, msg }) {
-    await fs.emptyDir(config.sessionPath);
+  async execute({ sock, msg, session }) {
+    await fs.emptyDir(session?.sessionPath || config.sessionPath);
     await sock.sendMessage(msg.key.remoteJid, { text: 'Session dibersihkan. Restart bot untuk login ulang.' }, { quoted: msg });
   }
 };

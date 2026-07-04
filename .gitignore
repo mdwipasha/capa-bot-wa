@@ -1,5 +1,8 @@
 node_modules/
-src/session/
+src/session/*
+!src/session/services/
+!src/session/services/*.js
+sessions/
 backups/
 bin/
 downloads/

@@ -59,7 +59,7 @@ export const runGroupGuards = async ({ sock, msg }) => {
   }
 
   if (group.antispam[from]) {
-    const key = `${from}:${number}`;
+    const key = `${msg.__sessionId || 'default'}:${from}:${number}`;
     const rec = spamCache.get(key) || { count: 0, last: 0 };
     const now = Date.now();
     rec.count = now - rec.last < 2500 ? rec.count + 1 : 1;

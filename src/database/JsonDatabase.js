@@ -48,6 +48,7 @@ export class JsonDatabase extends DatabaseAdapter {
     super();
     this.filePath = filePath;
     this.data = structuredClone(defaultData);
+    this.writeQueue = Promise.resolve();
   }
 
   async init() {
@@ -70,8 +71,12 @@ export class JsonDatabase extends DatabaseAdapter {
   }
 
   async update(mutator) {
-    const data = await this.read();
-    await mutator(data);
-    return this.write(data);
+    const run = async () => {
+      const data = await this.read();
+      await mutator(data);
+      return this.write(data);
+    };
+    this.writeQueue = this.writeQueue.then(run, run);
+    return this.writeQueue;
   }
 }

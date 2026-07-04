@@ -5,7 +5,7 @@ import { now } from '../utils/time.js';
 const cooldowns = new Map();
 
 export const checkCooldown = (msg, command) => {
-  const key = `${senderNumber(msg)}:${command.name}`;
+  const key = `${msg.__sessionId || 'default'}:${senderNumber(msg)}:${command.name}`;
   const waitMs = command.cooldownMs ?? config.cooldownMs;
   const last = cooldowns.get(key) || 0;
   const diff = now() - last;

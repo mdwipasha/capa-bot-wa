@@ -3,12 +3,12 @@ import { db } from '../database/index.js';
 import { checkCooldown } from '../middleware/cooldown.js';
 import { checkPermissions } from '../middleware/permissions.js';
 import { rateLimit, validateInput } from '../middleware/security.js';
-import { reply } from '../lib/message.js';
+import { isGroupJid, reply, senderJid } from '../lib/message.js';
 import { runGroupGuards } from './groupGuard.js';
 import { logger } from '../utils/logger.js';
 import { pickText, sanitizeText } from '../utils/text.js';
 
-export const createCommandHandler = ({ loader, botState }) => async ({ sock, msg }) => {
+export const createCommandHandler = ({ loader, botState, session = null }) => async ({ sock, msg }) => {
   try {
     if (!msg.message || msg.key.remoteJid === 'status@broadcast') return;
 
@@ -44,9 +44,25 @@ export const createCommandHandler = ({ loader, botState }) => async ({ sock, msg
     if (wait) return reply(sock, msg, `Tunggu ${wait} detik sebelum memakai command ini lagi.`);
 
     await db.update((store) => { store.stats.commands += 1; });
-    logger.info(`Command ${command.name} from ${msg.key.remoteJid}`);
+    const logPrefix = session?.id ? `[Bot ${session.id}] ` : '';
+    logger.info(`${logPrefix}Command ${command.name} from ${msg.key.remoteJid}`);
     await sock.sendPresenceUpdate('composing', msg.key.remoteJid).catch(() => {});
-    await command.execute({ sock, msg, args, text, prefix, commandName, loader, db, config, botState });
+    await command.execute({
+      session,
+      sock,
+      msg,
+      message: msg,
+      sender: senderJid(msg),
+      group: isGroupJid(msg.key.remoteJid) ? msg.key.remoteJid : null,
+      args,
+      text,
+      prefix,
+      commandName,
+      loader,
+      db,
+      config,
+      botState
+    });
   } catch (error) {
     logger.error('Command handler error', error.stack || error.message);
     await reply(sock, msg, `Terjadi error: ${error.message}`).catch(() => {});
