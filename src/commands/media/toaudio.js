@@ -8,6 +8,12 @@ export default {
   async execute({ sock, msg }) {
     const media = await downloadQuotedOrCurrent(msg);
     if (!media) return sock.sendMessage(msg.key.remoteJid, { text: 'Reply audio/video.' }, { quoted: msg });
-    return sock.sendMessage(msg.key.remoteJid, { audio: media.buffer, mimetype: 'audio/mpeg' }, { quoted: msg });
+    // Kirim sebagai audio/mp4 agar lebih kompatibel di WhatsApp
+    const mimetype = media.mime?.includes('mp3') || media.mime?.includes('mpeg') ? 'audio/mpeg' : 'audio/mp4';
+    return sock.sendMessage(msg.key.remoteJid, {
+      audio: media.buffer,
+      mimetype,
+      ptt: false
+    }, { quoted: msg });
   }
 };

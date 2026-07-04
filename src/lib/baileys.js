@@ -8,9 +8,12 @@ import fs from 'fs-extra';
 import { config } from '../config/env.js';
 import { rawLogger, logger } from '../utils/logger.js';
 
-export const createSocket = async (botState) => {
-  await fs.ensureDir(config.sessionPath);
-  const { state, saveCreds } = await useMultiFileAuthState(config.sessionPath);
+export const createSocket = async (botState, options = {}) => {
+  const sessionPath = options.sessionPath || config.sessionPath;
+  const pairingPhoneNumber = options.pairingPhoneNumber || config.ownerNumber;
+
+  await fs.ensureDir(sessionPath);
+  const { state, saveCreds } = await useMultiFileAuthState(sessionPath);
   const { version } = await fetchLatestBaileysVersion();
 
   const sock = makeWASocket({
@@ -29,10 +32,12 @@ export const createSocket = async (botState) => {
 
   sock.ev.on('creds.update', saveCreds);
 
-  if (!sock.authState.creds.registered && config.authMethod === 'pairing' && config.ownerNumber) {
+  sock.sessionPath = sessionPath;
+
+  if (!sock.authState.creds.registered && config.authMethod === 'pairing' && pairingPhoneNumber) {
     setTimeout(async () => {
       try {
-        const phoneNumber = config.ownerNumber.replace(/\D/g, '');
+        const phoneNumber = pairingPhoneNumber.replace(/\D/g, '');
         const code = await sock.requestPairingCode(phoneNumber);
         botState.pairingCode = code;
         botState.pairingStatus = `Pairing code aktif: ${code}`;

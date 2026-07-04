@@ -12,7 +12,14 @@ export const config = {
   authMethod: ['pairing', 'qr'].includes((process.env.AUTH_METHOD || 'pairing').toLowerCase())
     ? (process.env.AUTH_METHOD || 'pairing').toLowerCase()
     : 'pairing',
-  sessionPath: 'src/session',
+  sessionPath: process.env.SESSION_PATH || 'src/session',
+  sessionBasePath: process.env.SESSION_BASE_PATH || 'sessions',
+  maxSession: Number(process.env.MAX_SESSION || 50),
+  reconnect: {
+    maxAttempts: Number(process.env.RECONNECT_MAX_ATTEMPTS || 5),
+    baseDelayMs: Number(process.env.RECONNECT_BASE_DELAY_MS || 2000),
+    maxDelayMs: Number(process.env.RECONNECT_MAX_DELAY_MS || 60000)
+  },
   databasePath: 'src/database/database.json',
   cooldownMs: Number(process.env.COOLDOWN_MS || 3000),
   spamWindowMs: Number(process.env.SPAM_WINDOW_MS || 10000),

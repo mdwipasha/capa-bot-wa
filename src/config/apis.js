@@ -7,7 +7,7 @@ export const aiApis = {
     apiKey: config.ai.openaiApiKey
   },
   gemini: {
-    baseUrl: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent',
+    baseUrl: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent',
     apiKey: config.ai.geminiApiKey
   },
   claude: {

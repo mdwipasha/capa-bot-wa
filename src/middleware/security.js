@@ -17,7 +17,6 @@ export const rateLimit = async (msg) => {
   record.count += 1;
   userHits.set(number, record);
   if (record.count >= config.spamBlockHits) {
-    await db.update((store) => { store.blocked[number] = { at: now(), reason: 'Auto block spam' }; });
     return { allowed: false, reason: 'Auto block: aktivitas spam terdeteksi.' };
   }
   if (record.count > config.spamMaxHits) return { allowed: false, reason: 'Terlalu cepat. Coba lagi sebentar.' };

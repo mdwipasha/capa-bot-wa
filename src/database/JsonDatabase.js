@@ -35,6 +35,7 @@ const defaultData = {
   votes: {},
   games: {},
   blocked: {},
+  sessions: {},
   stats: {
     commands: 0,
     messages: 0,
