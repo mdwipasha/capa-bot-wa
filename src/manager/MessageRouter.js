@@ -1,8 +1,17 @@
 import { createCommandHandler } from '../handlers/commandHandler.js';
 
 export class MessageRouter {
-  constructor({ loader, eventBus, statsManager, loggerService, disabledCommands = new Set(), pluginManager = null } = {}) {
+  constructor({
+    loader,
+    eventBus,
+    statsManager,
+    loggerService,
+    disabledCommands = new Set(),
+    pluginManager = null,
+    commandManager = null
+  } = {}) {
     this.loader = loader;
+    this.commandManager = commandManager;
     this.eventBus = eventBus;
     this.stats = statsManager;
     this.logger = loggerService;
@@ -13,23 +22,40 @@ export class MessageRouter {
   }
 
   getLoaderProxy(botId = null) {
+    // CommandManager sebagai primary source jika tersedia
+    if (this.commandManager) {
+      return {
+        get: (name) => {
+          if (this.disabledCommands.has(name)) return null;
+          const command = this.commandManager.getCommand(name, botId);
+          if (!command) return null;
+          if (this.disabledCommands.has(command.name)) return null;
+          return command;
+        },
+        list: () => {
+          return this.commandManager.getEnabledCommands(botId).filter(
+            (command) => !this.disabledCommands.has(command.name)
+          );
+        }
+      };
+    }
+
+    // Fallback: loader + pluginManager (backward compat)
     return {
       get: (name) => {
         const command = this.loader.get(name);
         if (!command) return null;
         if (this.disabledCommands.has(command.name) || this.disabledCommands.has(name)) return null;
-        // Global enabled check via pluginManager
         if (this.pluginManager) {
           const entry = this.pluginManager.registry.get(command.name);
           if (entry && entry.enabled === false) return null;
-          // Per-bot plugin check
           if (botId && entry && !this.pluginManager.registry.isEnabledForBot(botId, command.name)) return null;
         }
         return command;
       },
       list: () => {
         const all = this.loader.list();
-        const filtered = all.filter((command) => {
+        return all.filter((command) => {
           if (this.disabledCommands.has(command.name)) return false;
           if (this.pluginManager) {
             const entry = this.pluginManager.registry.get(command.name);
@@ -38,12 +64,9 @@ export class MessageRouter {
           }
           return true;
         });
-        return filtered;
       }
     };
   }
-
-
 
   getHandler(session) {
     if (!this.handlers.has(session.id)) {
@@ -52,13 +75,13 @@ export class MessageRouter {
         botState: session.botState,
         session,
         botManager: this.botManager,
+        commandManager: this.commandManager,
         eventBus: this.eventBus,
         statsManager: this.stats
       }));
     }
     return this.handlers.get(session.id);
   }
-
 
   clear(sessionId = null) {
     if (sessionId) this.handlers.delete(sessionId);
@@ -84,3 +107,4 @@ export class MessageRouter {
     }
   }
 }
+

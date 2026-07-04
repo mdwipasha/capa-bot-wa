@@ -1,11 +1,13 @@
 import process from 'process';
 import { PluginManager } from './plugin/PluginManager.js';
 import { CommandLoader } from './lib/commandLoader.js';
+import { CommandManager } from './command/CommandManager.js';
 import { startDashboard } from './lib/dashboard.js';
 import { startScheduler } from './lib/scheduler.js';
 import { db } from './database/index.js';
 import { BotManager } from './manager/BotManager.js';
 import { logger } from './utils/logger.js';
+import { config } from './config/env.js';
 
 process.on('uncaughtException', (error) => logger.error('Uncaught exception', error.stack || error.message));
 process.on('unhandledRejection', (error) => logger.error('Unhandled rejection', error?.stack || error));
@@ -13,29 +15,39 @@ process.on('unhandledRejection', (error) => logger.error('Unhandled rejection', 
 const startBot = async () => {
   await db.init();
 
-  // 1. Buat PluginManager — façade utama semua operasi plugin
+  // 1. Buat PluginManager — tetap ada untuk backward compat
   const pluginManager = new PluginManager({
     pluginsDir: 'src/commands',
+    watchEnabled: false  // watcher dikelola oleh CommandManager
+  });
+
+  // 2. CommandLoader sebagai thin adapter atas PluginManager (backward compat)
+  const loader = new CommandLoader('src/commands', pluginManager);
+
+  // 3. CommandManager — pusat pengelolaan command
+  const commandManager = new CommandManager({
+    commandsDir: 'src/commands',
+    prefixes: config.prefixes,
+    ownerNumber: config.ownerNumber,
+    botName: config.botName,
+    defaultCooldown: Math.round((config.cooldownMs || 3000) / 1000),
     watchEnabled: true   // aktifkan hot-reload watcher
   });
 
-  // 2. CommandLoader sebagai thin adapter atas PluginManager
-  const loader = new CommandLoader('src/commands', pluginManager);
+  // 4. BotManager menerima semua dependency
+  const botManager = new BotManager({ loader, pluginManager, commandManager });
 
-  // 3. BotManager menerima kedua-duanya untuk backward compat
-  const botManager = new BotManager({ loader, pluginManager });
-
-  // 4. Load semua plugin
+  // 5. Load semua command melalui CommandManager
   await botManager.loadCommands();
 
-  // 5. Aktifkan watcher + register callback untuk clear router cache
-  loader.watch(() => {
+  // 6. Register hot-reload callback ke CommandManager
+  commandManager.onReload(() => {
     botManager.messageRouter.clear();
-    botManager.emit('plugin.reloaded', { total: loader.list().length });
-    logger.info('Plugins hot reloaded');
+    botManager.emit('command.reloaded', { total: commandManager.count() });
+    logger.info(`Commands hot reloaded — ${commandManager.count()} command aktif`);
   });
 
-  // 6. Restore bot sessions
+  // 7. Restore bot sessions
   await botManager.restoreBots();
 
   startScheduler();

@@ -22,6 +22,7 @@ export class BotManager {
   constructor({
     loader,
     pluginManager = null,
+    commandManager = null,
     database = db,
     eventBus = new EventBus(),
     loggerService = new LoggerService()
@@ -36,22 +37,29 @@ export class BotManager {
     this.disabledPlugins = new Set();
     this.jobs = new Map();
 
+    // CommandManager: pusat pengelolaan command (baru)
+    this.commandManager = commandManager || null;
+
     // PluginManager: gunakan yang diinject, atau ambil dari loader adapter
     this.pluginManager = pluginManager
       || loader?.getPluginManager?.()
       || null;
 
+    // Resolve loader proxy: CommandManager (prioritas) → loader langsung
+    const resolvedLoader = commandManager || loader;
+
     this.messageRouter = new MessageRouter({
-      loader,
+      loader: resolvedLoader,
       eventBus,
       statsManager: this.stats,
       loggerService,
       disabledCommands: this.disabledCommands,
-      pluginManager: this.pluginManager
+      pluginManager: this.pluginManager,
+      commandManager
     });
     this.messageRouter.botManager = this;
     this.sessionManager = new SessionManager({
-      loader,
+      loader: resolvedLoader,
       messageRouter: this.messageRouter,
       eventBus,
       statsManager: this.stats
@@ -206,6 +214,11 @@ export class BotManager {
   }
 
   async loadPlugins() {
+    if (this.commandManager) {
+      const commands = await this.commandManager.loadCommands();
+      this.emit('plugin.loaded', { total: commands.length });
+      return commands;
+    }
     if (this.pluginManager) {
       const plugins = await this.pluginManager.loadPlugins();
       this.emit('plugin.loaded', { total: plugins.length });
@@ -217,6 +230,13 @@ export class BotManager {
   }
 
   async reloadPlugins() {
+    if (this.commandManager) {
+      const commands = await this.commandManager.reloadCommands();
+      this.stats.increment('system', 'pluginReload');
+      this.messageRouter.clear();
+      this.emit('plugin.reloaded', { total: commands.length });
+      return commands;
+    }
     if (this.pluginManager) {
       const plugins = await this.pluginManager.reloadPlugins();
       this.stats.increment('system', 'pluginReload');
@@ -232,6 +252,16 @@ export class BotManager {
   }
 
   async reloadPlugin(name) {
+    if (this.commandManager) {
+      const command = await this.commandManager.reloadCommand(name).catch(async () => {
+        // Fallback ke pluginManager jika command tidak ditemukan di CommandManager
+        if (!this.pluginManager) throw new PluginError('PluginManager tidak tersedia.');
+        return this.pluginManager.reloadPlugin(name);
+      });
+      this.messageRouter.clear();
+      this.emit('plugin.reloaded', { name });
+      return command;
+    }
     if (!this.pluginManager) throw new PluginError('PluginManager tidak tersedia.');
     const plugin = await this.pluginManager.reloadPlugin(name);
     this.messageRouter.clear();
@@ -291,16 +321,19 @@ export class BotManager {
   }
 
   getPlugins(botId = null) {
+    if (this.commandManager) return this.commandManager.getCommands(botId);
     if (this.pluginManager) return this.pluginManager.getPlugins(botId);
     return this.loader.list();
   }
 
   getPlugin(name, botId = null) {
+    if (this.commandManager) return this.commandManager.getCommand(name, botId);
     if (this.pluginManager) return this.pluginManager.getPlugin(name, botId);
     return this.loader.get(name);
   }
 
   searchPlugin(query) {
+    if (this.commandManager) return this.commandManager.searchCommand(query);
     if (this.pluginManager) return this.pluginManager.searchPlugin(query);
     return this.loader.list().filter((p) =>
       p.name?.includes(query) || p.description?.includes(query)
@@ -308,6 +341,7 @@ export class BotManager {
   }
 
   getPluginsForBot(botId) {
+    if (this.commandManager) return this.commandManager.getCommands(botId);
     if (this.pluginManager) return this.pluginManager.getPluginsForBot(botId);
     return this.loader.list();
   }
@@ -320,20 +354,95 @@ export class BotManager {
     return this.reloadPlugins();
   }
 
-  enableCommand(name) {
+  async enableCommand(name, botId = null) {
+    if (this.commandManager) {
+      const result = await this.commandManager.enableCommand(name, botId);
+      this.messageRouter.clear();
+      return result;
+    }
     this.disabledCommands.delete(name);
     this.messageRouter.clear();
+    this.emit('command.enabled', { name, botId });
     return { name, enabled: true };
   }
 
-  disableCommand(name) {
+  async disableCommand(name, botId = null) {
+    if (this.commandManager) {
+      const result = await this.commandManager.disableCommand(name, botId);
+      this.messageRouter.clear();
+      return result;
+    }
     this.disabledCommands.add(name);
     this.messageRouter.clear();
+    this.emit('command.disabled', { name, botId });
     return { name, enabled: false };
   }
 
-  deleteCommand(name) {
+  async deleteCommand(name) {
+    if (this.commandManager) {
+      return this.commandManager.deleteCommand(name);
+    }
     throw new CommandError(`Delete command ${name} belum didukung oleh command loader saat ini`);
+  }
+
+  // ─────────────────────────────────────────────
+  // Command Manager — Extended API
+  // ─────────────────────────────────────────────
+
+  /**
+   * Ambil semua command (delegasi ke CommandManager jika tersedia).
+   * @param {string|null} [botId=null]
+   * @returns {object[]}
+   */
+  getCommands(botId = null) {
+    return this.getPlugins(botId);
+  }
+
+  /**
+   * Ambil satu command by name.
+   * @param {string} name
+   * @param {string|null} [botId=null]
+   * @returns {object|null}
+   */
+  getCommand(name, botId = null) {
+    return this.getPlugin(name, botId);
+  }
+
+  /**
+   * Cari command by query.
+   * @param {string} query
+   * @returns {object[]}
+   */
+  searchCommand(query) {
+    return this.searchPlugin(query);
+  }
+
+  /**
+   * Reload satu command by name.
+   * @param {string} name
+   * @returns {Promise<object>}
+   */
+  async reloadCommand(name) {
+    return this.reloadPlugin(name);
+  }
+
+  /**
+   * Ambil statistik semua command.
+   * @returns {object[]}
+   */
+  getStatistics() {
+    if (this.commandManager) return this.commandManager.getStatistics();
+    return [];
+  }
+
+  /**
+   * Generate menu otomatis.
+   * @param {object} [options]
+   * @returns {string}
+   */
+  getMenu(options = {}) {
+    if (this.commandManager) return this.commandManager.getMenu(options);
+    return '';
   }
 
   scheduleJob(id, task, delayMs) {

@@ -13,6 +13,7 @@ export const createCommandHandler = ({
   botState,
   session = null,
   botManager = null,
+  commandManager = null,
   eventBus = null,
   statsManager = null
 }) => async ({ sock, msg }) => {
@@ -54,23 +55,43 @@ export const createCommandHandler = ({
     const logPrefix = session?.id ? `[Bot ${session.id}] ` : '';
     logger.info(`${logPrefix}Command ${command.name} from ${msg.key.remoteJid}`);
     await sock.sendPresenceUpdate('composing', msg.key.remoteJid).catch(() => {});
-    await command.execute({
-      session,
-      botManager,
-      sock,
-      msg,
-      message: msg,
-      sender: senderJid(msg),
-      group: isGroupJid(msg.key.remoteJid) ? msg.key.remoteJid : null,
-      args,
-      text,
-      prefix,
-      commandName,
-      loader,
-      db,
-      config,
-      botState
-    });
+
+    const startTime = Date.now();
+    let execSuccess = true;
+
+    try {
+      await command.execute({
+        session,
+        botManager,
+        commandManager,
+        sock,
+        msg,
+        message: msg,
+        sender: senderJid(msg),
+        group: isGroupJid(msg.key.remoteJid) ? msg.key.remoteJid : null,
+        args,
+        text,
+        prefix,
+        commandName,
+        loader,
+        db,
+        config,
+        botState
+      });
+    } catch (execError) {
+      execSuccess = false;
+      throw execError;
+    } finally {
+      // Catat statistik ke CommandManager jika tersedia
+      const executionTime = Date.now() - startTime;
+      if (commandManager?.recordExecution) {
+        commandManager.recordExecution(command.name, {
+          success: execSuccess,
+          executionTime
+        });
+      }
+    }
+
     statsManager?.increment(session?.id || msg.__sessionId || 'default', 'commandsExecuted');
     eventBus?.emitEvent('command.executed', {
       sessionId: session?.id || msg.__sessionId || 'default',
