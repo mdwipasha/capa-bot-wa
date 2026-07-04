@@ -4,7 +4,6 @@ import { DisconnectReason } from '@whiskeysockets/baileys';
 import { Boom } from '@hapi/boom';
 import { config } from '../../config/env.js';
 import { createSocket } from '../../lib/baileys.js';
-import { createCommandHandler } from '../../handlers/commandHandler.js';
 import { handleGroupParticipantsUpdate } from '../../events/groupParticipants.js';
 import { logger } from '../../utils/logger.js';
 import { SessionStore } from './SessionStore.js';
@@ -22,10 +21,20 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const nowIso = () => new Date().toISOString();
 
 export class SessionManager {
-  constructor({ loader, store = new SessionStore(), sessionBasePath = config.sessionBasePath } = {}) {
+  constructor({
+    loader,
+    store = new SessionStore(),
+    sessionBasePath = config.sessionBasePath,
+    messageRouter = null,
+    eventBus = null,
+    statsManager = null
+  } = {}) {
     this.loader = loader;
     this.store = store;
     this.sessionBasePath = sessionBasePath;
+    this.messageRouter = messageRouter;
+    this.eventBus = eventBus;
+    this.statsManager = statsManager;
     this.sessions = new Map();
   }
 
@@ -68,6 +77,7 @@ export class SessionManager {
     const session = this.buildSession(id);
     this.sessions.set(id, session);
     await this.store.upsert(id, { status: SessionStatus.CONNECTING });
+    this.eventBus?.emitEvent('bot.created', { sessionId: id });
     await this.connectSession(session);
     return session;
   }
@@ -78,6 +88,7 @@ export class SessionManager {
     if (session) await this.disconnectSession(id, { removeFromMemory: true });
     await fs.remove(this.getSessionPath(id));
     await this.store.remove(id);
+    this.eventBus?.emitEvent('bot.deleted', { sessionId: id });
   }
 
   async restartSession(phoneNumber) {
@@ -103,6 +114,7 @@ export class SessionManager {
     session.status = SessionStatus.DISCONNECTED;
     await this.store.upsert(id, { status: SessionStatus.DISCONNECTED, last_seen: nowIso() });
     this.log(id, 'warn', 'Disconnected');
+    this.eventBus?.emitEvent('bot.stopped', { sessionId: id });
 
     if (options.removeFromMemory) this.sessions.delete(id);
     return session;
@@ -201,13 +213,13 @@ export class SessionManager {
       sessionPath: session.sessionPath,
       pairingPhoneNumber: session.phoneNumber
     });
+    this.wrapSocket(session);
 
-    const onMessage = createCommandHandler({ loader: this.loader, botState: session.botState, session });
     const messageListener = async ({ messages }) => {
       for (const msg of messages) {
         msg.__sessionId = session.id;
         this.log(session.id, 'info', `Received Message ${msg.key?.remoteJid || ''}`);
-        await onMessage({ sock: session.sock, msg });
+        if (this.messageRouter) await this.messageRouter.routeIncoming({ session, sock: session.sock, msg });
       }
     };
     const groupListener = async (update) => handleGroupParticipantsUpdate({ sock: session.sock, update, session });
@@ -221,6 +233,7 @@ export class SessionManager {
       ['group-participants.update', groupListener],
       ['connection.update', connectionListener]
     ];
+    this.eventBus?.emitEvent('bot.started', { sessionId: session.id });
 
     return session;
   }
@@ -249,6 +262,7 @@ export class SessionManager {
         last_seen: nowIso()
       });
       this.log(session.id, 'success', 'Connected');
+      this.eventBus?.emitEvent('bot.connected', { sessionId: session.id });
     }
 
     if (connection === 'close') {
@@ -263,6 +277,11 @@ export class SessionManager {
       });
       this.log(session.id, 'warn', loggedOut ? 'Logged out' : `Disconnected: ${statusCode || 'unknown'}`);
       this.detachSocket(session);
+      this.eventBus?.emitEvent('bot.disconnected', {
+        sessionId: session.id,
+        statusCode,
+        loggedOut
+      });
 
       if (!loggedOut && !session.manualDisconnect) this.scheduleReconnect(session);
     }
@@ -276,11 +295,17 @@ export class SessionManager {
     }
 
     session.reconnectAttempts += 1;
+    this.statsManager?.increment(session.id, 'reconnectCount');
     const delay = Math.min(
       config.reconnect.baseDelayMs * (2 ** (session.reconnectAttempts - 1)),
       config.reconnect.maxDelayMs
     );
     this.log(session.id, 'info', `Reconnect attempt ${session.reconnectAttempts}/${config.reconnect.maxAttempts} in ${delay}ms`);
+    this.eventBus?.emitEvent('bot.reconnecting', {
+      sessionId: session.id,
+      attempt: session.reconnectAttempts,
+      delay
+    });
     session.reconnectTimer = setTimeout(async () => {
       session.reconnectTimer = null;
       await sleep(50);
@@ -300,6 +325,18 @@ export class SessionManager {
       session.sock.ev.removeListener?.(event, listener);
     }
     session.listeners = [];
+  }
+
+  wrapSocket(session) {
+    if (!session.sock?.sendMessage || session.sock.__botManagerWrapped) return;
+    const originalSendMessage = session.sock.sendMessage.bind(session.sock);
+    session.sock.sendMessage = async (jid, content, options) => {
+      const result = await originalSendMessage(jid, content, options);
+      this.statsManager?.increment(session.id, 'messagesSent');
+      this.eventBus?.emitEvent('message.sent', { sessionId: session.id, jid });
+      return result;
+    };
+    session.sock.__botManagerWrapped = true;
   }
 
   serializeSession(session, record = null) {

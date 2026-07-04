@@ -8,7 +8,14 @@ import { runGroupGuards } from './groupGuard.js';
 import { logger } from '../utils/logger.js';
 import { pickText, sanitizeText } from '../utils/text.js';
 
-export const createCommandHandler = ({ loader, botState, session = null }) => async ({ sock, msg }) => {
+export const createCommandHandler = ({
+  loader,
+  botState,
+  session = null,
+  botManager = null,
+  eventBus = null,
+  statsManager = null
+}) => async ({ sock, msg }) => {
   try {
     if (!msg.message || msg.key.remoteJid === 'status@broadcast') return;
 
@@ -49,6 +56,7 @@ export const createCommandHandler = ({ loader, botState, session = null }) => as
     await sock.sendPresenceUpdate('composing', msg.key.remoteJid).catch(() => {});
     await command.execute({
       session,
+      botManager,
       sock,
       msg,
       message: msg,
@@ -62,6 +70,12 @@ export const createCommandHandler = ({ loader, botState, session = null }) => as
       db,
       config,
       botState
+    });
+    statsManager?.increment(session?.id || msg.__sessionId || 'default', 'commandsExecuted');
+    eventBus?.emitEvent('command.executed', {
+      sessionId: session?.id || msg.__sessionId || 'default',
+      command: command.name,
+      chat: msg.key.remoteJid
     });
   } catch (error) {
     logger.error('Command handler error', error.stack || error.message);
