@@ -50,7 +50,10 @@ const startBot = async () => {
   // 7. Restore bot sessions
   await botManager.restoreBots();
 
-  startScheduler();
+  // 8. Inisialisasi SchedulerManager dan start scheduler
+  await botManager.schedulerManager.init();
+  await startScheduler(botManager.schedulerManager);
+
   startDashboard({ botManager, restart: () => process.exit(0) });
 };
 

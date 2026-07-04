@@ -1,4 +1,5 @@
 import os from 'os';
+import fs from 'fs-extra';
 import { db } from '../database/index.js';
 import { config } from '../config/env.js';
 import { SessionManager } from '../session/services/SessionManager.js';
@@ -8,6 +9,8 @@ import { EventBus } from './EventBus.js';
 import { LoggerService } from './LoggerService.js';
 import { MessageRouter } from './MessageRouter.js';
 import { StatsManager } from './StatsManager.js';
+import { SchedulerManager } from './SchedulerManager.js';
+import { QueueManager } from './QueueManager.js';
 import {
   BotNotFoundError,
   BotOfflineError,
@@ -23,6 +26,7 @@ export class BotManager {
     loader,
     pluginManager = null,
     commandManager = null,
+    schedulerManager = null,
     database = db,
     eventBus = new EventBus(),
     loggerService = new LoggerService()
@@ -36,6 +40,15 @@ export class BotManager {
     this.disabledCommands = new Set();
     this.disabledPlugins = new Set();
     this.jobs = new Map();
+
+    // SchedulerManager: pusat pengelolaan scheduled tasks (baru)
+    this.schedulerManager = schedulerManager
+      || new SchedulerManager({ database, eventBus, loggerService, botManager: this });
+    this.schedulerManager.setBotManager(this);
+
+    // QueueManager: pusat pengelolaan antrian pekerjaan berat (baru)
+    this.queueManager = new QueueManager({ loggerService });
+    this._registerQueueWorkers();
 
     // CommandManager: pusat pengelolaan command (baru)
     this.commandManager = commandManager || null;
@@ -187,23 +200,41 @@ export class BotManager {
       filter = null,
       concurrency = 2,
       retry = 2,
-      delayMs = 500
+      delayMs = 500,
+      priority = 0
     } = options;
     if (!message) throw new Error('message wajib diisi');
 
     const jobs = await this.buildBroadcastJobs({ sessionId, message, target, filter });
-    const result = await this.runQueue(jobs, {
-      concurrency,
-      retry,
-      delayMs,
-      worker: async (job) => {
-        const session = this.requireOnlineSession(job.sessionId);
-        await session.sock.sendMessage(job.jid, { text: job.message });
-      }
-    });
-    for (const botId of new Set(jobs.map((job) => job.sessionId))) this.stats.increment(botId, 'broadcast');
-    this.emit('broadcast', { total: jobs.length, result });
-    return result;
+    
+    // Dynamically adjust concurrency for the broadcast worker
+    const workerConfig = this.queueManager.workers.get('Broadcast Queue');
+    if (workerConfig) {
+      workerConfig.concurrency = Math.max(1, concurrency);
+    }
+
+    const enqueuedJobs = [];
+    for (const job of jobs) {
+      const eq = this.queueManager.enqueue('Broadcast Queue', {
+        sessionId: job.sessionId,
+        jid: job.jid,
+        message: job.message,
+        delayMs
+      }, {
+        priority,
+        maxRetry: retry,
+        preventDuplicate: true,
+        deduplicationKey: 'jid'
+      });
+      enqueuedJobs.push(eq);
+    }
+
+    return {
+      total: enqueuedJobs.length,
+      sent: 0,
+      failed: 0,
+      jobs: enqueuedJobs.map((j) => ({ id: j.id, status: j.status }))
+    };
   }
 
   async sendMessage({ sessionId, phone, message, jid }) {
@@ -570,6 +601,67 @@ export class BotManager {
       pairingCode: session.botState.pairingCode || '',
       qr: session.botState.qr || ''
     };
+  }
+
+  _registerQueueWorkers() {
+    // 1. Broadcast Queue worker
+    this.queueManager.registerWorker('Broadcast Queue', async (job) => {
+      const { sessionId, jid, message, delayMs } = job.data;
+      const session = this.requireOnlineSession(sessionId);
+      await session.sock.sendMessage(jid, { text: message });
+      if (delayMs) {
+        await new Promise((resolve) => setTimeout(resolve, delayMs));
+      }
+      this.stats.increment(sessionId, 'broadcast');
+    }, { concurrency: 2 });
+
+    // 2. Default workers for other queue types
+    const defaultQueues = [
+      'Message Queue',
+      'Download Queue',
+      'Sticker Queue',
+      'Video Queue',
+      'Image Queue',
+      'AI Queue',
+      'OCR Queue'
+    ];
+    
+    for (const q of defaultQueues) {
+      this.queueManager.registerWorker(q, async (job, updateProgress) => {
+        this.logger.info?.({ category: 'queue', message: `Executing job "${job.id}" in "${job.queueName}"` });
+        
+        // Simulate execution progress
+        for (let i = 20; i <= 100; i += 20) {
+          updateProgress(i);
+          await new Promise((r) => setTimeout(r, 100));
+        }
+        
+        return { success: true, timestamp: Date.now() };
+      }, { concurrency: 2 });
+    }
+
+    // 3. Upload Queue worker (with auto-backup support)
+    this.queueManager.registerWorker('Upload Queue', async (job, updateProgress) => {
+      this.logger.info?.({ category: 'queue', message: `Executing Upload job "${job.id}"` });
+      if (job.data?.type === 'auto-backup') {
+        updateProgress(10);
+        const stamp = new Date().toISOString().replace(/[:.]/g, '-');
+        await fs.ensureDir('backups');
+        updateProgress(50);
+        const backupFile = `backups/database-${stamp}.json`;
+        await fs.copy(job.data.databasePath || config.databasePath, backupFile);
+        updateProgress(100);
+        this.logger.success?.({ category: 'queue', message: `Auto backup database saved to: ${backupFile}` });
+        return { backupFile };
+      }
+
+      // Default upload job simulation
+      for (let i = 20; i <= 100; i += 20) {
+        updateProgress(i);
+        await new Promise((r) => setTimeout(r, 100));
+      }
+      return { success: true };
+    }, { concurrency: 2 });
   }
 
   normalize(value = '') {

@@ -36,6 +36,7 @@ const defaultData = {
   games: {},
   blocked: {},
   sessions: {},
+  schedulers: {},
   stats: {
     commands: 0,
     messages: 0,

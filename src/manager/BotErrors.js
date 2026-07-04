@@ -35,3 +35,17 @@ export class CommandError extends BotManagerError {
     super(message, 'COMMAND_ERROR');
   }
 }
+
+export class SchedulerError extends BotManagerError {
+  constructor(message, code = 'SCHEDULER_ERROR') {
+    super(message, code);
+  }
+}
+
+export class QueueError extends BotManagerError {
+  constructor(message, code = 'QUEUE_ERROR') {
+    super(message, code);
+  }
+}
+
+

@@ -198,6 +198,138 @@ export const startDashboard = ({ botState, botManager, restart }) => {
     }));
 
     // ─────────────────────────────────────────────
+    // Scheduler Manager REST API
+    // ─────────────────────────────────────────────
+
+    // GET /api/schedulers — list all jobs
+    app.get('/api/schedulers', asyncRoute(async (req, res) => {
+      const scheduler = botManager.schedulerManager;
+      const jobs = await scheduler.getJobs();
+      res.json({ ok: true, data: jobs });
+    }));
+
+    // GET /api/schedulers/:id — get one job
+    app.get('/api/schedulers/:id', asyncRoute(async (req, res) => {
+      const scheduler = botManager.schedulerManager;
+      const job = await scheduler.getJob(req.params.id);
+      if (!job) {
+        return res.status(404).json({ ok: false, error: `Job with ID "${req.params.id}" not found.` });
+      }
+      res.json({ ok: true, data: job });
+    }));
+
+    // POST /api/schedulers — create job
+    app.post('/api/schedulers', asyncRoute(async (req, res) => {
+      const scheduler = botManager.schedulerManager;
+      const job = await scheduler.createJob(req.body);
+      res.status(201).json({ ok: true, data: job });
+    }));
+
+    // PUT /api/schedulers/:id — update job
+    app.put('/api/schedulers/:id', asyncRoute(async (req, res) => {
+      const scheduler = botManager.schedulerManager;
+      const job = await scheduler.updateJob(req.params.id, req.body);
+      res.json({ ok: true, data: job });
+    }));
+
+    // DELETE /api/schedulers/:id — delete job
+    app.delete('/api/schedulers/:id', asyncRoute(async (req, res) => {
+      const scheduler = botManager.schedulerManager;
+      const job = await scheduler.deleteJob(req.params.id);
+      res.json({ ok: true, data: job });
+    }));
+
+    // POST /api/schedulers/:id/pause — pause job
+    app.post('/api/schedulers/:id/pause', asyncRoute(async (req, res) => {
+      const scheduler = botManager.schedulerManager;
+      const job = await scheduler.pauseJob(req.params.id);
+      res.json({ ok: true, data: job });
+    }));
+
+    // POST /api/schedulers/:id/resume — resume job
+    app.post('/api/schedulers/:id/resume', asyncRoute(async (req, res) => {
+      const scheduler = botManager.schedulerManager;
+      const job = await scheduler.resumeJob(req.params.id);
+      res.json({ ok: true, data: job });
+    }));
+
+    // POST /api/schedulers/:id/run — run job immediately
+    app.post('/api/schedulers/:id/run', asyncRoute(async (req, res) => {
+      const scheduler = botManager.schedulerManager;
+      const job = await scheduler.runNow(req.params.id);
+      res.json({ ok: true, data: job });
+    }));
+
+    // POST /api/schedulers/:id/cancel — cancel job
+    app.post('/api/schedulers/:id/cancel', asyncRoute(async (req, res) => {
+      const scheduler = botManager.schedulerManager;
+      const job = await scheduler.cancelJob(req.params.id);
+      res.json({ ok: true, data: job });
+    }));
+
+    // ─────────────────────────────────────────────
+    // Queue Manager REST API
+    // ─────────────────────────────────────────────
+
+    // GET /api/queues/stats — get stats for all queues
+    app.get('/api/queues/stats', asyncRoute(async (req, res) => {
+      const queueName = req.query.name || null;
+      const stats = botManager.queueManager.getStats(queueName);
+      res.json({ ok: true, data: stats });
+    }));
+
+    // GET /api/queues/:name — list all jobs in a specific queue
+    app.get('/api/queues/:name', asyncRoute(async (req, res) => {
+      const queue = botManager.queueManager.getQueue(req.params.name);
+      res.json({ ok: true, data: queue });
+    }));
+
+    // GET /api/queues/jobs/:id — get one job by ID
+    app.get('/api/queues/jobs/:id', asyncRoute(async (req, res) => {
+      const job = botManager.queueManager.getJob(req.params.id);
+      if (!job) {
+        return res.status(404).json({ ok: false, error: `Job with ID "${req.params.id}" not found.` });
+      }
+      res.json({ ok: true, data: job });
+    }));
+
+    // POST /api/queues/:name/enqueue — enqueue a job
+    app.post('/api/queues/:name/enqueue', asyncRoute(async (req, res) => {
+      const job = botManager.queueManager.enqueue(req.params.name, req.body.data, req.body.options);
+      res.status(201).json({ ok: true, data: job });
+    }));
+
+    // POST /api/queues/jobs/:id/cancel — cancel a job
+    app.post('/api/queues/jobs/:id/cancel', asyncRoute(async (req, res) => {
+      const job = botManager.queueManager.cancel(req.params.id);
+      res.json({ ok: true, data: job });
+    }));
+
+    // POST /api/queues/jobs/:id/retry — retry a failed/cancelled job
+    app.post('/api/queues/jobs/:id/retry', asyncRoute(async (req, res) => {
+      const job = botManager.queueManager.retry(req.params.id);
+      res.json({ ok: true, data: job });
+    }));
+
+    // POST /api/queues/:name/pause — pause a queue
+    app.post('/api/queues/:name/pause', asyncRoute(async (req, res) => {
+      botManager.queueManager.pause(req.params.name);
+      res.json({ ok: true, message: `Queue "${req.params.name}" paused.` });
+    }));
+
+    // POST /api/queues/:name/resume — resume a queue
+    app.post('/api/queues/:name/resume', asyncRoute(async (req, res) => {
+      botManager.queueManager.resume(req.params.name);
+      res.json({ ok: true, message: `Queue "${req.params.name}" resumed.` });
+    }));
+
+    // POST /api/queues/:name/clear — clear non-running jobs in a queue
+    app.post('/api/queues/:name/clear', asyncRoute(async (req, res) => {
+      botManager.queueManager.clear(req.params.name);
+      res.json({ ok: true, message: `Queue "${req.params.name}" cleared.` });
+    }));
+
+    // ─────────────────────────────────────────────
     // Per-Bot Plugin Config
     // ─────────────────────────────────────────────
 
