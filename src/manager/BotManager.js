@@ -11,6 +11,7 @@ import { MessageRouter } from './MessageRouter.js';
 import { StatsManager } from './StatsManager.js';
 import { SchedulerManager } from './SchedulerManager.js';
 import { QueueManager } from './QueueManager.js';
+import { serviceManager } from '../services/ServiceManager.js';
 import {
   BotNotFoundError,
   BotOfflineError,
@@ -49,6 +50,10 @@ export class BotManager {
     // QueueManager: pusat pengelolaan antrian pekerjaan berat (baru)
     this.queueManager = new QueueManager({ loggerService });
     this._registerQueueWorkers();
+
+    // ServiceManager: layer komunikasi layanan eksternal (baru)
+    this.serviceManager = serviceManager;
+    this.serviceManager.setBotManager(this);
 
     // CommandManager: pusat pengelolaan command (baru)
     this.commandManager = commandManager || null;
@@ -605,7 +610,10 @@ export class BotManager {
 
   _registerQueueWorkers() {
     // 1. Broadcast Queue worker
-    this.queueManager.registerWorker('Broadcast Queue', async (job) => {
+    this.queueManager.registerWorker('Broadcast Queue', async (job, updateProgress) => {
+      if (job.data?.executeCallback) {
+        return await job.data.executeCallback(job, updateProgress);
+      }
       const { sessionId, jid, message, delayMs } = job.data;
       const session = this.requireOnlineSession(sessionId);
       await session.sock.sendMessage(jid, { text: message });
@@ -628,6 +636,9 @@ export class BotManager {
     
     for (const q of defaultQueues) {
       this.queueManager.registerWorker(q, async (job, updateProgress) => {
+        if (job.data?.executeCallback) {
+          return await job.data.executeCallback(job, updateProgress);
+        }
         this.logger.info?.({ category: 'queue', message: `Executing job "${job.id}" in "${job.queueName}"` });
         
         // Simulate execution progress
@@ -642,6 +653,9 @@ export class BotManager {
 
     // 3. Upload Queue worker (with auto-backup support)
     this.queueManager.registerWorker('Upload Queue', async (job, updateProgress) => {
+      if (job.data?.executeCallback) {
+        return await job.data.executeCallback(job, updateProgress);
+      }
       this.logger.info?.({ category: 'queue', message: `Executing Upload job "${job.id}"` });
       if (job.data?.type === 'auto-backup') {
         updateProgress(10);

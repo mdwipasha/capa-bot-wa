@@ -1,8 +1,7 @@
 import { spawn } from 'child_process';
 import fs from 'fs-extra';
 import path from 'path';
-import sharp from 'sharp';
-import { PDFDocument } from 'pdf-lib';
+import { serviceManager } from './ServiceManager.js';
 
 export const tempPath = async (ext = 'bin') => {
   await fs.ensureDir('tmp');
@@ -18,57 +17,11 @@ export const runFfmpeg = (args) => new Promise((resolve, reject) => {
 });
 
 export const imageToPdf = async (buffer) => {
-  const png = await sharp(buffer).png().toBuffer();
-  const meta = await sharp(png).metadata();
-  const pdf = await PDFDocument.create();
-  const image = await pdf.embedPng(png);
-  const page = pdf.addPage([meta.width || 512, meta.height || 512]);
-  page.drawImage(image, { x: 0, y: 0, width: meta.width || 512, height: meta.height || 512 });
-  return Buffer.from(await pdf.save());
+  return await serviceManager.image.toPdf(buffer);
 };
 
 export const imageEffect = async (buffer, effect) => {
-  const base = sharp(buffer).rotate().resize(768, 768, { fit: 'inside', withoutEnlargement: false });
-
-  if (effect === 'sketch') {
-    return base
-      .grayscale()
-      .blur(0.3)
-      .sharpen({ sigma: 2, m1: 2.5, m2: 0.8 })
-      .linear(1.9, -70)
-      .threshold(145)
-      .png()
-      .toBuffer();
-  }
-
-  if (effect === 'pixel') {
-    return base
-      .resize(72, 72, { kernel: 'nearest', fit: 'inside' })
-      .resize(768, 768, { kernel: 'nearest', fit: 'inside' })
-      .modulate({ saturation: 1.35, brightness: 1.04 })
-      .png()
-      .toBuffer();
-  }
-
-  if (effect === 'cartoon') {
-    return base
-      .median(5)
-      .modulate({ saturation: 2.2, brightness: 1.08 })
-      .linear(1.18, -14)
-      .sharpen({ sigma: 1.5 })
-      .png()
-      .toBuffer();
-  }
-
-  if (effect === 'colorize') {
-    return base
-      .modulate({ saturation: 2.4, brightness: 1.08, hue: 18 })
-      .gamma(1.12)
-      .png()
-      .toBuffer();
-  }
-
-  return base.png().toBuffer();
+  return await serviceManager.image.applyEffect(buffer, effect);
 };
 
 export const audioFilter = async (buffer, ext, filter) => {
