@@ -132,8 +132,88 @@ export const startDashboard = ({ botState, botManager, restart }) => {
       res.json({ ok: true, data: await botManager.reloadCommands() });
     }));
 
+    // ─────────────────────────────────────────────
+    // Plugin Manager REST API
+    // ─────────────────────────────────────────────
+
+    // GET /api/plugins?botId=xxx  — list semua plugin (opsional filter per-bot)
+    app.get('/api/plugins', asyncRoute(async (req, res) => {
+      const botId = req.query.botId || null;
+      res.json({ ok: true, data: botManager.getPlugins(botId) });
+    }));
+
+    // GET /api/plugins/search?q=query  — cari plugin
+    app.get('/api/plugins/search', asyncRoute(async (req, res) => {
+      const query = req.query.q || req.query.query || '';
+      res.json({ ok: true, data: botManager.searchPlugin(query) });
+    }));
+
+    // GET /api/plugins/:name  — detail satu plugin
+    app.get('/api/plugins/:name', asyncRoute(async (req, res) => {
+      const plugin = botManager.getPlugin(req.params.name);
+      if (!plugin) return res.status(404).json({ ok: false, error: `Plugin "${req.params.name}" tidak ditemukan.` });
+      return res.json({ ok: true, data: plugin });
+    }));
+
+    // POST /api/plugins/reload-all  — reload semua plugin
+    app.post('/api/plugins/reload-all', asyncRoute(async (_, res) => {
+      res.json({ ok: true, data: await botManager.reloadPlugins() });
+    }));
+
+    // POST /api/plugins/reload  — reload semua plugin (alias lama)
     app.post('/api/plugins/reload', asyncRoute(async (_, res) => {
       res.json({ ok: true, data: await botManager.reloadPlugins() });
+    }));
+
+    // POST /api/plugins/:name/reload  — reload satu plugin
+    app.post('/api/plugins/:name/reload', asyncRoute(async (req, res) => {
+      res.json({ ok: true, data: await botManager.reloadPlugin(req.params.name) });
+    }));
+
+    // POST /api/plugins/:name/enable  — enable plugin (global)
+    app.post('/api/plugins/:name/enable', asyncRoute(async (req, res) => {
+      res.json({ ok: true, data: await botManager.enablePlugin(req.params.name) });
+    }));
+
+    // POST /api/plugins/:name/disable  — disable plugin (global)
+    app.post('/api/plugins/:name/disable', asyncRoute(async (req, res) => {
+      res.json({ ok: true, data: await botManager.disablePlugin(req.params.name) });
+    }));
+
+    // POST /api/plugins/install  — install plugin baru
+    // Body: { filePath, category?, filename? }
+    app.post('/api/plugins/install', asyncRoute(async (req, res) => {
+      const result = await botManager.installPlugin(req.body);
+      res.status(201).json({ ok: true, data: result });
+    }));
+
+    // POST /api/plugins/:name/uninstall  — uninstall plugin (hapus dari registry, file tetap)
+    app.post('/api/plugins/:name/uninstall', asyncRoute(async (req, res) => {
+      res.json({ ok: true, data: await botManager.uninstallPlugin(req.params.name) });
+    }));
+
+    // DELETE /api/plugins/:name  — hapus plugin (dari registry + file fisik)
+    app.delete('/api/plugins/:name', asyncRoute(async (req, res) => {
+      res.json({ ok: true, data: await botManager.deletePlugin(req.params.name) });
+    }));
+
+    // ─────────────────────────────────────────────
+    // Per-Bot Plugin Config
+    // ─────────────────────────────────────────────
+
+    // GET /api/bots/:id/plugins  — get plugin list untuk bot tertentu
+    app.get('/api/bots/:id/plugins', asyncRoute(async (req, res) => {
+      res.json({ ok: true, data: botManager.getPluginsForBot(req.params.id) });
+    }));
+
+    // POST /api/bots/:id/plugins/:name/enable  — enable plugin untuk bot tertentu
+    app.post('/api/bots/:id/plugins/:name/enable', asyncRoute(async (req, res) => {
+      res.json({ ok: true, data: await botManager.enablePlugin(req.params.name, req.params.id) });
+    }));
+
+    // POST /api/bots/:id/plugins/:name/disable  — disable plugin untuk bot tertentu
+    app.post('/api/bots/:id/plugins/:name/disable', asyncRoute(async (req, res) => {
+      res.json({ ok: true, data: await botManager.disablePlugin(req.params.name, req.params.id) });
     }));
 
     app.get('/api/sessions', asyncRoute(async (_, res) => {

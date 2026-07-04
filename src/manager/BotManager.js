@@ -21,6 +21,7 @@ const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 export class BotManager {
   constructor({
     loader,
+    pluginManager = null,
     database = db,
     eventBus = new EventBus(),
     loggerService = new LoggerService()
@@ -35,12 +36,18 @@ export class BotManager {
     this.disabledPlugins = new Set();
     this.jobs = new Map();
 
+    // PluginManager: gunakan yang diinject, atau ambil dari loader adapter
+    this.pluginManager = pluginManager
+      || loader?.getPluginManager?.()
+      || null;
+
     this.messageRouter = new MessageRouter({
       loader,
       eventBus,
       statsManager: this.stats,
       loggerService,
-      disabledCommands: this.disabledCommands
+      disabledCommands: this.disabledCommands,
+      pluginManager: this.pluginManager
     });
     this.messageRouter.botManager = this;
     this.sessionManager = new SessionManager({
@@ -199,12 +206,24 @@ export class BotManager {
   }
 
   async loadPlugins() {
+    if (this.pluginManager) {
+      const plugins = await this.pluginManager.loadPlugins();
+      this.emit('plugin.loaded', { total: plugins.length });
+      return plugins;
+    }
     await this.loader.load();
     this.emit('plugin.loaded', { total: this.loader.list().length });
     return this.loader.list();
   }
 
   async reloadPlugins() {
+    if (this.pluginManager) {
+      const plugins = await this.pluginManager.reloadPlugins();
+      this.stats.increment('system', 'pluginReload');
+      this.messageRouter.clear();
+      this.emit('plugin.reloaded', { total: plugins.length });
+      return plugins;
+    }
     await this.loader.load();
     this.stats.increment('system', 'pluginReload');
     this.messageRouter.clear();
@@ -212,37 +231,93 @@ export class BotManager {
     return this.loader.list();
   }
 
-  enablePlugin(name) {
+  async reloadPlugin(name) {
+    if (!this.pluginManager) throw new PluginError('PluginManager tidak tersedia.');
+    const plugin = await this.pluginManager.reloadPlugin(name);
+    this.messageRouter.clear();
+    this.emit('plugin.reloaded', { name });
+    return plugin;
+  }
+
+  async enablePlugin(name, botId = null) {
+    if (this.pluginManager) {
+      const result = botId
+        ? this.pluginManager.enablePluginForBot(name, botId)
+        : await this.pluginManager.enablePlugin(name);
+      this.disabledPlugins.delete(name);
+      this.messageRouter.clear();
+      this.emit('plugin.enabled', { name, botId });
+      return result;
+    }
     this.disabledPlugins.delete(name);
     this.emit('plugin.loaded', { plugin: name });
     return { name, enabled: true };
   }
 
-  disablePlugin(name) {
+  async disablePlugin(name, botId = null) {
+    if (this.pluginManager) {
+      const result = botId
+        ? this.pluginManager.disablePluginForBot(name, botId)
+        : await this.pluginManager.disablePlugin(name);
+      this.disabledPlugins.add(name);
+      this.messageRouter.clear();
+      this.emit('plugin.disabled', { name, botId });
+      return result;
+    }
     this.disabledPlugins.add(name);
     this.emit('plugin.unloaded', { plugin: name });
     return { name, enabled: false };
   }
 
-  deletePlugin(name) {
-    throw new PluginError(`Delete plugin ${name} belum didukung oleh storage plugin saat ini`);
+  async deletePlugin(name) {
+    if (!this.pluginManager) {
+      throw new PluginError(`Delete plugin ${name} belum didukung oleh storage plugin saat ini`);
+    }
+    return this.pluginManager.deletePlugin(name);
   }
 
-  installPlugin(name) {
-    throw new PluginError(`Install plugin ${name} belum didukung oleh storage plugin saat ini`);
+  async installPlugin(options) {
+    if (!this.pluginManager) {
+      throw new PluginError('Install plugin belum didukung oleh storage plugin saat ini');
+    }
+    return this.pluginManager.installPlugin(options);
+  }
+
+  async uninstallPlugin(name) {
+    if (!this.pluginManager) {
+      throw new PluginError(`Uninstall plugin ${name} belum didukung.`);
+    }
+    return this.pluginManager.uninstallPlugin(name);
+  }
+
+  getPlugins(botId = null) {
+    if (this.pluginManager) return this.pluginManager.getPlugins(botId);
+    return this.loader.list();
+  }
+
+  getPlugin(name, botId = null) {
+    if (this.pluginManager) return this.pluginManager.getPlugin(name, botId);
+    return this.loader.get(name);
+  }
+
+  searchPlugin(query) {
+    if (this.pluginManager) return this.pluginManager.searchPlugin(query);
+    return this.loader.list().filter((p) =>
+      p.name?.includes(query) || p.description?.includes(query)
+    );
+  }
+
+  getPluginsForBot(botId) {
+    if (this.pluginManager) return this.pluginManager.getPluginsForBot(botId);
+    return this.loader.list();
   }
 
   async loadCommands() {
-    await this.loader.load();
-    this.emit('plugin.loaded', { total: this.loader.list().length });
-    return this.loader.list();
+    return this.loadPlugins();
   }
 
   async reloadCommands() {
-    await this.loader.load();
-    this.messageRouter.clear();
-    this.emit('plugin.reloaded', { total: this.loader.list().length });
-    return this.loader.list();
+    return this.reloadPlugins();
   }
 
   enableCommand(name) {
