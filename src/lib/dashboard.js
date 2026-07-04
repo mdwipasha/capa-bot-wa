@@ -12,8 +12,9 @@ import { formatDuration } from '../utils/time.js';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const publicDir = path.resolve(__dirname, '../../public');
 
-export const startDashboard = ({ botState, restart }) => {
+export const startDashboard = ({ botState, restart, stop }) => {
   const app = express();
+  let controlInProgress = false;
   app.use(express.json());
   app.use(express.static(publicDir));
 
@@ -26,6 +27,7 @@ export const startDashboard = ({ botState, restart }) => {
       : '';
     res.json({
       botName: config.botName,
+      running: botState.isRunning,
       connected: botState.isConnected,
       uptime: formatDuration(process.uptime() * 1000),
       memoryUsage: `${Math.round(memory.rss / 1024 / 1024)} MB`,
@@ -41,10 +43,26 @@ export const startDashboard = ({ botState, restart }) => {
     });
   });
 
-  app.post('/api/restart', (_, res) => {
-    res.json({ ok: true });
-    setTimeout(restart, 500);
-  });
+  const runControl = async (res, action) => {
+    if (controlInProgress) {
+      res.status(409).json({ ok: false, error: 'Kontrol bot sedang diproses.' });
+      return;
+    }
+
+    controlInProgress = true;
+    try {
+      await action();
+      res.json({ ok: true });
+    } catch (error) {
+      logger.error('Dashboard control error', error.stack || error.message);
+      res.status(500).json({ ok: false, error: error.message });
+    } finally {
+      controlInProgress = false;
+    }
+  };
+
+  app.post('/api/restart', (_, res) => runControl(res, restart));
+  app.post('/api/stop', (_, res) => runControl(res, stop));
 
   const server = app.listen(config.port, () => logger.success(`Dashboard: http://localhost:${config.port}`));
   const wss = new WebSocketServer({ server });

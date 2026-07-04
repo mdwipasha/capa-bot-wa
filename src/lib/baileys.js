@@ -8,6 +8,11 @@ import fs from 'fs-extra';
 import { config } from '../config/env.js';
 import { rawLogger, logger } from '../utils/logger.js';
 
+export const resetAuthSession = async () => {
+  await fs.remove(config.sessionPath);
+  await fs.ensureDir(config.sessionPath);
+};
+
 export const createSocket = async (botState) => {
   await fs.ensureDir(config.sessionPath);
   const { state, saveCreds } = await useMultiFileAuthState(config.sessionPath);

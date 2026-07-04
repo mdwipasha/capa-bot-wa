@@ -1,6 +1,6 @@
 # Modern WhatsApp Bot
 
-WhatsApp bot modular berbasis Node.js ES Module, Baileys terbaru, Express dashboard, JSON database, hot reload command, permission middleware, cooldown, rate limiter, dan fitur owner/group/media/AI/downloader.
+WhatsApp bot modular berbasis Node.js ES Module, Baileys terbaru, Express dashboard, JSON database, hot reload command, permission middleware, cooldown, rate limiter, dan fitur media/AI/downloader.
 
 ## Fitur Utama
 
@@ -9,9 +9,10 @@ WhatsApp bot modular berbasis Node.js ES Module, Baileys terbaru, Express dashbo
 - Anti crash untuk `uncaughtException` dan `unhandledRejection`.
 - Hot reload command: tambah/edit file di `src/commands`, bot reload daftar command otomatis.
 - Multi prefix dari `.env`, contoh `PREFIX=.,!,/`.
-- Owner Only, Admin Only, Group Only, Private Only, cooldown command.
+- Permission middleware dan cooldown command.
 - Rate limiter, input validation, anti spam, auto block nomor spam.
 - Dashboard Express di `http://localhost:3000`.
+- Kontrol Stop dan Restart koneksi bot langsung dari dashboard.
 - Database JSON dengan adapter layer yang bisa diganti MongoDB, SQLite, atau PostgreSQL.
 
 ## Instalasi
@@ -119,9 +120,7 @@ project/
 │   │   ├── ai/
 │   │   ├── downloader/
 │   │   ├── general/
-│   │   ├── group/
 │   │   ├── media/
-│   │   ├── owner/
 │   │   └── sticker/
 │   ├── config/
 │   ├── database/
@@ -142,15 +141,11 @@ project/
 
 General: `menu`, `help`, `ping`, `runtime`, `uptime`, `owner`, `info`, `speed`.
 
-Group: `welcome`, `goodbye`, `antilink`, `antispam`, `antibadword`, `mute`, `tagall`, `hidetag`, `promote`, `demote`, `kick`, `add`, `setppgroup`, `setdesc`, `setname`, `group open`, `group close`.
-
-Downloader: `tiktok`, `instagram`, `facebook`, `ytmp3`, `ytmp4`.
+Downloader: `tiktok`, `ytmp3`, `ytmp4`.
 
 AI: `chatgpt`, `gemini`, `claude`.
 
-Sticker/Media: `sticker`, `meme`, `toimage`, `tovideo`, `toaudio`, `tosticker`.
-
-Owner: `eval`, `terminal`, `restart`, `shutdown`, `clearsession`, `backupdb`, `broadcast`.
+Sticker/Media: `sticker`, `steks`/`brat`, `emoji`, `readviewonce`/`rvo`.
 
 ## Database Adapter
 
@@ -167,26 +162,19 @@ Method wajib:
 Pairing code tidak muncul:
 
 - Pastikan `OWNER_NUMBER` berformat angka internasional tanpa `+`, contoh `6281234567890`.
-- Hapus folder `src/session`, lalu jalankan ulang.
-- Jika pairing code dianggap tidak valid, hapus atau backup folder `src/session` karena biasanya ada session parsial dari percobaan login sebelumnya.
+- Session logout akan dibersihkan otomatis agar QR baru dapat muncul.
 - Pairing code cepat kedaluwarsa. Pakai code terbaru yang muncul setelah restart bot.
 
 Bot tidak merespons command:
 
 - Pastikan command diawali prefix dari `.env`.
 - Cek dashboard log activity.
-- Pastikan bot tidak sedang mute di grup.
-
-Command admin gagal:
-
-- Bot harus menjadi admin grup.
-- Pengirim command juga harus admin grup atau owner.
 
 Downloader gagal:
 
 - Pastikan URL valid dan publik.
 - Beberapa platform membatasi region, private post, atau konten tertentu.
-- Downloader Instagram, Facebook, YouTube memakai `yt-dlp` lokal. Saat pertama dipakai bot akan download binary ke folder `bin/`.
+- Downloader YouTube memakai `yt-dlp` lokal. Saat pertama dipakai bot akan download binary ke folder `bin/`.
 - Jika YouTube MP3 ingin hasil `.mp3` murni, install FFmpeg di server. Tanpa FFmpeg bot mengirim audio terbaik yang tersedia, biasanya `.m4a`.
 - Cobalt masih tersedia di helper, tetapi public API bisa menolak request. Untuk memakai Cobalt, deploy instance sendiri lalu isi `COBALT_API_URL` dan `COBALT_API_KEY`.
 

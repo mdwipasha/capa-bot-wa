@@ -4,7 +4,6 @@ import { checkCooldown } from '../middleware/cooldown.js';
 import { checkPermissions } from '../middleware/permissions.js';
 import { rateLimit, validateInput } from '../middleware/security.js';
 import { reply } from '../lib/message.js';
-import { runGroupGuards } from './groupGuard.js';
 import { logger } from '../utils/logger.js';
 import { pickText, sanitizeText } from '../utils/text.js';
 
@@ -18,8 +17,6 @@ export const createCommandHandler = ({ loader, botState }) => async ({ sock, msg
       const participant = msg.key.participant || msg.key.remoteJid;
       store.users[participant] = { lastSeenAt: Date.now() };
     });
-
-    if (await runGroupGuards({ sock, msg })) return;
 
     const text = sanitizeText(pickText(msg));
     if (!validateInput(text)) return reply(sock, msg, 'Input tidak valid.');

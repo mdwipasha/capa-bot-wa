@@ -38,13 +38,94 @@ export const imageToWebp = async (buffer, watermark = '') => {
   return canvas.composite(composites).webp({ quality: 90 }).toBuffer();
 };
 
-export const memeImage = async (buffer, top = '', bottom = '') => {
-  const safeTop = escapeXml(top.slice(0, 32).toUpperCase());
-  const safeBottom = escapeXml(bottom.slice(0, 32).toUpperCase());
-  const svg = Buffer.from(`<svg width="768" height="768">
-    <style>.m{fill:white;stroke:black;stroke-width:4px;font-size:54px;font-family:Impact,Arial;font-weight:900}</style>
-    <text x="384" y="70" text-anchor="middle" class="m">${safeTop}</text>
-    <text x="384" y="730" text-anchor="middle" class="m">${safeBottom}</text>
+const characterWidth = (char) => {
+  if (char === ' ') return 0.42;
+  if (/[ilI1.,'!:;|]/.test(char)) return 0.25;
+  if (/[?()[\]{}]/.test(char)) return 0.4;
+  if (/[mwMW@%&]/.test(char)) return 0.7;
+  if (/[A-Z0-9]/.test(char)) return 0.58;
+  return 0.43;
+};
+
+const textWidth = (text, fontSize) => (
+  [...text].reduce((width, char) => width + characterWidth(char), 0) * fontSize
+);
+
+const breakWord = (word, fontSize, maxWidth) => {
+  const chunks = [];
+  let chunk = '';
+  for (const char of word) {
+    if (chunk && textWidth(chunk + char, fontSize) > maxWidth) {
+      chunks.push(chunk);
+      chunk = char;
+    } else {
+      chunk += char;
+    }
+  }
+  if (chunk) chunks.push(chunk);
+  return chunks;
+};
+
+const wrapText = (text, fontSize, maxWidth) => {
+  const lines = [];
+  for (const paragraph of text.split('\n')) {
+    const words = paragraph.trim().split(/\s+/).filter(Boolean);
+    if (!words.length) {
+      lines.push('');
+      continue;
+    }
+
+    let line = '';
+    for (const word of words) {
+      const chunks = textWidth(word, fontSize) > maxWidth
+        ? breakWord(word, fontSize, maxWidth)
+        : [word];
+      for (const chunk of chunks) {
+        const candidate = line ? `${line} ${chunk}` : chunk;
+        if (line && textWidth(candidate, fontSize) > maxWidth) {
+          lines.push(line);
+          line = chunk;
+        } else {
+          line = candidate;
+        }
+      }
+    }
+    if (line) lines.push(line);
+  }
+  return lines;
+};
+
+export const textToWebp = async (value) => {
+  const text = String(value).replace(/\r/g, '').trim().slice(0, 280);
+  const canvasSize = 512;
+  const contentHeight = 450;
+  const padding = 24;
+  const maxWidth = canvasSize - (padding * 2);
+  const maxHeight = contentHeight - (padding * 2);
+  let fontSize = 80;
+  let lines = [];
+
+  while (fontSize > 30) {
+    lines = wrapText(text, fontSize, maxWidth);
+    const lineHeight = fontSize * 1.18;
+    if (lines.length * lineHeight <= maxHeight) break;
+    fontSize -= 4;
+  }
+
+  const lineHeight = fontSize * 1.18;
+  const tspans = lines.map((line, index) => (
+    `<tspan x="${padding}" y="${padding + (fontSize * 0.84) + (index * lineHeight)}">${escapeXml(line)}</tspan>`
+  )).join('');
+  const background = Buffer.from(`<svg width="${canvasSize}" height="${canvasSize}" xmlns="http://www.w3.org/2000/svg">
+    <rect width="${canvasSize}" height="${contentHeight}" fill="#ffffff"/>
   </svg>`);
-  return sharp(buffer).resize(768, 768, { fit: 'contain', background: '#000' }).composite([{ input: svg }]).jpeg({ quality: 92 }).toBuffer();
+  const textLayer = Buffer.from(`<svg width="${canvasSize}" height="${canvasSize}" xmlns="http://www.w3.org/2000/svg">
+    <text fill="#111111" font-family="Arial Narrow, Arial, Helvetica, sans-serif" font-size="${fontSize}" font-weight="400" word-spacing="12">${tspans}</text>
+  </svg>`);
+  const softenedText = await sharp(textLayer).blur(0.65).png().toBuffer();
+
+  return sharp(background)
+    .composite([{ input: softenedText }])
+    .webp({ quality: 84 })
+    .toBuffer();
 };
