@@ -35,6 +35,7 @@ export const startDashboard = ({ botState, restart, stop }) => {
       totalGroup: groups,
       totalUser: Object.keys(data.users).length,
       totalChat: Object.keys(data.chats).length,
+      ownerMode: Boolean(botState.ownerMode),
       pairingStatus: botState.pairingStatus,
       pairingCode: botState.pairingCode || '',
       qr: botState.qr || '',
@@ -63,6 +64,11 @@ export const startDashboard = ({ botState, restart, stop }) => {
 
   app.post('/api/restart', (_, res) => runControl(res, restart));
   app.post('/api/stop', (_, res) => runControl(res, stop));
+  app.post('/api/owner-mode', (req, res) => {
+    botState.ownerMode = Boolean(req.body?.enabled);
+    logger.info(`Owner mode ${botState.ownerMode ? 'aktif' : 'nonaktif'} dari dashboard`);
+    res.json({ ok: true, ownerMode: botState.ownerMode });
+  });
 
   const server = app.listen(config.port, () => logger.success(`Dashboard: http://localhost:${config.port}`));
   const wss = new WebSocketServer({ server });

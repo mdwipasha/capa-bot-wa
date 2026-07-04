@@ -1,4 +1,5 @@
 import { spawn } from 'child_process';
+import ffmpegPath from 'ffmpeg-static';
 import fs from 'fs-extra';
 import path from 'path';
 import sharp from 'sharp';
@@ -10,12 +11,54 @@ export const tempPath = async (ext = 'bin') => {
 };
 
 export const runFfmpeg = (args) => new Promise((resolve, reject) => {
-  const proc = spawn('ffmpeg', ['-y', ...args], { windowsHide: true });
+  const proc = spawn(ffmpegPath || 'ffmpeg', ['-y', ...args], { windowsHide: true });
   let stderr = '';
   proc.stderr.on('data', (chunk) => { stderr += chunk.toString(); });
   proc.on('error', () => reject(new Error('FFmpeg belum terinstall atau tidak ada di PATH.')));
   proc.on('close', (code) => code === 0 ? resolve() : reject(new Error(stderr.split('\n').slice(-4).join('\n').trim() || 'FFmpeg gagal memproses media.')));
 });
+
+export const gifToMp4 = async (buffer) => {
+  const input = await tempPath('gif');
+  const output = await tempPath('mp4');
+  await fs.writeFile(input, buffer);
+  try {
+    await runFfmpeg([
+      '-i', input,
+      '-movflags', '+faststart',
+      '-pix_fmt', 'yuv420p',
+      '-vf', 'fps=15,scale=512:512:force_original_aspect_ratio=decrease,pad=512:512:(ow-iw)/2:(oh-ih)/2:color=white',
+      '-an',
+      output
+    ]);
+    return await fs.readFile(output);
+  } finally {
+    await fs.remove(input).catch(() => {});
+    await fs.remove(output).catch(() => {});
+  }
+};
+
+export const audioToVoiceNote = async (buffer, ext = 'mp3') => {
+  const input = await tempPath(ext);
+  const output = await tempPath('ogg');
+  await fs.writeFile(input, buffer);
+  try {
+    await runFfmpeg([
+      '-i', input,
+      '-vn',
+      '-ac', '1',
+      '-ar', '48000',
+      '-c:a', 'libopus',
+      '-b:a', '32k',
+      '-application', 'voip',
+      output
+    ]);
+    return await fs.readFile(output);
+  } finally {
+    await fs.remove(input).catch(() => {});
+    await fs.remove(output).catch(() => {});
+  }
+};
 
 export const imageToPdf = async (buffer) => {
   const png = await sharp(buffer).png().toBuffer();

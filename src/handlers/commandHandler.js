@@ -3,9 +3,19 @@ import { db } from '../database/index.js';
 import { checkCooldown } from '../middleware/cooldown.js';
 import { checkPermissions } from '../middleware/permissions.js';
 import { rateLimit, validateInput } from '../middleware/security.js';
-import { reply } from '../lib/message.js';
+import { jidNumber, reply, senderNumber } from '../lib/message.js';
 import { logger } from '../utils/logger.js';
 import { pickText, sanitizeText } from '../utils/text.js';
+
+const canUseOwnerMode = (sock, msg) => {
+  if (msg.key.fromMe) return true;
+  const sender = senderNumber(msg);
+  const botNumber = jidNumber(sock.user?.id || sock.user?.lid || '');
+  return Boolean(sender && (
+    sender === config.ownerNumber
+    || sender === botNumber
+  ));
+};
 
 export const createCommandHandler = ({ loader, botState }) => async ({ sock, msg }) => {
   try {
@@ -30,6 +40,10 @@ export const createCommandHandler = ({ loader, botState }) => async ({ sock, msg
 
     const command = loader.get(commandName);
     if (!command) return;
+
+    if (botState.ownerMode && !canUseOwnerMode(sock, msg)) {
+      return ;
+    }
 
     const limited = await rateLimit(msg);
     if (!limited.allowed) return reply(sock, msg, limited.reason);

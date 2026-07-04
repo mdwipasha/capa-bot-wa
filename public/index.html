@@ -19,6 +19,19 @@
       </div>
     </header>
 
+    <section class="mt-6 rounded-md border border-zinc-800 bg-zinc-900 p-4">
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h2 class="font-semibold">Owner Mode</h2>
+          <p id="ownerModeText" class="mt-1 text-sm text-zinc-400">Semua user bisa memakai command.</p>
+        </div>
+        <button id="ownerModeToggle" type="button" class="relative h-8 w-16 rounded-full bg-zinc-700 transition disabled:cursor-wait disabled:opacity-50" aria-pressed="false">
+          <span id="ownerModeKnob" class="absolute left-1 top-1 h-6 w-6 rounded-full bg-white transition"></span>
+          <span id="ownerModeLabel" class="sr-only">Owner Mode Off</span>
+        </button>
+      </div>
+    </section>
+
     <section class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
       <div class="rounded-md border border-zinc-800 bg-zinc-900 p-4"><p class="text-sm text-zinc-400">Bot Status</p><strong id="connected" class="mt-2 block text-xl">-</strong></div>
       <div class="rounded-md border border-zinc-800 bg-zinc-900 p-4"><p class="text-sm text-zinc-400">Uptime</p><strong id="uptime" class="mt-2 block text-xl">-</strong></div>
@@ -52,6 +65,7 @@
       setText('pairingStatus', data.pairingStatus);
       setText('connected', data.running ? (data.connected ? 'Connected' : 'Disconnected') : 'Stopped');
       document.getElementById('stopBtn').disabled = !data.running;
+      setOwnerMode(data.ownerMode);
       for (const id of ids.slice(3)) setText(id, data[id]);
       const qrImage = document.getElementById('qrImage');
       const empty = document.getElementById('qrEmpty');
@@ -80,6 +94,21 @@
       logs.replaceChildren(...rows);
     };
 
+    const setOwnerMode = (enabled) => {
+      const toggle = document.getElementById('ownerModeToggle');
+      const knob = document.getElementById('ownerModeKnob');
+      const text = document.getElementById('ownerModeText');
+      const label = document.getElementById('ownerModeLabel');
+      toggle.dataset.enabled = enabled ? 'true' : 'false';
+      toggle.setAttribute('aria-pressed', enabled ? 'true' : 'false');
+      toggle.className = `relative h-8 w-16 rounded-full transition disabled:cursor-wait disabled:opacity-50 ${enabled ? 'bg-emerald-600' : 'bg-zinc-700'}`;
+      knob.className = `absolute top-1 h-6 w-6 rounded-full bg-white transition ${enabled ? 'left-9' : 'left-1'}`;
+      text.textContent = enabled
+        ? 'Owner mode aktif. Command hanya untuk owner atau akun bot yang tersambung.'
+        : 'Owner mode nonaktif. Semua user bisa memakai command.';
+      label.textContent = enabled ? 'Owner Mode On' : 'Owner Mode Off';
+    };
+
     const control = async (action) => {
       const buttons = [document.getElementById('stopBtn'), document.getElementById('restartBtn')];
       buttons.forEach((button) => { button.disabled = true; });
@@ -100,6 +129,26 @@
       if (window.confirm('Hentikan koneksi bot WhatsApp? Dashboard akan tetap aktif.')) control('stop');
     };
     document.getElementById('restartBtn').onclick = () => control('restart');
+    document.getElementById('ownerModeToggle').onclick = async () => {
+      const toggle = document.getElementById('ownerModeToggle');
+      const next = toggle.dataset.enabled !== 'true';
+      toggle.disabled = true;
+      try {
+        const response = await fetch('/api/owner-mode', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ enabled: next })
+        });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || 'Gagal mengubah owner mode.');
+        setOwnerMode(result.ownerMode);
+      } catch (error) {
+        window.alert(error.message);
+      } finally {
+        toggle.disabled = false;
+        await load();
+      }
+    };
     new WebSocket(`${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.host}`).onmessage = load;
     load();
     setInterval(load, 5000);

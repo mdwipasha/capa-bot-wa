@@ -14,6 +14,7 @@ process.on('unhandledRejection', (error) => logger.error('Unhandled rejection', 
 const botState = {
   isRunning: true,
   isConnected: false,
+  ownerMode: false,
   qr: null,
   pairingCode: '',
   pairingStatus: 'Starting'

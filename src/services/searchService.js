@@ -48,9 +48,91 @@ export const mangaSearch = async (query) => {
   return data.data || [];
 };
 
+const epicAnimeQuotes = [
+  {
+    quote: 'Orang yang pernah hancur tahu cara melindungi orang lain tanpa banyak bicara.',
+    character: 'Itachi Uchiha',
+    anime: 'Naruto'
+  },
+  {
+    quote: 'Kalau dunia cuma menghargai pemenang, jadilah alasan seseorang berani kalah dulu.',
+    character: 'Naruto Uzumaki',
+    anime: 'Naruto'
+  },
+  {
+    quote: 'Aku tidak mengejar takhta. Aku mengejar hari saat teman-temanku bisa tertawa bebas.',
+    character: 'Monkey D. Luffy',
+    anime: 'One Piece'
+  },
+  {
+    quote: 'Luka bukan bukti kau lemah. Luka adalah tanda kau tetap maju saat takut.',
+    character: 'Roronoa Zoro',
+    anime: 'One Piece'
+  },
+  {
+    quote: 'Kebebasan tanpa keberanian hanyalah mimpi yang takut bangun.',
+    character: 'Eren Yeager',
+    anime: 'Attack on Titan'
+  },
+  {
+    quote: 'Pilih jalanmu. Penyesalan akan datang juga, tapi setidaknya itu milikmu.',
+    character: 'Levi Ackerman',
+    anime: 'Attack on Titan'
+  },
+  {
+    quote: 'Menjadi kuat bukan berarti tidak menangis. Itu berarti tetap berdiri setelahnya.',
+    character: 'Tanjiro Kamado',
+    anime: 'Demon Slayer'
+  },
+  {
+    quote: 'Bakat hanya membuka pintu. Yang membuatmu masuk adalah luka yang kau latih setiap hari.',
+    character: 'Satoru Gojo',
+    anime: 'Jujutsu Kaisen'
+  },
+  {
+    quote: 'Aku tidak tahu masa depan. Tapi aku tahu aku tidak mau hidup sebagai pengecut.',
+    character: 'Yuji Itadori',
+    anime: 'Jujutsu Kaisen'
+  },
+  {
+    quote: 'Harga sebuah mimpi selalu dibayar di tempat yang tidak dilihat siapa pun.',
+    character: 'Guts',
+    anime: 'Berserk'
+  },
+  {
+    quote: 'Jika kau ingin sesuatu kembali, pahami dulu apa yang hilang darimu.',
+    character: 'Edward Elric',
+    anime: 'Fullmetal Alchemist'
+  },
+  {
+    quote: 'Damai bukan saat kau menang. Damai adalah saat kau tak lagi butuh membenci.',
+    character: 'Thorfinn',
+    anime: 'Vinland Saga'
+  },
+  {
+    quote: 'Teman sejati bukan yang menyelamatkanmu dari gelap, tapi yang masuk dan menyalakan api.',
+    character: 'Killua Zoldyck',
+    anime: 'Hunter x Hunter'
+  },
+  {
+    quote: 'Murid yang baik meniru gurunya. Murid yang hebat melampaui kesedihannya.',
+    character: 'Kakashi Hatake',
+    anime: 'Naruto'
+  },
+  {
+    quote: 'Harga diri bukan soal tidak jatuh. Harga diri adalah menolak tetap di bawah.',
+    character: 'Vegeta',
+    anime: 'Dragon Ball'
+  },
+  {
+    quote: 'Kadang hidup tidak memberimu makna. Jadi kau yang harus menjadi maknanya.',
+    character: 'Gintoki Sakata',
+    anime: 'Gintama'
+  }
+];
+
 export const animeQuote = async () => {
-  const { data } = await axios.get('https://animechan.io/api/v1/quotes/random', { timeout: 15000 });
-  return data.data || data;
+  return epicAnimeQuotes[Math.floor(Math.random() * epicAnimeQuotes.length)];
 };
 
 export const movieSearch = async (query) => {
