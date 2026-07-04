@@ -145,7 +145,7 @@ export class HelpGenerator {
 
     // Usage
     if (command.usage) {
-      lines.push(`*Usage:*`);
+      lines.push('*Usage:*');
       lines.push(`\`${px}${command.usage}\``);
     }
 

@@ -9,6 +9,7 @@ import { BotManager } from './manager/BotManager.js';
 import { logger } from './utils/logger.js';
 import { config } from './config/env.js';
 import { serviceManager } from './services/ServiceManager.js';
+import { startApiServer } from './api/server.js';
 
 process.on('uncaughtException', (error) => logger.error('Uncaught exception', error.stack || error.message));
 process.on('unhandledRejection', (error) => logger.error('Unhandled rejection', error?.stack || error));
@@ -55,6 +56,9 @@ const startBot = async () => {
   // 8. Inisialisasi SchedulerManager dan start scheduler
   await botManager.schedulerManager.init();
   await startScheduler(botManager.schedulerManager);
+
+  // 9. Start REST API Gateway
+  await startApiServer(botManager);
 
   startDashboard({ botManager, restart: () => process.exit(0) });
 };

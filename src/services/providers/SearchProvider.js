@@ -2,14 +2,14 @@ import axios from 'axios';
 
 // Local backup anime quotes in case APIs are down/404
 const backupQuotes = [
-  { quote: "If you don't like your destiny, don't accept it. Instead, have the courage to change it the way you want it to be.", character: "Naruto Uzumaki", anime: "Naruto" },
-  { quote: "Seseorang yang kuat tidak perlu melihat ke depan maupun ke belakang.", character: "Roronoa Zoro", anime: "One Piece" },
-  { quote: "Thinking you're no good and worthless is the worst thing you can do.", character: "Nobita Nobi", anime: "Doraemon" },
-  { quote: "Jika kau ingin membuat orang lain bahagia, kau harus bahagia terlebih dahulu.", character: "Kousei Arima", anime: "Shigatsu wa Kimi no Uso" },
-  { quote: "Pikiran kosong adalah awal dari segala kekalahan.", character: "Lelouch vi Britannia", anime: "Code Geass" },
-  { quote: "Whatever you lose, you'll find it again. But what you throw away you'll never get back.", character: "Kenshin Himura", anime: "Rurouni Kenshin" },
-  { quote: "Fear is not evil. It tells you what your weakness is.", character: "Gildarts Clive", anime: "Fairy Tail" },
-  { quote: "If you can't find a reason to fight, then you shouldn't be fighting.", character: "Akame", anime: "Akame ga Kill" }
+  { quote: "If you don't like your destiny, don't accept it. Instead, have the courage to change it the way you want it to be.", character: 'Naruto Uzumaki', anime: 'Naruto' },
+  { quote: 'Seseorang yang kuat tidak perlu melihat ke depan maupun ke belakang.', character: 'Roronoa Zoro', anime: 'One Piece' },
+  { quote: "Thinking you're no good and worthless is the worst thing you can do.", character: 'Nobita Nobi', anime: 'Doraemon' },
+  { quote: 'Jika kau ingin membuat orang lain bahagia, kau harus bahagia terlebih dahulu.', character: 'Kousei Arima', anime: 'Shigatsu wa Kimi no Uso' },
+  { quote: 'Pikiran kosong adalah awal dari segala kekalahan.', character: 'Lelouch vi Britannia', anime: 'Code Geass' },
+  { quote: "Whatever you lose, you'll find it again. But what you throw away you'll never get back.", character: 'Kenshin Himura', anime: 'Rurouni Kenshin' },
+  { quote: 'Fear is not evil. It tells you what your weakness is.', character: 'Gildarts Clive', anime: 'Fairy Tail' },
+  { quote: "If you can't find a reason to fight, then you shouldn't be fighting.", character: 'Akame', anime: 'Akame ga Kill' }
 ];
 
 export class SearchProvider {

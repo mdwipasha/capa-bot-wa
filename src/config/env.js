@@ -9,6 +9,16 @@ export const config = {
   botName: process.env.BOT_NAME || 'Modern Bot',
   prefixes: (process.env.PREFIX || '.').split(',').map((item) => item.trim()).filter(Boolean),
   port: Number(process.env.PORT || 3000),
+  apiPort: Number(process.env.API_PORT || 3001),
+  jwtSecret: process.env.JWT_SECRET || 'secret-wabot-key-123-change-me',
+  jwtRefreshSecret: process.env.JWT_REFRESH_SECRET || 'refresh-secret-wabot-key-123-change-me',
+  jwtExpiresIn: process.env.JWT_EXPIRES_IN || '15m',
+  jwtRefreshExpiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '7d',
+  apiRateLimitGlobal: Number(process.env.API_RATE_LIMIT_GLOBAL || 200),
+  apiRateLimitAuth: Number(process.env.API_RATE_LIMIT_AUTH || 10),
+  apiRateLimitMessage: Number(process.env.API_RATE_LIMIT_MESSAGE || 60),
+  apiRateLimitApiKey: Number(process.env.API_RATE_LIMIT_API_KEY || 1000),
+  corsOrigins: (process.env.CORS_ORIGINS || '*').split(',').map((item) => item.trim()).filter(Boolean),
   authMethod: ['pairing', 'qr'].includes((process.env.AUTH_METHOD || 'pairing').toLowerCase())
     ? (process.env.AUTH_METHOD || 'pairing').toLowerCase()
     : 'pairing',
