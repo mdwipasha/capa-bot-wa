@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import { config } from '../config/env.js';
 import { configManager } from '../manager/ConfigManager.js';
 import { UserModel } from '../models/UserModel.js';
 import { authManager } from '../manager/AuthManager.js';
@@ -35,7 +36,7 @@ export async function socketAuth(socket, next) {
 
     // 2. Validate token
     if (token) {
-      const jwtSecret = configManager.get('security', 'jwtSecret') || 'secret-wabot-key-123-change-me';
+      const jwtSecret = config.jwtSecret || configManager.get('security', 'jwtSecret') || 'secret-wabot-key-123-change-me';
       try {
         const decoded = jwt.verify(token, jwtSecret);
 

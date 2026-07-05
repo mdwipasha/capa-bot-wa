@@ -84,6 +84,7 @@ export class AuthController {
       // Blacklist the current access token JTI
       if (req.tokenJti) {
         authManager.blacklistToken(req.tokenJti, 15 * 60 * 1000);
+        authManager.emit('auth.logout', { userId: req.user.id, tokenJti: req.tokenJti });
       }
 
       return ApiResponse.ok(res, null, 'Logout berhasil');

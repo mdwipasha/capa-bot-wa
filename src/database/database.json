@@ -1756,6 +1756,24 @@
       "userAgent": "test-runner",
       "method": "jwt",
       "timestamp": "2026-07-05T12:54:47.601Z"
+    },
+    {
+      "id": "e55b116c-86cb-4799-bf5b-4b2b85deda9b",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "success": true,
+      "ip": "::1",
+      "userAgent": "axios/1.18.1",
+      "method": "password",
+      "timestamp": "2026-07-05T18:50:06.344Z"
+    },
+    {
+      "id": "d525eb99-5f38-4c5e-92b8-8eeb514bffcd",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "success": true,
+      "ip": "::1",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "method": "password",
+      "timestamp": "2026-07-05T18:52:11.843Z"
     }
   ],
   "apiUsers": {
@@ -1765,18 +1783,38 @@
       "passwordHash": "$2b$12$antn69u/8Ra3//UH/OhK7uP6bvYm4Wwp/CQ8GAPjyjUVqkg15q87.",
       "role": "owner",
       "apiKey": "wab_owner_exup6wksqsw",
-      "refreshTokens": [],
+      "refreshTokens": [
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhY2JlYWNhYS1kMmMzLTQwZTEtOTYxNC1hOTc3MWVlZTE1YWMiLCJ0eXBlIjoicmVmcmVzaCIsImp0aSI6IjRlOTA1ZGYzLTE1YjUtNDE1NC05Nzc4LWM3MWZiOGJkMDJhOCIsImlhdCI6MTc4MzI3NzQwNiwiZXhwIjoxNzgzODgyMjA2fQ.Gdkxp3W8z0VEtBsJyiJu0k8JdVFKaFWQZED9g482wHU",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhY2JlYWNhYS1kMmMzLTQwZTEtOTYxNC1hOTc3MWVlZTE1YWMiLCJ0eXBlIjoicmVmcmVzaCIsImp0aSI6IjhhMmVjNjhhLTUyYzUtNDFhMS04YWYwLTc4MmU3MThhNzhlMiIsImlhdCI6MTc4MzI3NzUzMSwiZXhwIjoxNzgzODgyMzMxfQ.mjoqlzkeh5Bn5gBXIi9fj5_s6amQykmfXEDHRrstXwU"
+      ],
       "isActive": true,
       "createdAt": "2026-07-04T07:54:05.492Z",
-      "updatedAt": "2026-07-04T07:54:05.495Z",
-      "lastLogin": null,
+      "updatedAt": "2026-07-05T18:52:11.840Z",
+      "lastLogin": "2026-07-05T18:52:11.832Z",
       "lockout": {
         "locked": false,
         "failedAttempts": 0,
         "lockUntil": null,
         "reason": null
       },
-      "activeSessions": [],
+      "activeSessions": [
+        {
+          "sessionId": "53280a50-0c22-4e35-bbec-18b17aadc8b6",
+          "ip": "::1",
+          "userAgent": "axios/1.18.1",
+          "method": "password",
+          "createdAt": "2026-07-05T18:50:06.351Z",
+          "lastActivity": "2026-07-05T18:50:06.351Z"
+        },
+        {
+          "sessionId": "d16aa214-e618-4016-a563-5f9f52393200",
+          "ip": "::1",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+          "method": "password",
+          "createdAt": "2026-07-05T18:52:11.859Z",
+          "lastActivity": "2026-07-05T18:52:11.859Z"
+        }
+      ],
       "passwordHistory": [],
       "passwordChangedAt": "2026-07-04T07:54:05.492Z"
     }
@@ -1884,6 +1922,2038 @@
       "duration": "1ms",
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36",
       "timestamp": "2026-07-05T12:56:16.745Z"
+    },
+    {
+      "id": "dd9322b3-9ed9-46b1-ae80-f7655163301e",
+      "requestId": "5cf00290-de0e-4c4c-9bc8-3b992c61e697",
+      "method": "GET",
+      "path": "/health",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": null,
+      "userRole": null,
+      "duration": "7ms",
+      "userAgent": "axios/1.18.1",
+      "timestamp": "2026-07-05T18:50:04.341Z"
+    },
+    {
+      "id": "97b479b2-f950-427a-9359-07bf91dce05a",
+      "requestId": "37a4dfc2-bdeb-46a9-b696-c3546c138686",
+      "method": "POST",
+      "path": "/login",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": null,
+      "userRole": null,
+      "duration": "1995ms",
+      "userAgent": "axios/1.18.1",
+      "timestamp": "2026-07-05T18:50:06.360Z"
+    },
+    {
+      "id": "fc7e178f-1347-41a8-8e8b-366864287796",
+      "requestId": "1c49de27-79e4-49e9-b035-d5634c5dfde9",
+      "method": "GET",
+      "path": "/",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "9ms",
+      "userAgent": "axios/1.18.1",
+      "timestamp": "2026-07-05T18:50:06.379Z"
+    },
+    {
+      "id": "5023df7a-05ca-4f34-b528-5dd3f9507f72",
+      "requestId": "23f25ed6-c083-4969-9558-808351601d1f",
+      "method": "POST",
+      "path": "/refresh",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": null,
+      "userRole": null,
+      "duration": "15ms",
+      "userAgent": "axios/1.18.1",
+      "timestamp": "2026-07-05T18:50:06.400Z"
+    },
+    {
+      "id": "0be5e5c3-cba6-4f65-b014-c85266df0e4f",
+      "requestId": "39752b7a-f605-4645-a40c-db80921cc3c9",
+      "method": "POST",
+      "path": "/",
+      "query": {},
+      "statusCode": 201,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "68ms",
+      "userAgent": "axios/1.18.1",
+      "timestamp": "2026-07-05T18:50:06.505Z"
+    },
+    {
+      "id": "33d98f3e-92e3-4532-9671-e76288d0a305",
+      "requestId": "15511e9f-d8ef-429a-ac76-699e43409ece",
+      "method": "POST",
+      "path": "/",
+      "query": {},
+      "statusCode": 201,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "64ms",
+      "userAgent": "axios/1.18.1",
+      "timestamp": "2026-07-05T18:50:06.574Z"
+    },
+    {
+      "id": "19bda1f4-493c-411b-a443-669df5e9b1f9",
+      "requestId": "29df634c-5de9-481a-9b0e-1e6f319c7b96",
+      "method": "POST",
+      "path": "/",
+      "query": {},
+      "statusCode": 201,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "59ms",
+      "userAgent": "axios/1.18.1",
+      "timestamp": "2026-07-05T18:50:06.638Z"
+    },
+    {
+      "id": "8ada2a9d-a2ca-44f3-b22e-604e3df74d2c",
+      "requestId": "6ff7d5de-4a19-4b92-88f2-c0430e2e3bba",
+      "method": "GET",
+      "path": "/",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "11ms",
+      "userAgent": "axios/1.18.1",
+      "timestamp": "2026-07-05T18:50:06.652Z"
+    },
+    {
+      "id": "8f9ef9cc-9380-4ccf-a366-6290d49f100a",
+      "requestId": "e7ec257c-e7b6-4397-b845-5ce514f9979b",
+      "method": "GET",
+      "path": "/6285183130310",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "15ms",
+      "userAgent": "axios/1.18.1",
+      "timestamp": "2026-07-05T18:50:06.672Z"
+    },
+    {
+      "id": "414b56df-e118-4f9b-bbed-93d9373463a5",
+      "requestId": "02cbebfd-559b-4570-a7b3-1d5283995353",
+      "method": "POST",
+      "path": "/6285183130310/stop",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "16ms",
+      "userAgent": "axios/1.18.1",
+      "timestamp": "2026-07-05T18:50:06.694Z"
+    },
+    {
+      "id": "4a65f955-9656-49fe-aed4-e8c204e47af5",
+      "requestId": "141208df-68a4-461e-b672-48cbb57ed0e3",
+      "method": "POST",
+      "path": "/6285183130310/start",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "61ms",
+      "userAgent": "axios/1.18.1",
+      "timestamp": "2026-07-05T18:50:06.760Z"
+    },
+    {
+      "id": "ce040cdc-526f-4e44-8f29-22695503b6eb",
+      "requestId": "775ebf61-c7f8-4e12-90cf-3b70c4450820",
+      "method": "GET",
+      "path": "/",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "8ms",
+      "userAgent": "axios/1.18.1",
+      "timestamp": "2026-07-05T18:50:06.772Z"
+    },
+    {
+      "id": "11f1844b-0f62-4b96-b98e-5063fb0eec5c",
+      "requestId": "1e437f3c-ce90-4184-b60f-8ac43f6ad1be",
+      "method": "GET",
+      "path": "/",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "13ms",
+      "userAgent": "axios/1.18.1",
+      "timestamp": "2026-07-05T18:50:06.789Z"
+    },
+    {
+      "id": "6e21ce08-651c-4313-8daf-1d592ae515f7",
+      "requestId": "53f0ef32-fc88-45f6-a2ad-d9bc1463d6fd",
+      "method": "GET",
+      "path": "/",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "7ms",
+      "userAgent": "axios/1.18.1",
+      "timestamp": "2026-07-05T18:50:06.801Z"
+    },
+    {
+      "id": "f22e80f1-fe0b-43b9-b214-be113321cdc9",
+      "requestId": "fda89152-b520-45e5-8f6b-6fb63a679fdb",
+      "method": "PATCH",
+      "path": "/ping/disable",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "9ms",
+      "userAgent": "axios/1.18.1",
+      "timestamp": "2026-07-05T18:50:06.817Z"
+    },
+    {
+      "id": "6516bd66-c9fa-4eb6-b55c-dfd8239a4d80",
+      "requestId": "97856c34-090a-4a7c-8ce6-5a001912eb95",
+      "method": "PATCH",
+      "path": "/ping/enable",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "6ms",
+      "userAgent": "axios/1.18.1",
+      "timestamp": "2026-07-05T18:50:06.828Z"
+    },
+    {
+      "id": "eadb5661-02df-42dd-84ea-97e701f9ba30",
+      "requestId": "1e1a297e-acba-4ee3-b55a-ce6ff1dae56e",
+      "method": "POST",
+      "path": "/ping/reload",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "10ms",
+      "userAgent": "axios/1.18.1",
+      "timestamp": "2026-07-05T18:50:06.843Z"
+    },
+    {
+      "id": "e4b22b27-d228-4ab6-8e7c-ef77d9102a41",
+      "requestId": "3d63f7d0-1d4f-411c-98ce-6bebd432ebee",
+      "method": "GET",
+      "path": "/",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "10ms",
+      "userAgent": "axios/1.18.1",
+      "timestamp": "2026-07-05T18:50:06.857Z"
+    },
+    {
+      "id": "aef866ee-db13-4260-b772-96e2cead3bea",
+      "requestId": "5b6e2172-a3d8-4359-b44e-7a8058d775cd",
+      "method": "GET",
+      "path": "/statistics",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "15ms",
+      "userAgent": "axios/1.18.1",
+      "timestamp": "2026-07-05T18:50:06.876Z"
+    },
+    {
+      "id": "42ae3194-6746-460c-a429-daec012f7881",
+      "requestId": "cba5ebfb-af72-4c34-99e3-d1b0af2039f6",
+      "method": "GET",
+      "path": "/logs",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "9ms",
+      "userAgent": "axios/1.18.1",
+      "timestamp": "2026-07-05T18:50:06.888Z"
+    },
+    {
+      "id": "4b44ae06-f2b3-4324-98de-bdba44cd49a8",
+      "requestId": "f01b190c-a152-4481-903a-a2a236541b0d",
+      "method": "GET",
+      "path": "/stats",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "6ms",
+      "userAgent": "axios/1.18.1",
+      "timestamp": "2026-07-05T18:50:06.898Z"
+    },
+    {
+      "id": "a568acd2-9670-4281-8dd6-56fdeb7c3a50",
+      "requestId": "b2e156a2-5d58-4dc9-b2cb-9309db4f7a20",
+      "method": "GET",
+      "path": "/",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "9ms",
+      "userAgent": "axios/1.18.1",
+      "timestamp": "2026-07-05T18:50:06.911Z"
+    },
+    {
+      "id": "ad27d678-3c70-412d-842b-24b351da4035",
+      "requestId": "222a0347-18f0-41d2-86aa-ded1f2136ed5",
+      "method": "GET",
+      "path": "/health",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": null,
+      "userRole": null,
+      "duration": "1ms",
+      "userAgent": "axios/1.18.1",
+      "timestamp": "2026-07-05T18:50:06.917Z"
+    },
+    {
+      "id": "789fd223-f883-43a2-b914-dacf3f624d10",
+      "requestId": "c858aa02-a012-480a-9d6d-7c2f50994c32",
+      "method": "GET",
+      "path": "/",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "7ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:50:08.913Z"
+    },
+    {
+      "id": "5e590f2b-25f3-4cae-bd92-7e66ba673b54",
+      "requestId": "2c54d50b-8f28-4b11-bff5-949fa5bd0b80",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "20"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "21ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:50:08.934Z"
+    },
+    {
+      "id": "14c2bf81-5ed2-4f60-bbb7-d9ef8e5212ed",
+      "requestId": "c94d823b-d7ad-4356-91e8-3ece078ec9e5",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "100"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "36ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:50:08.944Z"
+    },
+    {
+      "id": "efd6ac45-4124-42c7-a2cb-9d5761f66f49",
+      "requestId": "fa990e6c-a740-408d-9a95-9b5661926adc",
+      "method": "GET",
+      "path": "/logs",
+      "query": {
+        "limit": "20"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "16ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:50:09.306Z"
+    },
+    {
+      "id": "a54c0d30-dc95-4bd3-8e14-cda239dc15b8",
+      "requestId": "cc872ebf-2a2b-46ac-9113-93d919ff4312",
+      "method": "POST",
+      "path": "/",
+      "query": {},
+      "statusCode": 400,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "6ms",
+      "userAgent": "axios/1.18.1",
+      "timestamp": "2026-07-05T18:50:13.055Z"
+    },
+    {
+      "id": "e9113241-37fa-4523-accd-47b7a0701663",
+      "requestId": "5308d232-3a77-4ae5-a251-62fbddf3c4fe",
+      "method": "GET",
+      "path": "/",
+      "query": {},
+      "statusCode": 401,
+      "ip": "::1",
+      "userId": null,
+      "userRole": null,
+      "duration": "2ms",
+      "userAgent": "axios/1.18.1",
+      "timestamp": "2026-07-05T18:50:13.060Z"
+    },
+    {
+      "id": "a344a31b-fe2f-46ae-b5cb-b7a2f77a78b1",
+      "requestId": "c068b66e-5420-4968-9b47-8b90e7d5510c",
+      "method": "GET",
+      "path": "/api/v1/nonexistent-endpoint",
+      "query": {},
+      "statusCode": 404,
+      "ip": "::1",
+      "userId": null,
+      "userRole": null,
+      "duration": "1ms",
+      "userAgent": "axios/1.18.1",
+      "timestamp": "2026-07-05T18:50:13.065Z"
+    },
+    {
+      "id": "d56a3ddf-1abb-4886-ba70-cd329d82f214",
+      "requestId": "97d00d69-bc0b-443c-adde-afe16e01de4e",
+      "method": "GET",
+      "path": "/logs",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "8ms",
+      "userAgent": "axios/1.18.1",
+      "timestamp": "2026-07-05T18:50:13.079Z"
+    },
+    {
+      "id": "b830d7a8-d0ff-4039-abd9-4cf3cd3a07f4",
+      "requestId": "8f15ff92-3c44-45d9-898a-d694b1f693b2",
+      "method": "DELETE",
+      "path": "/6285183130310",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "15ms",
+      "userAgent": "axios/1.18.1",
+      "timestamp": "2026-07-05T18:50:13.098Z"
+    },
+    {
+      "id": "09f2e39c-3d71-4952-81a3-edb419523dc2",
+      "requestId": "95c5ed7b-8a6b-4652-9533-95137e3ecb98",
+      "method": "DELETE",
+      "path": "/6285183130311",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "16ms",
+      "userAgent": "axios/1.18.1",
+      "timestamp": "2026-07-05T18:50:13.118Z"
+    },
+    {
+      "id": "e87581d6-9948-48f7-b2a2-cfe1784e6eea",
+      "requestId": "427c6977-c80a-4c8f-9e92-03458eeec39e",
+      "method": "DELETE",
+      "path": "/6285183130312",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "14ms",
+      "userAgent": "axios/1.18.1",
+      "timestamp": "2026-07-05T18:50:13.136Z"
+    },
+    {
+      "id": "80aa00cb-31e2-4391-86b0-0e36e63de8ec",
+      "requestId": "86a6f166-50f4-439f-a78a-85b48aa3e26e",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "200"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "76ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:51:31.814Z"
+    },
+    {
+      "id": "795ed2ef-4ee1-46ca-94ef-a43a8f709867",
+      "requestId": "6e499e47-d697-42ae-942e-ac46bb11747a",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "200"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "85ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:51:31.816Z"
+    },
+    {
+      "id": "14dec8e4-cdf1-488f-9cdf-d68ebc709989",
+      "requestId": "319c183e-6763-4d9a-9dd7-920be2f23d00",
+      "method": "GET",
+      "path": "/",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "110ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:51:31.817Z"
+    },
+    {
+      "id": "6047613b-477d-4a02-87e5-a69bec59d8e6",
+      "requestId": "edf704ab-b4bf-4577-b7cf-5155717d821c",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "20"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "118ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:51:31.819Z"
+    },
+    {
+      "id": "ff2e02dd-7548-4d2e-9fee-dfdab58b7b00",
+      "requestId": "cc2b6706-c3e3-4b99-802b-7cad442bd6dd",
+      "method": "GET",
+      "path": "/logs",
+      "query": {
+        "limit": "20"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "96ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:51:31.836Z"
+    },
+    {
+      "id": "936bc014-6036-48f6-ac80-018a791d60b8",
+      "requestId": "f678f36d-fa1d-49b7-83f5-e63518596a8e",
+      "method": "GET",
+      "path": "/me",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "13ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:51:40.755Z"
+    },
+    {
+      "id": "742d32a8-080f-44c0-9531-bf3a5cbf84ff",
+      "requestId": "f6b9d86c-7ed8-4c2e-9ea9-d764b1afd9aa",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "100"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "85ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:51:41.192Z"
+    },
+    {
+      "id": "8f54bf39-e991-48b1-a74a-d93752f0fd72",
+      "requestId": "75d81bb5-c6d6-4464-9dfd-bf782eb54fe1",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "20"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "30ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:51:41.361Z"
+    },
+    {
+      "id": "cd72aa39-6bf8-4a53-8fa2-c35c31e32285",
+      "requestId": "03265564-2c01-40b7-bd2d-72f5970b6fff",
+      "method": "GET",
+      "path": "/",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "43ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:51:41.363Z"
+    },
+    {
+      "id": "8474cece-2565-4407-aa82-58c2641eb783",
+      "requestId": "33a798fd-7b2a-4ca3-ac9b-f9af623162d1",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "20"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "39ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:51:41.365Z"
+    },
+    {
+      "id": "45620e14-b2b8-4eb7-8270-cbb2a8cb4e69",
+      "requestId": "77a2f236-605c-4697-b7ca-4b8b6a92eab1",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "100"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "51ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:51:41.367Z"
+    },
+    {
+      "id": "6c8e3ab2-d85e-4ac4-8bfd-e40dd59e7c65",
+      "requestId": "48b3f12c-f646-4c0b-9332-79e9eca00193",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "200"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "105ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:51:41.370Z"
+    },
+    {
+      "id": "8d9faf05-4aca-4e93-83fa-d158c5d85a76",
+      "requestId": "b0aa7e13-7a20-4cb3-accb-87a85e109441",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "200"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "39ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:51:41.374Z"
+    },
+    {
+      "id": "a6715ff1-60b4-4b76-bd4d-a9e769742dd6",
+      "requestId": "17d29327-0734-4bdb-b08e-f3d5649b2480",
+      "method": "GET",
+      "path": "/logs",
+      "query": {
+        "limit": "20"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "25ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:51:41.622Z"
+    },
+    {
+      "id": "b2399270-8432-40c8-ba0a-6b3c33ac7eed",
+      "requestId": "e7976700-afa3-4359-8395-a1b7d4fabbdb",
+      "method": "POST",
+      "path": "/login",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": null,
+      "userRole": null,
+      "duration": "944ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:52:11.972Z"
+    },
+    {
+      "id": "31741022-fd5b-4a7c-83f6-1c42853353b0",
+      "requestId": "05a74635-c479-43fa-baa9-e14d23be4126",
+      "method": "GET",
+      "path": "/",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "167ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:52:12.489Z"
+    },
+    {
+      "id": "72af88dd-150f-475e-881a-f473b64a9d0e",
+      "requestId": "af91d3f8-4457-44f8-a5ce-ef500c2f4487",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "100"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "131ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:52:12.709Z"
+    },
+    {
+      "id": "56bf3053-6e44-4bf1-b73f-d85e29bd29c0",
+      "requestId": "975a40d4-2b93-4312-b56f-72a56e4aaded",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "200"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "132ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:52:12.711Z"
+    },
+    {
+      "id": "70e451ef-5034-4f95-ad29-5a80cd845403",
+      "requestId": "2a1667da-acd1-4a29-98b7-bb9f79ade404",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "200"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "157ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:52:12.714Z"
+    },
+    {
+      "id": "c5ff2c78-79f1-4cd0-bcc2-4e6ee213b839",
+      "requestId": "761e9b2f-8892-4382-9f52-9fd4d1b03b61",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "20"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "193ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:52:12.724Z"
+    },
+    {
+      "id": "1d13b743-473a-433a-83f2-16e06e6879f5",
+      "requestId": "f9df01ff-6c2c-41b8-9380-8f5c57fea71e",
+      "method": "GET",
+      "path": "/logs",
+      "query": {
+        "limit": "20"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "157ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:52:12.770Z"
+    },
+    {
+      "id": "34e114da-ea02-481e-81bb-edbb6ce14f5a",
+      "requestId": "3b458615-3684-4dc1-8db6-97e45a29819f",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "200"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "360ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:52:22.478Z"
+    },
+    {
+      "id": "fc5c28ce-0fc0-44d5-961a-a29aedab8860",
+      "requestId": "ff914839-3718-4350-a99f-18377196d5e0",
+      "method": "GET",
+      "path": "/",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "494ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:52:22.483Z"
+    },
+    {
+      "id": "826f7ec2-72b7-4478-b1d3-680fd8b78ef7",
+      "requestId": "c6fb4e7d-3682-4eb0-9b1c-33c3b0ee2ef6",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "20"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "525ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:52:22.485Z"
+    },
+    {
+      "id": "ca2290f0-6a55-4393-8c2c-097fccbbf438",
+      "requestId": "eb3b24de-af4c-47ae-adcb-3cedaae17799",
+      "method": "GET",
+      "path": "/logs",
+      "query": {
+        "limit": "20"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "124ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:52:22.666Z"
+    },
+    {
+      "id": "b5d853ed-961c-4d75-bedd-d88c1421c459",
+      "requestId": "46f3a03d-8343-462e-b275-c4c2be317fc8",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "100"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "7ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:52:26.668Z"
+    },
+    {
+      "id": "404fea64-045a-4b58-afd3-618767efb792",
+      "requestId": "f993ef59-08e6-49e0-bb82-b96579d2eb96",
+      "method": "GET",
+      "path": "/6285183130315/stats",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "10ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:52:31.836Z"
+    },
+    {
+      "id": "4bfc6568-2c26-48ab-9bdd-8aac42ba1e0a",
+      "requestId": "fa08cf7d-663d-4e7c-b65d-a4c71b03ad75",
+      "method": "GET",
+      "path": "/api/v1/bots/6285183130315/groups",
+      "query": {},
+      "statusCode": 404,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "41ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:52:31.878Z"
+    },
+    {
+      "id": "1f82ff8f-4b31-4582-a2de-7dfdff62afd1",
+      "requestId": "ea67a2c1-999b-4e0d-8229-54bbfdeb45b9",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "100"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "55ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:52:31.887Z"
+    },
+    {
+      "id": "84d6cda3-01df-4e62-9de9-65327d3b5f60",
+      "requestId": "ed41894c-c4cf-4c3e-9e59-b14180a76a88",
+      "method": "GET",
+      "path": "/logs",
+      "query": {
+        "limit": "80"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "59ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:52:31.899Z"
+    },
+    {
+      "id": "c529081e-dd82-41b1-9293-0d478dc428f5",
+      "requestId": "27443585-5016-4108-9933-c7cd35ed380c",
+      "method": "DELETE",
+      "path": "/62895349088833",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "32ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:52:41.837Z"
+    },
+    {
+      "id": "b3bc0147-2340-4e54-86d3-11da90431489",
+      "requestId": "c8c9b491-61e8-4495-aef1-521aedb75fe2",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "100"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "8ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:52:43.598Z"
+    },
+    {
+      "id": "d9e013e3-4c9f-498b-b4b3-07eef8a118b7",
+      "requestId": "3f09d566-26fc-48b5-a11f-ab64d9c58727",
+      "method": "POST",
+      "path": "/",
+      "query": {},
+      "statusCode": 201,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "9ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:52:53.954Z"
+    },
+    {
+      "id": "cea154c7-5dec-4ace-b969-a2a55ebf3ddc",
+      "requestId": "9d02303b-122e-4365-aa9b-33d296b4f8a7",
+      "method": "DELETE",
+      "path": "/6285183130315",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "19ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:52:57.630Z"
+    },
+    {
+      "id": "262422b3-c4c0-4302-9fcd-1e143b2cead8",
+      "requestId": "830358c2-49dd-4e80-b4bc-30f42ccdcb97",
+      "method": "DELETE",
+      "path": "/6285183130315",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "16ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:53:07.111Z"
+    },
+    {
+      "id": "ed3e09f9-407f-4f84-97b7-7a3e7c73e357",
+      "requestId": "b6f5cef4-a23a-4804-986b-ad610260bbb7",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "100"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "8ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:53:08.695Z"
+    },
+    {
+      "id": "ba5e2554-ad5d-41a4-bcb1-8aa3b885ab58",
+      "requestId": "b6a655cb-6c59-4bb3-963b-f8858f7fbfac",
+      "method": "POST",
+      "path": "/",
+      "query": {},
+      "statusCode": 201,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "121ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:53:13.979Z"
+    },
+    {
+      "id": "e082d3c0-a63a-49d9-b032-4eb1492cd222",
+      "requestId": "e6eda238-2b6a-4290-8299-9505580607e5",
+      "method": "GET",
+      "path": "/6285183130315",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "60029ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:53:31.807Z"
+    },
+    {
+      "id": "18e42d59-388a-438f-83aa-353747ae29cf",
+      "requestId": "c3ed6492-68c1-414b-af6a-71e67d4512b7",
+      "method": "GET",
+      "path": "/",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "19ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:56:04.904Z"
+    },
+    {
+      "id": "cc4112f5-9168-4a3e-85a9-aaa535a71c19",
+      "requestId": "7e69f8fd-31d3-44e5-8828-4dc263b45e49",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "100"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "13ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:56:05.001Z"
+    },
+    {
+      "id": "4cf1177a-2d95-4acd-b9f1-9849721e92de",
+      "requestId": "abbc810e-97f5-4e14-bf3a-6681100416b4",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "20"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "7ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:56:05.499Z"
+    },
+    {
+      "id": "d7cc5756-b4bf-44bc-9caf-377013a71362",
+      "requestId": "d3ad6dc6-07d6-45e3-9107-93a294ba3201",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "20"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "8ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:56:05.579Z"
+    },
+    {
+      "id": "db99d61f-22f7-4bb1-8ca2-6d426dcbdc29",
+      "requestId": "d2cb427c-3408-4e49-8ceb-84cac0d3456c",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "200"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "11ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:56:05.684Z"
+    },
+    {
+      "id": "a3e1eb7d-1780-42a7-9f3b-3988da679e0d",
+      "requestId": "4bad6000-b784-4c5e-a9c3-4ee5c133e3ab",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "200"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "10ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:56:05.799Z"
+    },
+    {
+      "id": "504d8241-36a2-4472-95ce-5a5ff9e53a10",
+      "requestId": "2fc2b911-26d2-4aa3-8342-c1dd72fec527",
+      "method": "GET",
+      "path": "/logs",
+      "query": {
+        "limit": "20"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "10ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:56:05.949Z"
+    },
+    {
+      "id": "7f7ab999-97a4-481f-b0a2-29c4ca3b77dd",
+      "requestId": "a2e069bb-0c54-49b9-b9ea-01fe1e99642c",
+      "method": "DELETE",
+      "path": "/6285183130315",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "32ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:58:52.107Z"
+    },
+    {
+      "id": "a7bc242a-ff13-4aaa-a158-eaa8a4df8703",
+      "requestId": "3d1606dd-4af6-4b2b-a90d-28dd5028f4e9",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "100"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "8ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:58:54.973Z"
+    },
+    {
+      "id": "7949a8c6-0665-4c2a-a56e-c9b5c3740ee1",
+      "requestId": "38633752-59e8-4eff-9d6a-f50045bd7d87",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "100"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "9ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:58:55.737Z"
+    },
+    {
+      "id": "eb3ff641-e3f0-4c1a-b6c2-e3977fd66434",
+      "requestId": "0b00a767-8cd2-4653-9bf5-0a1fc5557934",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "100"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "9ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:58:56.167Z"
+    },
+    {
+      "id": "03c5d29b-1e1f-479b-ad9c-b419c464a365",
+      "requestId": "f04e827e-0941-4781-9ef0-9683e37caadc",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "100"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "8ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:58:56.544Z"
+    },
+    {
+      "id": "7ea78874-6b3a-4fc8-a46b-38435a8df11c",
+      "requestId": "ad2ff8dd-b06c-40a4-83e1-9b8676f5f7f2",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "100"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "7ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:58:56.883Z"
+    },
+    {
+      "id": "34ba7ef4-99ef-473a-b392-d90e0a9d3e66",
+      "requestId": "98d3a49d-7331-48a4-9787-3a5a324fa498",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "100"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "7ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:58:57.101Z"
+    },
+    {
+      "id": "bc761765-ed3d-4f56-9b77-5a0b316fada2",
+      "requestId": "2aae6b80-cd75-40f9-a145-d9df41353c81",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "100"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "8ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:58:57.279Z"
+    },
+    {
+      "id": "522dcb9c-37b6-4679-b0c9-ca4ce46dd1f0",
+      "requestId": "4a5196cb-bc4f-48c6-916f-7cab580a1ba5",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "100"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "7ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:58:57.461Z"
+    },
+    {
+      "id": "626f82b5-11ed-410c-8ebd-60d194af0516",
+      "requestId": "30d817fe-d8dc-4ae4-9ee9-db6986075c24",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "100"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "7ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:58:57.644Z"
+    },
+    {
+      "id": "442f902d-23c7-4e24-85be-1e5ce755ef6f",
+      "requestId": "76e643e0-19ce-46bb-9c9b-d546a2ecb344",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "100"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "7ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:58:58.012Z"
+    },
+    {
+      "id": "4eec3a57-9060-4619-b5aa-74730b7ce8cb",
+      "requestId": "4f05a0ff-ab4e-475d-8850-0b9baf7f136f",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "100"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "7ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:58:58.374Z"
+    },
+    {
+      "id": "5d14fa9d-1167-4dc5-8fc8-7024d449ba20",
+      "requestId": "be8a81be-c02c-48c8-bf26-bea4df56a156",
+      "method": "POST",
+      "path": "/",
+      "query": {},
+      "statusCode": 201,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "155ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:59:03.908Z"
+    },
+    {
+      "id": "86e3faf9-00cf-4821-8b58-45a0122c7281",
+      "requestId": "899698f6-bde9-4800-8181-7a6e6cb89742",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "100"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "37ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:59:29.415Z"
+    },
+    {
+      "id": "cf98f616-f6af-4321-bfa7-c850331e16ef",
+      "requestId": "2b9ce20e-7867-4411-bc7f-30ef1fabd175",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "100"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "50ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:59:29.423Z"
+    },
+    {
+      "id": "0195b86c-1d23-4299-b793-031938b669f2",
+      "requestId": "19fa6abf-ebcb-42e8-b267-35fff18d1b29",
+      "method": "GET",
+      "path": "/logs",
+      "query": {
+        "limit": "80"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "61ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:59:29.431Z"
+    },
+    {
+      "id": "91d4ff55-7ca1-4b3e-b0b4-973f72c06d68",
+      "requestId": "4210862a-e169-49c8-a9a4-37125f5fd631",
+      "method": "GET",
+      "path": "/62895349088833/stats",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "7ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:59:29.443Z"
+    },
+    {
+      "id": "f60107e4-f56a-40ef-aa4f-f0b4d607084e",
+      "requestId": "ef4365ea-5630-4c5c-a05f-d28c9d53ae16",
+      "method": "GET",
+      "path": "/me",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "12ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:59:57.441Z"
+    },
+    {
+      "id": "3167832f-b365-4970-976a-4d57b6560540",
+      "requestId": "0abdeec1-f0b0-4a38-b29e-b01e5c2717d8",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "100"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "129ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:59:57.637Z"
+    },
+    {
+      "id": "31568a71-f6d0-4fdb-a931-4e790e06872a",
+      "requestId": "e1e051bf-dd56-46e7-940e-fe2603f29d7e",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "20"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "20ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:59:57.703Z"
+    },
+    {
+      "id": "102d6af1-e1c3-4108-9a3e-1c388f9c9193",
+      "requestId": "92e74034-655b-4418-aee8-149a3087d0d4",
+      "method": "GET",
+      "path": "/",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "40ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:59:57.722Z"
+    },
+    {
+      "id": "297ed22a-c3a4-4076-8c10-12fde0c5e81d",
+      "requestId": "9b742188-8e33-4cc4-9e9f-06aff58d84cd",
+      "method": "GET",
+      "path": "/logs",
+      "query": {
+        "limit": "20"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "10ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:59:57.744Z"
+    },
+    {
+      "id": "620227a1-4efe-414d-945e-d9fda58d1625",
+      "requestId": "d93c00fa-6dda-42ed-adc8-9b0f9c9fa4b6",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "100"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "8ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T18:59:57.797Z"
+    },
+    {
+      "id": "1b2ab786-09a0-4597-896a-7131f57956ab",
+      "requestId": "5bad590f-8316-4597-bb34-193152f8117b",
+      "method": "GET",
+      "path": "/6285183130315/stats",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "8ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T19:00:01.248Z"
+    },
+    {
+      "id": "10d10532-f00b-44bf-b8d7-a9dcfb5eb46f",
+      "requestId": "4214cded-06dc-41dd-b626-6c1c6e893a55",
+      "method": "GET",
+      "path": "/api/v1/bots/6285183130315/groups",
+      "query": {},
+      "statusCode": 404,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "8ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T19:00:01.263Z"
+    },
+    {
+      "id": "c0edc734-77ef-474a-b50f-69764672d431",
+      "requestId": "6ef66bf8-ff8f-4013-b236-f7cd39b58ea1",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "100"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "21ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T19:00:01.310Z"
+    },
+    {
+      "id": "19d5beed-1262-433b-91a8-4867e0b2e969",
+      "requestId": "c08cc120-c413-48c6-b747-ab41db6cfa5e",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "100"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "25ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T19:00:01.322Z"
+    },
+    {
+      "id": "556476f3-4158-47b3-93f7-bc7ebd89909e",
+      "requestId": "23a1277c-9854-451a-89dc-6c9299b468a8",
+      "method": "GET",
+      "path": "/logs",
+      "query": {
+        "limit": "80"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "41ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T19:00:01.328Z"
+    },
+    {
+      "id": "b960282a-592b-4214-b7f3-a6b4befd1851",
+      "requestId": "c755cca9-0d30-413b-ab56-0a2bcfbcc2d5",
+      "method": "GET",
+      "path": "/6285183130315/stats",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "8ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T19:00:01.363Z"
+    },
+    {
+      "id": "16b92a55-5bbd-44cf-af84-1b2f41062b18",
+      "requestId": "b22cf96b-0865-41c3-84e2-bfdd48f186ef",
+      "method": "GET",
+      "path": "/me",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "15ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T19:00:20.551Z"
+    },
+    {
+      "id": "b8f49ee2-b0ab-4d89-87ff-b04cda5a6ebc",
+      "requestId": "e6936d47-3298-4449-84d8-6c26b1ad21d6",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "200"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "126ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T19:00:20.776Z"
+    },
+    {
+      "id": "96611aa7-ea61-4a68-9700-11efb9d3fc5b",
+      "requestId": "4537173a-c0df-4207-8e79-57a264c36a43",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "200"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "126ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T19:00:20.778Z"
+    },
+    {
+      "id": "e52704fe-a304-4d81-bd3e-87ff77209338",
+      "requestId": "a2cae41f-96d9-4c3a-8a13-781372dad97d",
+      "method": "GET",
+      "path": "/",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "155ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T19:00:20.783Z"
+    },
+    {
+      "id": "524d193e-60ed-42a0-b42b-5f437415bda8",
+      "requestId": "64455302-7c04-4009-ac72-f2c20d890db5",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "20"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "154ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T19:00:20.788Z"
+    },
+    {
+      "id": "8260ab5c-ddd6-42d6-8504-185a035c5dd9",
+      "requestId": "838e3c64-65c4-43af-9d38-96342cb8745b",
+      "method": "GET",
+      "path": "/logs",
+      "query": {
+        "limit": "20"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "11ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T19:00:20.807Z"
+    },
+    {
+      "id": "15790518-0cdd-48ba-b8be-039619ad883d",
+      "requestId": "72abdbb9-9627-426b-b542-a7682966fde3",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "100"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "7ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T19:00:23.263Z"
+    },
+    {
+      "id": "ed718e69-837f-44a9-8f8a-6611bd072cfb",
+      "requestId": "3905a61b-1ae4-4098-87cc-f3be09eca449",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "100"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "51ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T19:00:26.420Z"
+    },
+    {
+      "id": "8f9038f5-373d-48f5-8422-fed9ea74ebec",
+      "requestId": "c885e147-6b53-4492-a281-9b1b0f7728b6",
+      "method": "GET",
+      "path": "/logs",
+      "query": {
+        "limit": "80"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "59ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T19:00:26.423Z"
+    },
+    {
+      "id": "693f0c1c-5d38-4709-882d-7fdab85ffb91",
+      "requestId": "62647007-bb1f-45f5-a5b5-985c6910d5a7",
+      "method": "GET",
+      "path": "/6285183130315/stats",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "7ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T19:00:26.446Z"
+    },
+    {
+      "id": "3f47d791-76c5-4267-bbe6-0db810a1a677",
+      "requestId": "7267bf55-493a-4bed-946f-ce119a384441",
+      "method": "DELETE",
+      "path": "/62895349088833",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "22ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T19:00:38.645Z"
+    },
+    {
+      "id": "22178329-d1c6-4b58-a42e-8a700b0f1423",
+      "requestId": "65d61cf4-ff91-40a4-aedb-423bdb9e66d6",
+      "method": "GET",
+      "path": "/me",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "13ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T19:00:41.554Z"
+    },
+    {
+      "id": "571f14ce-bd65-461e-acd6-b45314dc79e8",
+      "requestId": "e98951d2-8151-4273-8b3b-cedc3b46fbfe",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "100"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "84ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T19:00:41.727Z"
+    },
+    {
+      "id": "4f8dd83c-2ee6-435f-86dd-9da413cef9dc",
+      "requestId": "186d1b86-bcea-47cb-8222-aeccf0734c01",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "20"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "21ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T19:00:41.775Z"
+    },
+    {
+      "id": "a88f3b29-dfd2-404d-8d0b-457bdd9dc96a",
+      "requestId": "53dc119b-a7d9-4f8f-a5c5-12d28c361ddf",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "200"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "37ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T19:00:41.802Z"
+    },
+    {
+      "id": "8ac8c9ba-cddf-4860-a75e-0b12080a3a04",
+      "requestId": "ef3223cd-267e-4b93-8bb0-cca9aff3cc8b",
+      "method": "GET",
+      "path": "/logs",
+      "query": {
+        "limit": "20"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "23ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T19:00:41.823Z"
+    },
+    {
+      "id": "3f9e0184-d213-4a0a-9e8b-d1c9d0efd57c",
+      "requestId": "5d6e3f12-861b-4246-b3f3-db9fd12a9fac",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "100"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "11ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T19:00:41.876Z"
+    },
+    {
+      "id": "444218e4-4a6f-43c8-9cbd-4cf170030409",
+      "requestId": "e2ef676b-c572-486f-b099-f2076d300fb5",
+      "method": "DELETE",
+      "path": "/6285183130315",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "21ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T19:00:47.211Z"
+    },
+    {
+      "id": "12cfde24-08e6-4576-acef-38802f852349",
+      "requestId": "5acce411-49e0-4a3d-bb66-b1855336a822",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "100"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "7ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T19:00:48.696Z"
+    },
+    {
+      "id": "72a51b73-e4b4-4535-855c-3e8d92cce4f5",
+      "requestId": "1621b091-8f18-4b2e-ae28-e615c73ca2bc",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "100"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "7ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T19:00:48.957Z"
+    },
+    {
+      "id": "d2d98786-c937-4dbc-8170-a4f02fabca2f",
+      "requestId": "d8c78a1f-5429-4cd3-bba9-29c9947efa38",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "100"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "9ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T19:00:49.408Z"
+    },
+    {
+      "id": "c51ae17d-c866-4d8f-91bf-f3ca50af2d9c",
+      "requestId": "25e045f3-d1a0-4ba6-ae91-f8e7b5cfe3ba",
+      "method": "POST",
+      "path": "/",
+      "query": {},
+      "statusCode": 201,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "123ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T19:00:59.256Z"
+    },
+    {
+      "id": "0e20dc9f-7209-4a71-b3c9-e62029432322",
+      "requestId": "d7cb30ed-86cf-4fbc-816d-8442eb93e306",
+      "method": "GET",
+      "path": "/api/v1/bots/6285183130315/groups",
+      "query": {},
+      "statusCode": 404,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "31ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T19:01:09.086Z"
+    },
+    {
+      "id": "b60317b1-d94f-4932-a615-5af8343ea918",
+      "requestId": "320e0a12-22ea-425e-bfe9-532a639a7631",
+      "method": "GET",
+      "path": "/",
+      "query": {
+        "limit": "100"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "52ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T19:01:09.093Z"
+    },
+    {
+      "id": "dd1c989b-970d-47c5-af63-d1064df05e30",
+      "requestId": "b5cc483d-4467-4f28-bc2b-0a95cd0ad092",
+      "method": "GET",
+      "path": "/logs",
+      "query": {
+        "limit": "80"
+      },
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "57ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T19:01:09.101Z"
+    },
+    {
+      "id": "7b64a04e-808e-45a5-ad84-a3a1d65db903",
+      "requestId": "78852300-e15f-45c1-a52c-f929b11330a8",
+      "method": "GET",
+      "path": "/6285183130315/stats",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "17ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T19:01:09.159Z"
+    },
+    {
+      "id": "7d5d3b58-85f3-421d-b9e4-c2c76732c0e5",
+      "requestId": "d815bcb8-f21e-4bd8-ae6c-5cc962353f38",
+      "method": "GET",
+      "path": "/6285183130315",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": "acbeacaa-d2c3-40e1-9614-a9771eee15ac",
+      "userRole": "owner",
+      "duration": "60046ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T19:02:09.476Z"
     }
   ],
   "settings": {
@@ -1924,25 +3994,25 @@
   "games": {},
   "blocked": {},
   "sessions": {
-    "62895349088833": {
-      "id": "62895349088833",
-      "phone_number": "62895349088833",
-      "display_name": "pashapedia.id",
-      "status": "RECONNECTING",
-      "connected_at": "2026-07-04T07:54:43.484Z",
-      "last_seen": "2026-07-05T14:05:05.272Z",
-      "created_at": "2026-07-04T04:59:38.090Z",
-      "updated_at": "2026-07-05T14:05:07.910Z"
-    },
     "6285183130315": {
       "id": "6285183130315",
       "phone_number": "6285183130315",
       "display_name": "",
       "status": "RECONNECTING",
       "connected_at": null,
-      "last_seen": "2026-07-05T14:05:05.093Z",
-      "created_at": "2026-07-05T13:59:12.480Z",
-      "updated_at": "2026-07-05T14:05:07.357Z"
+      "last_seen": "2026-07-05T19:08:48.492Z",
+      "created_at": "2026-07-05T19:00:59.140Z",
+      "updated_at": "2026-07-05T19:08:56.804Z"
+    },
+    "62895349088833": {
+      "id": "62895349088833",
+      "phone_number": "62895349088833",
+      "display_name": "",
+      "status": "RECONNECTING",
+      "connected_at": null,
+      "last_seen": "2026-07-05T19:08:48.564Z",
+      "created_at": "2026-07-05T19:01:38.470Z",
+      "updated_at": "2026-07-05T19:08:57.078Z"
     }
   },
   "schedulers": {

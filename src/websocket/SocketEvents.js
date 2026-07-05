@@ -18,9 +18,8 @@ export class SocketEvents {
 
     // 1. Hook into event bus wildcard events
     if (this.botManager?.eventBus) {
-      this.botManager.eventBus.on('*', (message) => {
-        this.forwardEvent(message);
-      });
+      this.wildcardListener = (message) => this.forwardEvent(message);
+      this.botManager.eventBus.on('*', this.wildcardListener);
     }
 
     // 2. Hook into Logger to stream realtime logs
@@ -207,6 +206,10 @@ export class SocketEvents {
    */
   stop() {
     this.stopSystemMetrics();
+    if (this.botManager?.eventBus && this.wildcardListener) {
+      this.botManager.eventBus.off('*', this.wildcardListener);
+      this.wildcardListener = null;
+    }
     if (logger.onLog) {
       logger.onLog = null;
     }

@@ -8,10 +8,55 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/design-system.css">
+  <link rel="stylesheet" href="/app-shell.css">
 </head>
 <body>
+  <div class="auth-screen" data-auth-screen hidden>
+    <section class="auth-card ds-card">
+      <div class="auth-brand">
+        <div class="brand-mark" data-icon="bot"></div>
+        <div>
+          <p class="brand-title">Capa Bot</p>
+          <p class="brand-subtitle">WhatsApp Bot Framework</p>
+        </div>
+      </div>
+
+      <div class="auth-copy">
+        <p class="card-kicker">Secure Control Panel</p>
+        <h1 class="auth-title">Login to Dashboard</h1>
+        <p class="auth-subtitle">Gunakan akun API dashboard untuk mengelola runtime bot.</p>
+      </div>
+
+      <form class="auth-form" data-login-form>
+        <div class="alert error" data-login-error hidden></div>
+        <label class="form-field">
+          <span class="card-kicker">Username / Email</span>
+          <input class="ds-input" name="username" autocomplete="username" placeholder="admin" required>
+        </label>
+        <label class="form-field">
+          <span class="card-kicker">Password</span>
+          <span class="password-field">
+            <input class="ds-input" name="password" type="password" autocomplete="current-password" placeholder="Password" required>
+            <button class="ds-button icon ghost" type="button" data-toggle-password aria-label="Show password"><span data-icon="eye"></span></button>
+          </span>
+        </label>
+        <div class="auth-options">
+          <label class="check-row">
+            <input type="checkbox" name="remember">
+            <span>Remember me</span>
+          </label>
+          <span class="cell-muted">JWT session</span>
+        </div>
+        <button class="ds-button primary auth-submit" type="submit" data-login-button>
+          <span data-icon="login"></span>
+          <span class="button-text">Login</span>
+        </button>
+      </form>
+    </section>
+  </div>
+
   <div class="drawer-backdrop" data-drawer-backdrop></div>
-  <div class="app-shell">
+  <div class="app-shell" data-app-shell hidden>
     <aside class="app-sidebar" data-sidebar>
       <div class="brand">
         <div class="brand-mark" data-icon="bot"></div>
@@ -22,18 +67,18 @@
       </div>
 
       <nav class="nav-list" aria-label="Dashboard">
-        <button class="nav-item is-active" type="button" data-view="overview"><span class="nav-icon" data-icon="layout"></span><span class="nav-label">Overview</span></button>
-        <button class="nav-item" type="button" data-view="sessions"><span class="nav-icon" data-icon="phone"></span><span class="nav-label">Sessions</span></button>
-        <button class="nav-item" type="button" data-view="queue"><span class="nav-icon" data-icon="queue"></span><span class="nav-label">Queue</span></button>
-        <button class="nav-item" type="button" data-view="plugins"><span class="nav-icon" data-icon="package"></span><span class="nav-label">Plugins</span></button>
-        <button class="nav-item" type="button" data-view="logs"><span class="nav-icon" data-icon="terminal"></span><span class="nav-label">Activity</span></button>
+        <button class="nav-item is-active" type="button" data-route="dashboard"><span class="nav-icon" data-icon="layout"></span><span class="nav-label">Overview</span></button>
+        <button class="nav-item" type="button" data-route="sessions"><span class="nav-icon" data-icon="phone"></span><span class="nav-label">Sessions</span></button>
+        <button class="nav-item" type="button" data-route="queue"><span class="nav-icon" data-icon="queue"></span><span class="nav-label">Queue</span></button>
+        <button class="nav-item" type="button" data-route="plugins"><span class="nav-icon" data-icon="package"></span><span class="nav-label">Plugins</span></button>
+        <button class="nav-item" type="button" data-route="activity"><span class="nav-icon" data-icon="terminal"></span><span class="nav-label">Activity</span></button>
       </nav>
 
       <div class="sidebar-footer">
-        <span class="ds-badge" data-global-status><span class="status-dot"></span><span>Starting</span></span>
+        <span class="ds-badge" data-global-status><span class="status-dot"></span><span>Authenticated</span></span>
         <div class="sidebar-footer-copy">
           <div class="cell-strong">Runtime</div>
-          <div class="cell-muted" data-runtime>Syncing</div>
+          <div class="cell-muted" data-runtime>App Shell</div>
         </div>
       </div>
     </aside>
@@ -44,133 +89,88 @@
           <button class="ds-button icon secondary" type="button" data-mobile-menu aria-label="Buka sidebar"><span data-icon="menu"></span></button>
           <button class="ds-button icon secondary" type="button" data-collapse-sidebar aria-label="Collapse sidebar"><span data-icon="panel"></span></button>
           <div>
-            <h1 class="page-title">Dashboard</h1>
-            <p class="page-subtitle">Realtime WhatsApp bot operations</p>
+            <h1 class="page-title" data-page-title>Dashboard</h1>
+            <p class="page-subtitle" data-page-subtitle>Authentication ready app shell</p>
           </div>
         </div>
         <div class="navbar-actions">
-          <span class="ds-badge" data-pairing-status><span class="status-dot"></span><span>Starting</span></span>
-          <button class="ds-button icon ghost" type="button" aria-label="Notifikasi"><span data-icon="bell"></span></button>
+          <span class="ds-badge" data-pairing-status><span class="status-dot"></span><span>Secure</span></span>
+          <button class="ds-button icon ghost" type="button" data-notification-toggle aria-label="Notifikasi"><span data-icon="bell"></span></button>
           <button class="ds-button icon secondary" type="button" data-theme-toggle aria-label="Toggle theme"><span data-icon="moon"></span></button>
-          <button class="ds-button secondary" type="button" data-open-pairing><span data-icon="qr"></span><span class="button-text">Pairing</span></button>
-          <button class="ds-button danger" type="button" data-restart><span data-icon="refresh"></span><span class="button-text">Restart</span></button>
-          <div class="avatar" title="Developer">DV</div>
+          <div class="user-menu-wrap">
+            <button class="user-menu-button" type="button" data-user-menu-toggle aria-label="User menu">
+              <div class="avatar" data-user-avatar>DV</div>
+              <span class="user-menu-copy">
+                <span class="cell-strong" data-user-name>Developer</span>
+                <span class="cell-muted" data-user-role>developer</span>
+              </span>
+            </button>
+            <div class="user-menu ds-card" data-user-menu hidden>
+              <button class="menu-action" type="button" data-route="profile"><span data-icon="user"></span><span>Profile</span></button>
+              <button class="menu-action" type="button" data-route="settings"><span data-icon="settings"></span><span>Settings</span></button>
+              <button class="menu-action" type="button" data-logout-all><span data-icon="shield"></span><span>Logout All</span></button>
+              <button class="menu-action danger" type="button" data-logout><span data-icon="logout"></span><span>Logout</span></button>
+            </div>
+          </div>
         </div>
       </header>
 
-      <section class="content-grid metrics-grid" data-metrics></section>
+      <section class="notification-area ds-card" data-notification-area hidden>
+        <div class="card-header">
+          <div>
+            <p class="card-kicker">Notifications</p>
+            <h2 class="card-title">Session Events</h2>
+          </div>
+          <button class="ds-button ghost" type="button" data-close-notification>Close</button>
+        </div>
+        <div class="cell-muted">Realtime notification area siap dipakai oleh halaman dashboard berikutnya.</div>
+      </section>
 
-      <section class="content-grid panel-grid">
-        <article class="ds-card card-pad">
-          <div class="card-header">
-            <div>
-              <p class="card-kicker">Authentication</p>
-              <h2 class="card-title">QR / Pairing</h2>
-            </div>
-            <span class="ds-badge accent-cyan" data-pairing-code>Code: -</span>
+      <section class="app-content" data-view-root>
+        <article class="ds-card card-pad shell-placeholder">
+          <p class="card-kicker">Ready</p>
+          <h2 class="placeholder-title">Authentication UI & App Shell</h2>
+          <p class="placeholder-copy">Login, token refresh, user menu, route guard, error pages, toast, modal, loading overlay, dan WebSocket lifecycle sudah aktif. Halaman overview sengaja menjadi placeholder untuk tahap berikutnya.</p>
+          <div class="placeholder-grid">
+            <div><span class="ds-badge status-online"><span class="status-dot"></span><span>Access Token</span></span><p class="cell-muted">Authorization header aktif.</p></div>
+            <div><span class="ds-badge status-restarting"><span class="status-dot"></span><span>Refresh Token</span></span><p class="cell-muted">Retry otomatis saat 401.</p></div>
+            <div><span class="ds-badge accent-cyan"><span class="status-dot"></span><span>WebSocket</span></span><p class="cell-muted">Connect setelah login, disconnect saat logout.</p></div>
           </div>
-          <div class="qr-frame" data-qr-frame>
-            <div class="empty-state">
-              <span data-icon="qr"></span>
-              <span>QR akan tampil saat dibutuhkan.</span>
-            </div>
-          </div>
-        </article>
-
-        <article class="ds-card card-pad">
-          <div class="card-header">
-            <div>
-              <p class="card-kicker">Telemetry</p>
-              <h2 class="card-title">System Load</h2>
-            </div>
-            <div class="tabs" role="tablist">
-              <button class="tab is-active" type="button">CPU</button>
-              <button class="tab" type="button">Memory</button>
-            </div>
-          </div>
-          <svg class="chart" viewBox="0 0 720 220" role="img" aria-label="System load chart" data-chart></svg>
         </article>
       </section>
 
-      <section class="content-grid wide-grid">
-        <article class="ds-card card-pad">
-          <div class="table-toolbar">
-            <div>
-              <p class="card-kicker">Instances</p>
-              <h2 class="card-title">Bot Sessions</h2>
-            </div>
-            <div class="cluster">
-              <label class="search-wrap">
-                <span data-icon="search"></span>
-                <input class="ds-input" type="search" placeholder="Cari session" data-session-search>
-              </label>
-              <select class="ds-select" data-session-filter aria-label="Filter session">
-                <option value="all">Semua status</option>
-                <option value="online">Online</option>
-                <option value="offline">Offline</option>
-                <option value="connecting">Connecting</option>
-              </select>
-            </div>
-          </div>
-          <div class="table-wrap">
-            <table class="ds-table">
-              <thead>
-                <tr>
-                  <th>Session</th>
-                  <th>Status</th>
-                  <th>Phone</th>
-                  <th>Pairing</th>
-                  <th>Updated</th>
-                </tr>
-              </thead>
-              <tbody data-session-table>
-                <tr><td colspan="5"><div class="skeleton"></div></td></tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="cluster pagination-footer">
-            <span class="cell-muted" data-pagination-label>Loading sessions</span>
-            <div class="cluster">
-              <button class="ds-button secondary" type="button" data-prev-page>Prev</button>
-              <button class="ds-button secondary" type="button" data-next-page>Next</button>
-            </div>
-          </div>
-        </article>
-
-        <article class="ds-card card-pad">
-          <div class="card-header">
-            <div>
-              <p class="card-kicker">Realtime</p>
-              <h2 class="card-title">Log Activity</h2>
-            </div>
-            <button class="ds-button ghost" type="button" data-clear-log-view><span data-icon="trash"></span><span>Clear View</span></button>
-          </div>
-          <div class="logs" data-logs></div>
-        </article>
-      </section>
+      <footer class="app-footer">
+        <span>Capa Bot Control Panel</span>
+        <span data-session-state>Session protected</span>
+      </footer>
     </main>
   </div>
 
-  <div class="modal-backdrop" data-modal-backdrop></div>
-  <section class="modal" data-pairing-modal aria-modal="true" role="dialog" aria-labelledby="pairingTitle">
+  <section class="modal" data-confirm-modal aria-modal="true" role="dialog" aria-labelledby="confirmTitle">
     <div class="modal-panel">
       <div class="modal-head">
-        <h2 class="card-title" id="pairingTitle">Pair New Session</h2>
-        <button class="ds-button icon ghost" type="button" data-close-modal aria-label="Tutup modal"><span data-icon="x"></span></button>
+        <h2 class="card-title" id="confirmTitle" data-confirm-title>Confirm</h2>
+        <button class="ds-button icon ghost" type="button" data-close-confirm aria-label="Tutup modal"><span data-icon="x"></span></button>
       </div>
-      <div class="modal-body">
-        <p class="cell-muted">Masukkan nomor WhatsApp untuk meminta pairing code dari endpoint bot manager.</p>
-        <label class="card-kicker" for="phoneNumber">Phone number</label>
-        <input class="ds-input" id="phoneNumber" type="tel" placeholder="62812xxxx">
-      </div>
+      <div class="modal-body" data-confirm-body></div>
       <div class="modal-foot">
-        <button class="ds-button ghost" type="button" data-close-modal>Cancel</button>
-        <button class="ds-button primary" type="button" data-submit-pairing><span data-icon="qr"></span><span class="button-text">Request Code</span></button>
+        <button class="ds-button ghost" type="button" data-close-confirm>Cancel</button>
+        <button class="ds-button danger" type="button" data-confirm-action><span class="button-text">Continue</span></button>
       </div>
     </div>
   </section>
 
+  <div class="modal-backdrop" data-modal-backdrop></div>
+  <div class="loading-overlay" data-loading-overlay hidden>
+    <div class="loading-panel ds-card">
+      <div class="spinner"></div>
+      <div>
+        <div class="cell-strong" data-loading-title>Authenticating</div>
+        <div class="cell-muted" data-loading-copy>Checking secure session...</div>
+      </div>
+    </div>
+  </div>
   <div class="toast-stack" data-toasts></div>
-  <script src="/dashboard.js" defer></script>
+  <script type="module" src="/dashboard.js"></script>
 </body>
 </html>

@@ -12,9 +12,8 @@ export function parsePagination(query = {}) {
   const page = Math.max(1, parseInt(query.page, 10) || 1);
   const limit = Math.min(100, Math.max(1, parseInt(query.limit, 10) || 20));
   const sort = query.sort || 'createdAt';
-  const order = ['asc', 'desc'].includes((query.order || 'desc').toLowerCase())
-    ? query.order.toLowerCase()
-    : 'desc';
+  const queryOrder = String(query.order || 'desc').toLowerCase();
+  const order = ['asc', 'desc'].includes(queryOrder) ? queryOrder : 'desc';
   const search = (query.search || '').trim();
 
   let filter = {};

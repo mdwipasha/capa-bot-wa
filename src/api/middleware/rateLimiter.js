@@ -15,6 +15,7 @@ export const globalLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
   keyGenerator: (req) => req.ip,
+  validate: { keyGeneratorIpFallback: false },
   handler: makeHandler('Terlalu banyak request. Coba lagi setelah 15 menit.')
 });
 
@@ -27,6 +28,7 @@ export const authLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
   keyGenerator: (req) => req.ip,
+  validate: { keyGeneratorIpFallback: false },
   handler: makeHandler('Terlalu banyak percobaan login. Coba lagi setelah 15 menit.')
 });
 
@@ -39,6 +41,7 @@ export const messageLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
   keyGenerator: (req) => req.user?.id || req.ip,
+  validate: { keyGeneratorIpFallback: false },
   handler: makeHandler('Terlalu banyak pesan. Coba lagi setelah 1 menit.')
 });
 
@@ -51,6 +54,7 @@ export const apiKeyLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
   keyGenerator: (req) => req.headers['x-api-key'] || req.ip,
+  validate: { keyGeneratorIpFallback: false },
   handler: makeHandler('API Key rate limit tercapai. Coba lagi setelah 15 menit.')
 });
 

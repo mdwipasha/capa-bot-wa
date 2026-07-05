@@ -48,7 +48,7 @@ export const startDashboard = ({ botState, botManager, restart }) => {
       pairingStatus: 'No session'
     };
     const memory = process.memoryUsage();
-    const groups = Object.keys(data.chats).filter((jid) => jid.endsWith('@g.us')).length;
+    const groups = Object.keys(data.chats || {}).filter((jid) => jid.endsWith('@g.us')).length;
     const qrImage = primaryState.qr
       ? await QRCode.toDataURL(primaryState.qr, { width: 320, margin: 1 })
       : '';
@@ -62,8 +62,8 @@ export const startDashboard = ({ botState, botManager, restart }) => {
       memoryUsage: `${Math.round(memory.rss / 1024 / 1024)} MB`,
       cpuUsage: os.loadavg()[0].toFixed(2),
       totalGroup: systemStats?.totalGroup ?? groups,
-      totalUser: systemStats?.totalUser ?? Object.keys(data.users).length,
-      totalChat: Object.keys(data.chats).length,
+      totalUser: systemStats?.totalUser ?? Object.keys(data.users || {}).length,
+      totalChat: Object.keys(data.chats || {}).length,
       pairingStatus: primaryState.pairingStatus || fallbackState.pairingStatus,
       pairingCode: primaryState.pairingCode || fallbackState.pairingCode || '',
       qr: primaryState.qr || fallbackState.qr || '',

@@ -41,9 +41,8 @@ export function errorHandler(err, req, res, next) {
   }
 
   // Unknown / unexpected errors
-  logger.error?.({
+  logger.error?.(`Unhandled error: ${err.message}`, {
     category: 'api',
-    message: `Unhandled error: ${err.message}`,
     requestId,
     stack: err.stack
   });
