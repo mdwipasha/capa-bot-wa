@@ -65,6 +65,8 @@ const DEFAULT_CONFIG = {
     spamMaxHits: 8,
     spamBlockHits: 18,
     maxSession: 50,
+    jwtSecret: 'secret-wabot-key-123-change-me',
+    jwtRefreshSecret: 'refresh-secret-wabot-key-123-change-me',
     jwtExpiresIn: '15m',
     jwtRefreshExpiresIn: '7d',
     apiRateLimitGlobal: 200,
@@ -150,6 +152,8 @@ const SCHEMA_META = {
     spamMaxHits: { type: 'number', description: 'Max hits before warning', min: 1 },
     spamBlockHits: { type: 'number', description: 'Max hits before block', min: 1 },
     maxSession: { type: 'number', description: 'Maximum bot sessions', min: 1 },
+    jwtSecret: { type: 'string', description: 'JWT signature key' },
+    jwtRefreshSecret: { type: 'string', description: 'JWT refresh signature key' },
     jwtExpiresIn: { type: 'string', description: 'JWT expiration' },
     jwtRefreshExpiresIn: { type: 'string', description: 'JWT refresh expiration' },
     apiRateLimitGlobal: { type: 'number', description: 'Global API rate limit', min: 1 },
@@ -284,17 +288,18 @@ export class ConfigManager extends EventEmitter {
       await this.db.write(data);
       this.logger.success('[config] Initial config seeded to database');
     } else {
-      // Merge defaults for any missing categories or keys (schema evolution)
+      // Merge defaults/env values for any missing categories or keys (schema evolution)
       let hasChanges = false;
+      const seedData = this._buildSeedFromEnv();
       for (const [category, defaults] of Object.entries(this.defaults)) {
         if (!existingConfigs[category]) {
-          existingConfigs[category] = structuredClone(defaults);
+          existingConfigs[category] = structuredClone(seedData[category] || defaults);
           hasChanges = true;
         } else {
           // Fill missing keys within existing category
           for (const [key, defaultValue] of Object.entries(defaults)) {
             if (existingConfigs[category][key] === undefined) {
-              existingConfigs[category][key] = structuredClone(defaultValue);
+              existingConfigs[category][key] = structuredClone(seedData[category]?.[key] ?? defaultValue);
               hasChanges = true;
             }
           }
@@ -303,7 +308,7 @@ export class ConfigManager extends EventEmitter {
       if (hasChanges) {
         data.configs = existingConfigs;
         await this.db.write(data);
-        this.logger.info('[config] Config schema updated with new defaults');
+        this.logger.info('[config] Config schema updated with new defaults and env values');
       }
     }
 
@@ -702,6 +707,8 @@ export class ConfigManager extends EventEmitter {
     if (envConfig.spamMaxHits) seed.security.spamMaxHits = envConfig.spamMaxHits;
     if (envConfig.spamBlockHits) seed.security.spamBlockHits = envConfig.spamBlockHits;
     if (envConfig.maxSession) seed.security.maxSession = envConfig.maxSession;
+    if (envConfig.jwtSecret) seed.security.jwtSecret = envConfig.jwtSecret;
+    if (envConfig.jwtRefreshSecret) seed.security.jwtRefreshSecret = envConfig.jwtRefreshSecret;
     if (envConfig.jwtExpiresIn) seed.security.jwtExpiresIn = envConfig.jwtExpiresIn;
     if (envConfig.jwtRefreshExpiresIn) seed.security.jwtRefreshExpiresIn = envConfig.jwtRefreshExpiresIn;
     if (envConfig.apiRateLimitGlobal) seed.security.apiRateLimitGlobal = envConfig.apiRateLimitGlobal;

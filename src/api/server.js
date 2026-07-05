@@ -4,6 +4,7 @@ import { buildApp } from './app.js';
 import { logger } from '../utils/logger.js';
 import { config } from '../config/env.js';
 import { UserModel } from '../models/UserModel.js';
+import { socketGateway } from '../websocket/SocketGateway.js';
 
 /**
  * Seed default owner user if no API users exist.
@@ -53,11 +54,18 @@ export async function startApiServer(botManager) {
     logger.success?.(`REST API Gateway is running on http://localhost:${port}`, { category: 'api' }) || 
       logger.info(`REST API Gateway is running on port ${port}`);
     logger.info(`Swagger docs available at http://localhost:${port}/api/docs`, { category: 'api' });
+    
+    // Inisialisasi WebSocket Gateway
+    socketGateway.init(server, botManager);
   });
 
   // Graceful shutdown
   const handleShutdown = () => {
     logger.info('Shutting down REST API Gateway...');
+    
+    // Tutup WebSocket Gateway
+    socketGateway.close();
+    
     server.close(() => {
       logger.info('REST API Gateway stopped.');
     });

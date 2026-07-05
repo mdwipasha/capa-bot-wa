@@ -15,9 +15,14 @@ export const activityLogs = [];
 
 const write = (level, color, message, meta) => {
   const time = new Date().toLocaleString('id-ID');
-  activityLogs.unshift({ time, level, message, meta: meta || null });
+  const logEntry = { time, level, message, meta: meta || null };
+  activityLogs.unshift(logEntry);
   if (activityLogs.length > 200) activityLogs.pop();
   console.log(`${colors.gray}[${time}]${colors.reset} ${color}${level.toUpperCase()}${colors.reset} ${message}`, meta || '');
+  
+  if (typeof logger.onLog === 'function') {
+    logger.onLog(logEntry);
+  }
 };
 
 export const logger = {
@@ -25,5 +30,6 @@ export const logger = {
   success: (message, meta) => write('success', colors.green, message, meta),
   warn: (message, meta) => write('warn', colors.yellow, message, meta),
   error: (message, meta) => write('error', colors.red, message, meta),
-  debug: (message, meta) => write('debug', colors.blue, message, meta)
+  debug: (message, meta) => write('debug', colors.blue, message, meta),
+  onLog: null
 };
