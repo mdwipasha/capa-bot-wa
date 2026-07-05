@@ -48,4 +48,21 @@ export class QueueError extends BotManagerError {
   }
 }
 
+export class ConfigError extends BotManagerError {
+  constructor(message, code = 'CONFIG_ERROR') {
+    super(message, code);
+  }
+}
+
+export class ConfigNotFoundError extends ConfigError {
+  constructor(message) {
+    super(message, 'CONFIG_NOT_FOUND');
+  }
+}
+
+export class ConfigValidationError extends ConfigError {
+  constructor(message) {
+    super(message, 'CONFIG_VALIDATION_ERROR');
+  }
+}
 

@@ -10,12 +10,17 @@ import { logger } from './utils/logger.js';
 import { config } from './config/env.js';
 import { serviceManager } from './services/ServiceManager.js';
 import { startApiServer } from './api/server.js';
+import { configManager } from './manager/ConfigManager.js';
 
 process.on('uncaughtException', (error) => logger.error('Uncaught exception', error.stack || error.message));
 process.on('unhandledRejection', (error) => logger.error('Unhandled rejection', error?.stack || error));
 
 const startBot = async () => {
   await db.init();
+
+  // ConfigManager harus init PERTAMA — single source of truth untuk seluruh konfigurasi
+  await configManager.init(db);
+
   serviceManager.init(config);
 
   // 1. Buat PluginManager — tetap ada untuk backward compat

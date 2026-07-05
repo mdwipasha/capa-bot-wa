@@ -9,6 +9,7 @@ import queueRoutes from './routes/queueRoutes.js';
 import schedulerRoutes from './routes/schedulerRoutes.js';
 import systemRoutes from './routes/systemRoutes.js';
 import userRoutes from './routes/userRoutes.js';
+import configRoutes from './routes/configRoutes.js';
 
 /**
  * Build and return v1 router with all sub-routes mounted.
@@ -27,6 +28,7 @@ export function buildV1Router(botManager) {
   router.use('/jobs', schedulerRoutes(botManager));
   router.use('/system', systemRoutes(botManager));
   router.use('/users', userRoutes());
+  router.use('/config', configRoutes());
 
   return router;
 }

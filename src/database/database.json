@@ -1627,6 +1627,88 @@
       "lastMessageAt": 1783141873308
     }
   },
+  "configs": {
+    "system": {
+      "maintenanceMode": false,
+      "debugMode": false,
+      "logLevel": "info",
+      "autoBackup": false,
+      "autoRestart": false
+    },
+    "bot": {
+      "name": "Capa Bot",
+      "ownerNumber": "",
+      "prefix": ".",
+      "language": "id",
+      "timezone": "Asia/Jakarta",
+      "autoRead": false,
+      "typing": false,
+      "recording": false,
+      "presence": "available",
+      "menuStyle": "default",
+      "welcome": true,
+      "goodbye": true
+    },
+    "ai": {
+      "defaultProvider": "openai",
+      "fallbackProvider": "openai",
+      "temperature": 0.5,
+      "maxToken": 4096,
+      "timeout": 30000,
+      "retry": 2
+    },
+    "downloader": {
+      "defaultProvider": "btch",
+      "maxFileSize": 104857600,
+      "timeout": 60000,
+      "retry": 2
+    },
+    "queue": {
+      "concurrency": 2,
+      "retry": 3,
+      "timeout": 30000,
+      "worker": 2
+    },
+    "plugin": {
+      "enable": [],
+      "disable": [],
+      "priority": {},
+      "dependencies": {}
+    },
+    "scheduler": {
+      "timezone": "Asia/Jakarta",
+      "maxRetry": 3,
+      "retryDelay": 5000
+    },
+    "security": {
+      "cooldownMs": 3000,
+      "spamWindowMs": 10000,
+      "spamMaxHits": 8,
+      "spamBlockHits": 18,
+      "maxSession": 50,
+      "jwtExpiresIn": "15m",
+      "jwtRefreshExpiresIn": "7d",
+      "apiRateLimitGlobal": 200,
+      "apiRateLimitAuth": 10,
+      "apiRateLimitMessage": 60,
+      "apiRateLimitApiKey": 1000,
+      "corsOrigins": [
+        "*"
+      ]
+    },
+    "notification": {
+      "enabled": false,
+      "onError": true,
+      "onRestart": true,
+      "onBackup": true
+    },
+    "storage": {
+      "databasePath": "src/database/database.json",
+      "sessionBasePath": "sessions",
+      "backupPath": "backups",
+      "downloadPath": "downloads"
+    }
+  },
   "settings": {
     "welcome": {
       "120363408980058230@g.us": true,
@@ -1669,11 +1751,11 @@
       "id": "62895349088833",
       "phone_number": "62895349088833",
       "display_name": "pashapedia.id",
-      "status": "CONNECTED",
+      "status": "LOGGED_OUT",
       "connected_at": "2026-07-04T07:54:43.484Z",
-      "last_seen": "2026-07-04T07:54:43.484Z",
+      "last_seen": "2026-07-05T12:25:56.795Z",
       "created_at": "2026-07-04T04:59:38.090Z",
-      "updated_at": "2026-07-04T07:54:43.489Z"
+      "updated_at": "2026-07-05T12:25:56.796Z"
     }
   },
   "schedulers": {

@@ -5,6 +5,7 @@ const defaultData = {
   users: {},
   groups: {},
   chats: {},
+  configs: {},
   settings: {
     welcome: {},
     goodbye: {},
