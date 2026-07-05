@@ -63,7 +63,7 @@ export function userRoleLimiter(req, res, next) {
   const limits = {
     owner: 2000,
     admin: 1000,
-    moderator: 500,
+    operator: 500,
     developer: 500,
     viewer: 200
   };

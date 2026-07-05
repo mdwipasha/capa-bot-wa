@@ -1,8 +1,11 @@
 import { logger } from '../utils/logger.js';
+import { authManager } from '../manager/AuthManager.js';
 
-// Restricted rooms requiring admin/owner/developer roles
-const RESTRICTED_ROOMS = ['logs', 'system'];
-const ALLOWED_ROLES = ['owner', 'admin', 'developer'];
+// Mapping restricted rooms to their required granular permissions
+const ROOM_PERMISSIONS = {
+  logs: 'ws.logs',
+  system: 'ws.system'
+};
 
 export class SocketRooms {
   /**
@@ -40,13 +43,17 @@ export class SocketRooms {
     }
 
     const trimmedRoom = room.trim();
+    const userRole = socket.user?.role || 'viewer';
     
     // Check permission for restricted rooms
-    if (RESTRICTED_ROOMS.includes(trimmedRoom)) {
-      const userRole = socket.user?.role || 'viewer';
-      if (!ALLOWED_ROLES.includes(userRole)) {
-        logger.warn(`[websocket] Join room "${trimmedRoom}" rejected: User "${socket.user?.username}" (role: ${userRole}) is unauthorized.`);
+    const requiredPermission = ROOM_PERMISSIONS[trimmedRoom];
+    if (requiredPermission) {
+      if (!authManager.hasPermission(userRole, requiredPermission)) {
+        logger.warn(`[websocket] Join room "${trimmedRoom}" rejected: User "${socket.user?.username}" (role: ${userRole}) lacks permission "${requiredPermission}".`);
         socket.emit('error', { message: `Permission Denied: Access to room "${trimmedRoom}" is restricted.` });
+        
+        // Audit log permission denied on WebSocket room join
+        UserModelAuditBridge(socket.user?.id, 'ws.join_rejected', { room: trimmedRoom, requiredPermission });
         return;
       }
     }
@@ -66,5 +73,22 @@ export class SocketRooms {
     socket.leave(trimmedRoom);
     logger.info(`[websocket] Socket ${socket.id} left room: "${trimmedRoom}"`);
     socket.emit('unsubscribed', { room: trimmedRoom });
+  }
+}
+
+/**
+ * Audit bridge helper for websocket to safely invoke auditLog without importing UserModel directly.
+ */
+async function UserModelAuditBridge(userId, action, details) {
+  try {
+    const { UserModel } = await import('../models/UserModel.js');
+    await UserModel.auditLog({
+      action,
+      userId: userId || 'system',
+      performedBy: userId || 'system',
+      details
+    });
+  } catch (err) {
+    logger.error(`[websocket] Failed to write audit log for room join failure: ${err.message}`);
   }
 }

@@ -6,6 +6,9 @@ const defaultData = {
   groups: {},
   chats: {},
   configs: {},
+  loginHistory: [],
+  apiUsers: {},
+  auditLogs: [],
   settings: {
     welcome: {},
     goodbye: {},

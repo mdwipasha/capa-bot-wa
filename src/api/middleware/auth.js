@@ -1,11 +1,14 @@
 import jwt from 'jsonwebtoken';
+import { randomUUID } from 'crypto';
 import { config } from '../../config/env.js';
 import { UserModel } from '../../models/UserModel.js';
+import { authManager } from '../../manager/AuthManager.js';
 import { ApiResponse } from '../response/ApiResponse.js';
 
 /**
  * Authentication middleware.
  * Supports: JWT Bearer Token, API Key (X-API-Key header), Session Token (X-Session-Token).
+ * Checks: account lockout, token blacklist.
  */
 export async function authenticate(req, res, next) {
   try {
@@ -14,12 +17,26 @@ export async function authenticate(req, res, next) {
     if (authHeader.startsWith('Bearer ')) {
       const token = authHeader.slice(7);
       const decoded = jwt.verify(token, config.jwtSecret);
+
+      // Check if token JTI is blacklisted
+      if (decoded.jti && authManager.isTokenBlacklisted(decoded.jti)) {
+        return ApiResponse.unauthorized(res, 'Token telah dicabut');
+      }
+
       const user = await UserModel.findById(decoded.userId);
       if (!user || !user.isActive) {
         return ApiResponse.unauthorized(res, 'Token tidak valid atau akun dinonaktifkan');
       }
+
+      // Check account lockout
+      const lockStatus = await authManager.isAccountLocked(decoded.userId);
+      if (lockStatus.locked) {
+        return ApiResponse.forbidden(res, `Akun terkunci: ${lockStatus.reason}`);
+      }
+
       req.user = user;
       req.authMethod = 'jwt';
+      req.tokenJti = decoded.jti || null;
       return next();
     }
 
@@ -30,6 +47,13 @@ export async function authenticate(req, res, next) {
       if (!user || !user.isActive) {
         return ApiResponse.unauthorized(res, 'API Key tidak valid');
       }
+
+      // Check account lockout
+      const lockStatus = await authManager.isAccountLocked(user.id);
+      if (lockStatus.locked) {
+        return ApiResponse.forbidden(res, `Akun terkunci: ${lockStatus.reason}`);
+      }
+
       req.user = user;
       req.authMethod = 'api_key';
       return next();
@@ -39,12 +63,26 @@ export async function authenticate(req, res, next) {
     const sessionToken = req.headers['x-session-token'];
     if (sessionToken) {
       const decoded = jwt.verify(sessionToken, config.jwtSecret);
+
+      // Check if token JTI is blacklisted
+      if (decoded.jti && authManager.isTokenBlacklisted(decoded.jti)) {
+        return ApiResponse.unauthorized(res, 'Session token telah dicabut');
+      }
+
       const user = await UserModel.findById(decoded.userId);
       if (!user || !user.isActive) {
         return ApiResponse.unauthorized(res, 'Session token tidak valid');
       }
+
+      // Check account lockout
+      const lockStatus = await authManager.isAccountLocked(decoded.userId);
+      if (lockStatus.locked) {
+        return ApiResponse.forbidden(res, `Akun terkunci: ${lockStatus.reason}`);
+      }
+
       req.user = user;
       req.authMethod = 'session';
+      req.tokenJti = decoded.jti || null;
       return next();
     }
 
@@ -69,10 +107,17 @@ export async function optionalAuth(req, res, next) {
     if (authHeader.startsWith('Bearer ')) {
       const token = authHeader.slice(7);
       const decoded = jwt.verify(token, config.jwtSecret);
+
+      // Skip blacklisted tokens
+      if (decoded.jti && authManager.isTokenBlacklisted(decoded.jti)) {
+        return next();
+      }
+
       const user = await UserModel.findById(decoded.userId);
       if (user?.isActive) {
         req.user = user;
         req.authMethod = 'jwt';
+        req.tokenJti = decoded.jti || null;
       }
     }
   } catch {
@@ -82,22 +127,24 @@ export async function optionalAuth(req, res, next) {
 }
 
 /**
- * Generate JWT access token.
+ * Generate JWT access token with JTI for blacklist support.
  */
 export function generateAccessToken(userId, role) {
+  const jti = randomUUID();
   return jwt.sign(
-    { userId, role },
+    { userId, role, jti },
     config.jwtSecret,
     { expiresIn: config.jwtExpiresIn || '15m' }
   );
 }
 
 /**
- * Generate JWT refresh token.
+ * Generate JWT refresh token with JTI.
  */
 export function generateRefreshToken(userId) {
+  const jti = randomUUID();
   return jwt.sign(
-    { userId, type: 'refresh' },
+    { userId, type: 'refresh', jti },
     config.jwtRefreshSecret,
     { expiresIn: config.jwtRefreshExpiresIn || '7d' }
   );

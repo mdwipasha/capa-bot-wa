@@ -66,3 +66,22 @@ export class ConfigValidationError extends ConfigError {
   }
 }
 
+export class AuthError extends BotManagerError {
+  constructor(message, code = 'AUTH_ERROR') {
+    super(message, code);
+  }
+}
+
+export class AccountLockedError extends AuthError {
+  constructor(message = 'Akun terkunci') {
+    super(message, 'ACCOUNT_LOCKED');
+  }
+}
+
+export class PermissionDeniedError extends AuthError {
+  constructor(permission) {
+    super(`Akses ditolak. Permission "${permission}" diperlukan.`, 'PERMISSION_DENIED');
+    this.permission = permission;
+  }
+}
+

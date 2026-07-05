@@ -49,7 +49,7 @@ Semua endpoint mengembalikan format standar:
 |------|-------|
 | owner | 4 (full access) |
 | admin | 3 |
-| moderator | 2 |
+| operator | 2 |
 | developer | 1 |
 | viewer | 0 (read-only) |
       `,
@@ -131,7 +131,7 @@ Semua endpoint mengembalikan format standar:
             id: { type: 'string' },
             username: { type: 'string' },
             email: { type: 'string' },
-            role: { type: 'string', enum: ['owner', 'admin', 'moderator', 'developer', 'viewer'] },
+            role: { type: 'string', enum: ['owner', 'admin', 'operator', 'developer', 'viewer'] },
             isActive: { type: 'boolean' },
             createdAt: { type: 'string', format: 'date-time' },
             lastLogin: { type: 'string', format: 'date-time', nullable: true }

@@ -1711,6 +1711,181 @@
       "downloadPath": "downloads"
     }
   },
+  "loginHistory": [
+    {
+      "id": "d599708a-ef1f-4511-98d0-1cc95ae20a0e",
+      "userId": "bb1cc5fc-bdc4-4339-913e-8edd1c4106ae",
+      "success": false,
+      "ip": "127.0.0.1",
+      "userAgent": "test-runner",
+      "method": "jwt",
+      "timestamp": "2026-07-05T12:54:47.008Z"
+    },
+    {
+      "id": "83cf08ba-56aa-4fd2-badc-cf53a00b8492",
+      "userId": "bb1cc5fc-bdc4-4339-913e-8edd1c4106ae",
+      "success": false,
+      "ip": "127.0.0.1",
+      "userAgent": "test-runner",
+      "method": "jwt",
+      "timestamp": "2026-07-05T12:54:47.079Z"
+    },
+    {
+      "id": "726a9faf-6706-48ac-8630-030285098957",
+      "userId": "bb1cc5fc-bdc4-4339-913e-8edd1c4106ae",
+      "success": false,
+      "ip": "127.0.0.1",
+      "userAgent": "test-runner",
+      "method": "jwt",
+      "timestamp": "2026-07-05T12:54:47.101Z"
+    },
+    {
+      "id": "00a72485-a8a6-44a2-9957-dce23ca19b43",
+      "userId": "bb1cc5fc-bdc4-4339-913e-8edd1c4106ae",
+      "success": false,
+      "ip": "127.0.0.1",
+      "userAgent": "test-runner",
+      "method": "jwt",
+      "timestamp": "2026-07-05T12:54:47.578Z"
+    },
+    {
+      "id": "0254001f-f635-4fc8-acf0-5b126fb64aee",
+      "userId": "bb1cc5fc-bdc4-4339-913e-8edd1c4106ae",
+      "success": false,
+      "ip": "127.0.0.1",
+      "userAgent": "test-runner",
+      "method": "jwt",
+      "timestamp": "2026-07-05T12:54:47.601Z"
+    }
+  ],
+  "apiUsers": {
+    "acbeacaa-d2c3-40e1-9614-a9771eee15ac": {
+      "username": "admin",
+      "email": "owner@wabot.local",
+      "passwordHash": "$2b$12$antn69u/8Ra3//UH/OhK7uP6bvYm4Wwp/CQ8GAPjyjUVqkg15q87.",
+      "role": "owner",
+      "apiKey": "wab_owner_exup6wksqsw",
+      "refreshTokens": [],
+      "isActive": true,
+      "createdAt": "2026-07-04T07:54:05.492Z",
+      "updatedAt": "2026-07-04T07:54:05.495Z",
+      "lastLogin": null,
+      "lockout": {
+        "locked": false,
+        "failedAttempts": 0,
+        "lockUntil": null,
+        "reason": null
+      },
+      "activeSessions": [],
+      "passwordHistory": [],
+      "passwordChangedAt": "2026-07-04T07:54:05.492Z"
+    }
+  },
+  "auditLogs": [
+    {
+      "id": "ce639dd1-781b-44df-b103-92f9356380e5",
+      "requestId": "9cd2f128-6b88-4e9d-a351-3254a5133568",
+      "method": "GET",
+      "path": "/health",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": null,
+      "userRole": null,
+      "duration": "2ms",
+      "userAgent": "Go-http-client/1.1",
+      "timestamp": "2026-07-04T07:54:54.899Z"
+    },
+    {
+      "id": "5c6c79ef-a853-4679-8f0f-196a7d3714a9",
+      "requestId": "2f3582e5-2c6f-4612-9324-6cffe8e11539",
+      "method": "GET",
+      "path": "/api/docs/spec.json",
+      "query": {},
+      "statusCode": 200,
+      "ip": "::1",
+      "userId": null,
+      "userRole": null,
+      "duration": "4ms",
+      "userAgent": "Go-http-client/1.1",
+      "timestamp": "2026-07-04T07:55:00.678Z"
+    },
+    {
+      "id": "28a4ff8b-5c17-4f31-84a2-650d77995b8d",
+      "action": "account.locked",
+      "userId": "bb1cc5fc-bdc4-4339-913e-8edd1c4106ae",
+      "details": {
+        "reason": "Too many failed login attempts",
+        "permanent": false
+      },
+      "timestamp": "2026-07-05T12:54:47.613Z"
+    },
+    {
+      "id": "d56e247d-5193-4ade-8309-f8a4d38ccc56",
+      "action": "account.unlocked",
+      "userId": "bb1cc5fc-bdc4-4339-913e-8edd1c4106ae",
+      "details": {
+        "unlockedBy": "admin_test"
+      },
+      "timestamp": "2026-07-05T12:54:47.620Z"
+    },
+    {
+      "id": "66614083-e0ec-4780-a03d-8eec845a617f",
+      "action": "sessions.revoked_all",
+      "userId": "bb1cc5fc-bdc4-4339-913e-8edd1c4106ae",
+      "details": {},
+      "timestamp": "2026-07-05T12:54:47.661Z"
+    },
+    {
+      "id": "0df16cf9-e570-42e1-8ddf-a87c78795853",
+      "action": "password.changed",
+      "userId": "bb1cc5fc-bdc4-4339-913e-8edd1c4106ae",
+      "details": {},
+      "timestamp": "2026-07-05T12:54:47.670Z"
+    },
+    {
+      "id": "fc022cb5-b457-4087-ac0c-dc4e7da827a1",
+      "requestId": "999de213-734c-4ea6-bf6e-00a82f87f1c3",
+      "method": "GET",
+      "path": "/",
+      "query": {},
+      "statusCode": 404,
+      "ip": "::1",
+      "userId": null,
+      "userRole": null,
+      "duration": "6ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T12:56:12.624Z"
+    },
+    {
+      "id": "a189b375-72b8-47c8-a31c-f20d57470211",
+      "requestId": "246949c0-fc00-400c-bd45-4caf1925e4b1",
+      "method": "GET",
+      "path": "/favicon.ico",
+      "query": {},
+      "statusCode": 404,
+      "ip": "::1",
+      "userId": null,
+      "userRole": null,
+      "duration": "1ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T12:56:14.831Z"
+    },
+    {
+      "id": "58cc0971-0c95-4e3b-8140-bdfacf7df3da",
+      "requestId": "3db619ce-1e90-48a4-8fb4-26cf8dd5b5d9",
+      "method": "GET",
+      "path": "/",
+      "query": {},
+      "statusCode": 404,
+      "ip": "::1",
+      "userId": null,
+      "userRole": null,
+      "duration": "1ms",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36",
+      "timestamp": "2026-07-05T12:56:16.745Z"
+    }
+  ],
   "settings": {
     "welcome": {
       "120363408980058230@g.us": true,
@@ -1755,9 +1930,9 @@
       "display_name": "pashapedia.id",
       "status": "LOGGED_OUT",
       "connected_at": "2026-07-04T07:54:43.484Z",
-      "last_seen": "2026-07-05T12:39:15.648Z",
+      "last_seen": "2026-07-05T12:55:58.943Z",
       "created_at": "2026-07-04T04:59:38.090Z",
-      "updated_at": "2026-07-05T12:39:15.650Z"
+      "updated_at": "2026-07-05T12:55:58.945Z"
     }
   },
   "schedulers": {
@@ -1784,49 +1959,5 @@
     "commands": 299,
     "messages": 4631,
     "startedAt": 1783051078666
-  },
-  "apiUsers": {
-    "acbeacaa-d2c3-40e1-9614-a9771eee15ac": {
-      "username": "admin",
-      "email": "owner@wabot.local",
-      "passwordHash": "$2b$12$antn69u/8Ra3//UH/OhK7uP6bvYm4Wwp/CQ8GAPjyjUVqkg15q87.",
-      "role": "owner",
-      "apiKey": "wab_owner_exup6wksqsw",
-      "refreshTokens": [],
-      "isActive": true,
-      "createdAt": "2026-07-04T07:54:05.492Z",
-      "updatedAt": "2026-07-04T07:54:05.495Z",
-      "lastLogin": null
-    }
-  },
-  "auditLogs": [
-    {
-      "id": "ce639dd1-781b-44df-b103-92f9356380e5",
-      "requestId": "9cd2f128-6b88-4e9d-a351-3254a5133568",
-      "method": "GET",
-      "path": "/health",
-      "query": {},
-      "statusCode": 200,
-      "ip": "::1",
-      "userId": null,
-      "userRole": null,
-      "duration": "2ms",
-      "userAgent": "Go-http-client/1.1",
-      "timestamp": "2026-07-04T07:54:54.899Z"
-    },
-    {
-      "id": "5c6c79ef-a853-4679-8f0f-196a7d3714a9",
-      "requestId": "2f3582e5-2c6f-4612-9324-6cffe8e11539",
-      "method": "GET",
-      "path": "/api/docs/spec.json",
-      "query": {},
-      "statusCode": 200,
-      "ip": "::1",
-      "userId": null,
-      "userRole": null,
-      "duration": "4ms",
-      "userAgent": "Go-http-client/1.1",
-      "timestamp": "2026-07-04T07:55:00.678Z"
-    }
-  ]
+  }
 }

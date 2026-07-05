@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { BotController } from '../controllers/BotController.js';
 import { authenticate } from '../../middleware/auth.js';
-import { authorize } from '../../middleware/authorize.js';
+import { requirePermission } from '../../middleware/authorize.js';
 import { validate } from '../../middleware/validate.js';
 import { createBotValidator, botIdValidator } from '../validators/botValidator.js';
 
@@ -21,29 +21,29 @@ export default function botRoutes(botManager) {
    *   description: Bot management
    */
 
-  // GET /bots
-  router.get('/', (req, res, next) => ctrl.list(req, res, next));
+  // GET /bots — requires bot.view permission
+  router.get('/', requirePermission('bot.view'), (req, res, next) => ctrl.list(req, res, next));
 
-  // GET /bots/:id
-  router.get('/:id', botIdValidator, validate, (req, res, next) => ctrl.getById(req, res, next));
+  // GET /bots/:id — requires bot.view permission
+  router.get('/:id', requirePermission('bot.view'), botIdValidator, validate, (req, res, next) => ctrl.getById(req, res, next));
 
-  // POST /bots — requires admin
-  router.post('/', authorize('admin'), createBotValidator, validate, (req, res, next) => ctrl.create(req, res, next));
+  // POST /bots — requires bot.create permission
+  router.post('/', requirePermission('bot.create'), createBotValidator, validate, (req, res, next) => ctrl.create(req, res, next));
 
-  // DELETE /bots/:id — requires admin
-  router.delete('/:id', authorize('admin'), botIdValidator, validate, (req, res, next) => ctrl.remove(req, res, next));
+  // DELETE /bots/:id — requires bot.delete permission
+  router.delete('/:id', requirePermission('bot.delete'), botIdValidator, validate, (req, res, next) => ctrl.remove(req, res, next));
 
-  // POST /bots/:id/start — requires moderator
-  router.post('/:id/start', authorize('moderator'), botIdValidator, validate, (req, res, next) => ctrl.start(req, res, next));
+  // POST /bots/:id/start — requires bot.start permission
+  router.post('/:id/start', requirePermission('bot.start'), botIdValidator, validate, (req, res, next) => ctrl.start(req, res, next));
 
-  // POST /bots/:id/stop — requires moderator
-  router.post('/:id/stop', authorize('moderator'), botIdValidator, validate, (req, res, next) => ctrl.stop(req, res, next));
+  // POST /bots/:id/stop — requires bot.stop permission
+  router.post('/:id/stop', requirePermission('bot.stop'), botIdValidator, validate, (req, res, next) => ctrl.stop(req, res, next));
 
-  // POST /bots/:id/restart — requires moderator
-  router.post('/:id/restart', authorize('moderator'), botIdValidator, validate, (req, res, next) => ctrl.restart(req, res, next));
+  // POST /bots/:id/restart — requires bot.start and bot.stop permissions
+  router.post('/:id/restart', requirePermission(['bot.start', 'bot.stop']), botIdValidator, validate, (req, res, next) => ctrl.restart(req, res, next));
 
-  // GET /bots/:id/stats
-  router.get('/:id/stats', botIdValidator, validate, (req, res, next) => ctrl.stats(req, res, next));
+  // GET /bots/:id/stats — requires bot.view permission
+  router.get('/:id/stats', requirePermission('bot.view'), botIdValidator, validate, (req, res, next) => ctrl.stats(req, res, next));
 
   return router;
 }

@@ -1,4 +1,5 @@
 import { ApiResponse } from '../response/ApiResponse.js';
+import { authManager } from '../../manager/AuthManager.js';
 
 /**
  * Role hierarchy — higher index = more permissions.
@@ -6,13 +7,13 @@ import { ApiResponse } from '../response/ApiResponse.js';
 const ROLE_HIERARCHY = {
   viewer: 0,
   developer: 1,
-  moderator: 2,
+  operator: 2,
   admin: 3,
   owner: 4
 };
 
 /**
- * RBAC middleware factory.
+ * RBAC middleware factory (role-based).
  * Usage: authorize('admin') — allows admin and owner.
  *        authorize(['admin','developer']) — allows any of those roles.
  *
@@ -47,6 +48,43 @@ export function authorize(requiredRole) {
 }
 
 /**
+ * Permission-based middleware factory (granular RBAC).
+ * Checks against AuthManager permission registry.
+ *
+ * Usage: requirePermission('bot.create')
+ *        requirePermission(['bot.create', 'bot.delete']) — requires ANY of listed permissions
+ *
+ * @param {string|string[]} permission
+ */
+export function requirePermission(permission) {
+  return (req, res, next) => {
+    if (!req.user) {
+      return ApiResponse.unauthorized(res, 'Autentikasi diperlukan');
+    }
+
+    const userRole = req.user.role || 'viewer';
+
+    if (Array.isArray(permission)) {
+      const allowed = permission.some((p) => authManager.hasPermission(userRole, p));
+      if (allowed) return next();
+      return ApiResponse.forbidden(
+        res,
+        `Akses ditolak. Permission "${permission.join('" atau "')}" diperlukan.`
+      );
+    }
+
+    if (authManager.hasPermission(userRole, permission)) {
+      return next();
+    }
+
+    return ApiResponse.forbidden(
+      res,
+      `Akses ditolak. Permission "${permission}" diperlukan.`
+    );
+  };
+}
+
+/**
  * Convenience: allow only owner.
  */
 export const ownerOnly = authorize('owner');
@@ -57,9 +95,9 @@ export const ownerOnly = authorize('owner');
 export const adminOnly = authorize('admin');
 
 /**
- * Convenience: allow moderator and above.
+ * Convenience: allow operator and above.
  */
-export const moderatorOnly = authorize('moderator');
+export const operatorOnly = authorize('operator');
 
 /**
  * Convenience: any authenticated user.

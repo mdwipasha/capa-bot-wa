@@ -1,5 +1,7 @@
 import { Router } from 'express';
 import { ConfigController } from '../controllers/ConfigController.js';
+import { authenticate } from '../../middleware/auth.js';
+import { requirePermission } from '../../middleware/authorize.js';
 import { validateConfigUpdate, validateConfigSet, validateConfigImport, validateConfigReset } from '../validators/configValidators.js';
 
 /**
@@ -19,23 +21,25 @@ import { validateConfigUpdate, validateConfigSet, validateConfigImport, validate
 export default function configRoutes() {
   const router = Router();
 
-  // ─── Read Operations ─────────────────────────
-  router.get('/', ConfigController.getAll);
-  router.get('/categories', ConfigController.getCategories);
-  router.get('/export', ConfigController.exportConfig);
-  router.get('/:category', ConfigController.getCategory);
-  router.get('/:category/:key', ConfigController.getKey);
+  router.use(authenticate);
 
-  // ─── Write Operations ────────────────────────
-  router.put('/:category', validateConfigUpdate, ConfigController.updateCategory);
-  router.put('/:category/:key', validateConfigSet, ConfigController.setKey);
+  // ─── Read Operations (requires config.view) ─────────────────────────
+  router.get('/', requirePermission('config.view'), ConfigController.getAll);
+  router.get('/categories', requirePermission('config.view'), ConfigController.getCategories);
+  router.get('/export', requirePermission('config.view'), ConfigController.exportConfig);
+  router.get('/:category', requirePermission('config.view'), ConfigController.getCategory);
+  router.get('/:category/:key', requirePermission('config.view'), ConfigController.getKey);
 
-  // ─── Delete Operations ───────────────────────
-  router.delete('/:category/:key', ConfigController.deleteKey);
+  // ─── Write Operations (requires config.edit) ────────────────────────
+  router.put('/:category', requirePermission('config.edit'), validateConfigUpdate, ConfigController.updateCategory);
+  router.put('/:category/:key', requirePermission('config.edit'), validateConfigSet, ConfigController.setKey);
 
-  // ─── Special Operations ──────────────────────
-  router.post('/reset', validateConfigReset, ConfigController.resetConfig);
-  router.post('/import', validateConfigImport, ConfigController.importConfig);
+  // ─── Delete Operations (requires config.edit) ───────────────────────
+  router.delete('/:category/:key', requirePermission('config.edit'), ConfigController.deleteKey);
+
+  // ─── Special Operations (requires config.edit) ──────────────────────
+  router.post('/reset', requirePermission('config.edit'), validateConfigReset, ConfigController.resetConfig);
+  router.post('/import', requirePermission('config.edit'), validateConfigImport, ConfigController.importConfig);
 
   return router;
 }

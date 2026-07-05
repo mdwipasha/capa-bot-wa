@@ -3,10 +3,10 @@ import { randomUUID } from 'crypto';
 
 /**
  * UserModel — manages API users stored in the JSON database.
- * Supports roles: owner, admin, moderator, viewer, developer
+ * Supports roles: owner, admin, operator, viewer, developer
  */
 export class UserModel {
-  static ROLES = ['owner', 'admin', 'moderator', 'viewer', 'developer'];
+  static ROLES = ['owner', 'admin', 'operator', 'viewer', 'developer'];
 
   static async _read() {
     const data = await db.read();
@@ -75,7 +75,17 @@ export class UserModel {
       isActive: true,
       createdAt: now,
       updatedAt: now,
-      lastLogin: null
+      lastLogin: null,
+      // Auth System fields
+      lockout: {
+        locked: false,
+        failedAttempts: 0,
+        lockUntil: null,
+        reason: null
+      },
+      activeSessions: [],
+      passwordHistory: [],
+      passwordChangedAt: now
     };
     data.apiUsers[id] = user;
     await UserModel._write();
@@ -186,6 +196,7 @@ export class UserModel {
     const safe = { ...user };
     delete safe.passwordHash;
     delete safe.refreshTokens;
+    delete safe.passwordHistory;
     return safe;
   }
 }

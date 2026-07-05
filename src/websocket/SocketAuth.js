@@ -1,11 +1,12 @@
 import jwt from 'jsonwebtoken';
 import { configManager } from '../manager/ConfigManager.js';
 import { UserModel } from '../models/UserModel.js';
+import { authManager } from '../manager/AuthManager.js';
 import { logger } from '../utils/logger.js';
 
 /**
  * Socket.IO authentication middleware.
- * Verifies JWT token or API Key, validates user, and attaches user to the socket object.
+ * Verifies JWT token or API Key, validates user, checks lockout/blacklist, and attaches user to the socket object.
  */
 export async function socketAuth(socket, next) {
   try {
@@ -30,14 +31,23 @@ export async function socketAuth(socket, next) {
 
     let user = null;
     let authMethod = '';
+    let tokenJti = '';
 
     // 2. Validate token
     if (token) {
       const jwtSecret = configManager.get('security', 'jwtSecret') || 'secret-wabot-key-123-change-me';
       try {
         const decoded = jwt.verify(token, jwtSecret);
+
+        // Check token blacklist
+        if (decoded.jti && authManager.isTokenBlacklisted(decoded.jti)) {
+          logger.warn(`[websocket] Connection rejected: JTI ${decoded.jti} is blacklisted for socket ${socket.id}`);
+          return next(new Error('Unauthorized: Token has been blacklisted'));
+        }
+
         user = await UserModel.findById(decoded.userId);
         authMethod = 'jwt';
+        tokenJti = decoded.jti || '';
       } catch (err) {
         logger.warn(`[websocket] JWT verification failed for socket ${socket.id}: ${err.message}`);
         return next(new Error('Unauthorized: Invalid or expired token'));
@@ -60,9 +70,21 @@ export async function socketAuth(socket, next) {
       return next(new Error('Unauthorized: Account is inactive'));
     }
 
+    // 5. Check account lockout
+    const lockStatus = await authManager.isAccountLocked(user.id);
+    if (lockStatus.locked) {
+      logger.warn(`[websocket] Connection rejected: User "${user.username}" is locked for socket ${socket.id}`);
+      return next(new Error(`Unauthorized: Account is locked: ${lockStatus.reason}`));
+    }
+
     // Sanitize user profile and attach to socket
-    socket.user = UserModel.sanitize(user);
+    const sanitizedUser = UserModel.sanitize(user);
+    // Add permissions to socket user object
+    sanitizedUser.permissions = authManager.getPermissions(user.role);
+
+    socket.user = sanitizedUser;
     socket.authMethod = authMethod;
+    socket.tokenJti = tokenJti;
 
     logger.success?.(`[websocket] Authentication successful: User "${user.username}" (${user.role}) connected on socket ${socket.id}`) ||
       logger.info(`[websocket] Authenticated User: "${user.username}"`);

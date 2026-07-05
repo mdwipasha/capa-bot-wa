@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { SystemController } from '../controllers/SystemController.js';
 import { authenticate } from '../../middleware/auth.js';
-import { authorize } from '../../middleware/authorize.js';
+import { requirePermission } from '../../middleware/authorize.js';
 
 export default function systemRoutes(botManager) {
   const router = Router();
@@ -13,9 +13,14 @@ export default function systemRoutes(botManager) {
   // Protected routes
   router.use(authenticate);
 
-  router.get('/', (req, res, next) => ctrl.overview(req, res, next));
-  router.get('/statistics', (req, res, next) => ctrl.statistics(req, res, next));
-  router.get('/logs', authorize('admin'), (req, res, next) => ctrl.logs(req, res, next));
+  // GET /system — requires system.view permission
+  router.get('/', requirePermission('system.view'), (req, res, next) => ctrl.overview(req, res, next));
+
+  // GET /system/statistics — requires system.view permission
+  router.get('/statistics', requirePermission('system.view'), (req, res, next) => ctrl.statistics(req, res, next));
+
+  // GET /system/logs — requires audit.view permission
+  router.get('/logs', requirePermission('audit.view'), (req, res, next) => ctrl.logs(req, res, next));
 
   return router;
 }
