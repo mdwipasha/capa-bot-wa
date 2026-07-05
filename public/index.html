@@ -1,71 +1,176 @@
 <!doctype html>
-<html lang="id">
+<html lang="id" data-theme="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>WhatsApp Bot Dashboard</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>WhatsApp Bot Control Panel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/design-system.css">
 </head>
-<body class="min-h-screen bg-zinc-950 text-zinc-100">
-  <main class="mx-auto max-w-7xl px-4 py-6">
-    <header class="flex flex-col gap-4 border-b border-zinc-800 pb-5 md:flex-row md:items-center md:justify-between">
-      <div>
-        <h1 id="botName" class="text-2xl font-semibold">WhatsApp Bot</h1>
-        <p id="pairingStatus" class="mt-1 text-sm text-zinc-400">Starting</p>
+<body>
+  <div class="drawer-backdrop" data-drawer-backdrop></div>
+  <div class="app-shell">
+    <aside class="app-sidebar" data-sidebar>
+      <div class="brand">
+        <div class="brand-mark" data-icon="bot"></div>
+        <div class="brand-copy">
+          <p class="brand-title" data-bot-name>WhatsApp Bot</p>
+          <p class="brand-subtitle">Control Panel</p>
+        </div>
       </div>
-      <button id="restartBtn" class="rounded-md bg-rose-600 px-4 py-2 text-sm font-medium hover:bg-rose-500">Restart</button>
-    </header>
 
-    <section class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-      <div class="rounded-md border border-zinc-800 bg-zinc-900 p-4"><p class="text-sm text-zinc-400">Bot Status</p><strong id="connected" class="mt-2 block text-xl">-</strong></div>
-      <div class="rounded-md border border-zinc-800 bg-zinc-900 p-4"><p class="text-sm text-zinc-400">Uptime</p><strong id="uptime" class="mt-2 block text-xl">-</strong></div>
-      <div class="rounded-md border border-zinc-800 bg-zinc-900 p-4"><p class="text-sm text-zinc-400">Memory Usage</p><strong id="memoryUsage" class="mt-2 block text-xl">-</strong></div>
-      <div class="rounded-md border border-zinc-800 bg-zinc-900 p-4"><p class="text-sm text-zinc-400">CPU Usage</p><strong id="cpuUsage" class="mt-2 block text-xl">-</strong></div>
-      <div class="rounded-md border border-zinc-800 bg-zinc-900 p-4"><p class="text-sm text-zinc-400">Total Group</p><strong id="totalGroup" class="mt-2 block text-xl">-</strong></div>
-      <div class="rounded-md border border-zinc-800 bg-zinc-900 p-4"><p class="text-sm text-zinc-400">Total User</p><strong id="totalUser" class="mt-2 block text-xl">-</strong></div>
-      <div class="rounded-md border border-zinc-800 bg-zinc-900 p-4"><p class="text-sm text-zinc-400">Total Chat</p><strong id="totalChat" class="mt-2 block text-xl">-</strong></div>
-      <div class="rounded-md border border-zinc-800 bg-zinc-900 p-4"><p class="text-sm text-zinc-400">Pairing Code</p><strong id="pairingCode" class="mt-2 block text-xl">-</strong></div>
-    </section>
+      <nav class="nav-list" aria-label="Dashboard">
+        <button class="nav-item is-active" type="button" data-view="overview"><span class="nav-icon" data-icon="layout"></span><span class="nav-label">Overview</span></button>
+        <button class="nav-item" type="button" data-view="sessions"><span class="nav-icon" data-icon="phone"></span><span class="nav-label">Sessions</span></button>
+        <button class="nav-item" type="button" data-view="queue"><span class="nav-icon" data-icon="queue"></span><span class="nav-label">Queue</span></button>
+        <button class="nav-item" type="button" data-view="plugins"><span class="nav-icon" data-icon="package"></span><span class="nav-label">Plugins</span></button>
+        <button class="nav-item" type="button" data-view="logs"><span class="nav-icon" data-icon="terminal"></span><span class="nav-label">Activity</span></button>
+      </nav>
 
-    <section class="mt-6 grid gap-4 lg:grid-cols-[360px_1fr]">
-      <div class="rounded-md border border-zinc-800 bg-zinc-900 p-4">
-        <h2 class="font-semibold">QR / Pairing</h2>
-        <img id="qrImage" class="mt-4 hidden h-80 w-80 rounded bg-white object-contain" alt="WhatsApp login QR">
-        <p id="qrEmpty" class="mt-4 text-sm text-zinc-400">QR akan tampil saat dibutuhkan.</p>
+      <div class="sidebar-footer">
+        <span class="ds-badge" data-global-status><span class="status-dot"></span><span>Starting</span></span>
+        <div class="sidebar-footer-copy">
+          <div class="cell-strong">Runtime</div>
+          <div class="cell-muted" data-runtime>Syncing</div>
+        </div>
       </div>
-      <div class="rounded-md border border-zinc-800 bg-zinc-900 p-4">
-        <h2 class="font-semibold">Log Activity</h2>
-        <div id="logs" class="mt-4 h-[420px] overflow-auto rounded bg-zinc-950 p-3 font-mono text-xs text-zinc-300"></div>
-      </div>
-    </section>
-  </main>
+    </aside>
 
-  <script>
-    const ids = ['botName','pairingStatus','connected','uptime','memoryUsage','cpuUsage','totalGroup','totalUser','totalChat','pairingCode'];
-    const setText = (id, value) => { document.getElementById(id).textContent = value || '-'; };
-    const load = async () => {
-      const data = await fetch('/api/status').then((res) => res.json());
-      setText('botName', data.botName);
-      setText('pairingStatus', data.pairingStatus);
-      setText('connected', data.connected ? 'Connected' : 'Disconnected');
-      for (const id of ids.slice(3)) setText(id, data[id]);
-      const qrImage = document.getElementById('qrImage');
-      const empty = document.getElementById('qrEmpty');
-      if (data.qrImage) {
-        empty.classList.add('hidden');
-        qrImage.classList.remove('hidden');
-        qrImage.src = data.qrImage;
-      } else {
-        qrImage.classList.add('hidden');
-        qrImage.removeAttribute('src');
-        empty.classList.remove('hidden');
-      }
-      document.getElementById('logs').innerHTML = data.logs.map((log) => `<div class="border-b border-zinc-900 py-1"><span class="text-zinc-500">${log.time}</span> <span class="text-cyan-300">${log.level}</span> ${log.message}</div>`).join('');
-    };
-    document.getElementById('restartBtn').onclick = () => fetch('/api/restart', { method: 'POST' });
-    new WebSocket(`${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.host}`).onmessage = load;
-    load();
-    setInterval(load, 5000);
-  </script>
+    <main class="app-main">
+      <header class="app-navbar">
+        <div class="navbar-left">
+          <button class="ds-button icon secondary" type="button" data-mobile-menu aria-label="Buka sidebar"><span data-icon="menu"></span></button>
+          <button class="ds-button icon secondary" type="button" data-collapse-sidebar aria-label="Collapse sidebar"><span data-icon="panel"></span></button>
+          <div>
+            <h1 class="page-title">Dashboard</h1>
+            <p class="page-subtitle">Realtime WhatsApp bot operations</p>
+          </div>
+        </div>
+        <div class="navbar-actions">
+          <span class="ds-badge" data-pairing-status><span class="status-dot"></span><span>Starting</span></span>
+          <button class="ds-button icon ghost" type="button" aria-label="Notifikasi"><span data-icon="bell"></span></button>
+          <button class="ds-button icon secondary" type="button" data-theme-toggle aria-label="Toggle theme"><span data-icon="moon"></span></button>
+          <button class="ds-button secondary" type="button" data-open-pairing><span data-icon="qr"></span><span class="button-text">Pairing</span></button>
+          <button class="ds-button danger" type="button" data-restart><span data-icon="refresh"></span><span class="button-text">Restart</span></button>
+          <div class="avatar" title="Developer">DV</div>
+        </div>
+      </header>
+
+      <section class="content-grid metrics-grid" data-metrics></section>
+
+      <section class="content-grid panel-grid">
+        <article class="ds-card card-pad">
+          <div class="card-header">
+            <div>
+              <p class="card-kicker">Authentication</p>
+              <h2 class="card-title">QR / Pairing</h2>
+            </div>
+            <span class="ds-badge accent-cyan" data-pairing-code>Code: -</span>
+          </div>
+          <div class="qr-frame" data-qr-frame>
+            <div class="empty-state">
+              <span data-icon="qr"></span>
+              <span>QR akan tampil saat dibutuhkan.</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="ds-card card-pad">
+          <div class="card-header">
+            <div>
+              <p class="card-kicker">Telemetry</p>
+              <h2 class="card-title">System Load</h2>
+            </div>
+            <div class="tabs" role="tablist">
+              <button class="tab is-active" type="button">CPU</button>
+              <button class="tab" type="button">Memory</button>
+            </div>
+          </div>
+          <svg class="chart" viewBox="0 0 720 220" role="img" aria-label="System load chart" data-chart></svg>
+        </article>
+      </section>
+
+      <section class="content-grid wide-grid">
+        <article class="ds-card card-pad">
+          <div class="table-toolbar">
+            <div>
+              <p class="card-kicker">Instances</p>
+              <h2 class="card-title">Bot Sessions</h2>
+            </div>
+            <div class="cluster">
+              <label class="search-wrap">
+                <span data-icon="search"></span>
+                <input class="ds-input" type="search" placeholder="Cari session" data-session-search>
+              </label>
+              <select class="ds-select" data-session-filter aria-label="Filter session">
+                <option value="all">Semua status</option>
+                <option value="online">Online</option>
+                <option value="offline">Offline</option>
+                <option value="connecting">Connecting</option>
+              </select>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="ds-table">
+              <thead>
+                <tr>
+                  <th>Session</th>
+                  <th>Status</th>
+                  <th>Phone</th>
+                  <th>Pairing</th>
+                  <th>Updated</th>
+                </tr>
+              </thead>
+              <tbody data-session-table>
+                <tr><td colspan="5"><div class="skeleton"></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="cluster pagination-footer">
+            <span class="cell-muted" data-pagination-label>Loading sessions</span>
+            <div class="cluster">
+              <button class="ds-button secondary" type="button" data-prev-page>Prev</button>
+              <button class="ds-button secondary" type="button" data-next-page>Next</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="ds-card card-pad">
+          <div class="card-header">
+            <div>
+              <p class="card-kicker">Realtime</p>
+              <h2 class="card-title">Log Activity</h2>
+            </div>
+            <button class="ds-button ghost" type="button" data-clear-log-view><span data-icon="trash"></span><span>Clear View</span></button>
+          </div>
+          <div class="logs" data-logs></div>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" data-modal-backdrop></div>
+  <section class="modal" data-pairing-modal aria-modal="true" role="dialog" aria-labelledby="pairingTitle">
+    <div class="modal-panel">
+      <div class="modal-head">
+        <h2 class="card-title" id="pairingTitle">Pair New Session</h2>
+        <button class="ds-button icon ghost" type="button" data-close-modal aria-label="Tutup modal"><span data-icon="x"></span></button>
+      </div>
+      <div class="modal-body">
+        <p class="cell-muted">Masukkan nomor WhatsApp untuk meminta pairing code dari endpoint bot manager.</p>
+        <label class="card-kicker" for="phoneNumber">Phone number</label>
+        <input class="ds-input" id="phoneNumber" type="tel" placeholder="62812xxxx">
+      </div>
+      <div class="modal-foot">
+        <button class="ds-button ghost" type="button" data-close-modal>Cancel</button>
+        <button class="ds-button primary" type="button" data-submit-pairing><span data-icon="qr"></span><span class="button-text">Request Code</span></button>
+      </div>
+    </div>
+  </section>
+
+  <div class="toast-stack" data-toasts></div>
+  <script src="/dashboard.js" defer></script>
 </body>
 </html>
