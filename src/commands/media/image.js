@@ -2,8 +2,8 @@ import { downloadQuotedOrCurrent } from '../../lib/quoted.js';
 import { stickerToPng } from '../../lib/sticker.js';
 
 export default {
-  name: 'simage',
-  alias: ['stickertoimage', 'sticker2img', 'toimg'],
+  name: 'image',
+  alias: ['stickertoimage', 'sticker2img','img','toimg'],
   category: 'sticker',
   description: 'Mengubah sticker menjadi gambar PNG.',
   cooldownMs: 3000,

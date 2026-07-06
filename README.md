@@ -145,7 +145,7 @@ Downloader: `tiktok`, `ytmp3`, `ytmp4`.
 
 AI: `chatgpt`, `gemini`, `claude`.
 
-Sticker/Media: `sticker`, `steks`/`brat`, `emoji`, `readviewonce`/`rvo`.
+Sticker/Media: `sticker`, `tostik`/`brat`, `emoji`, `readviewonce`/`rvo`.
 
 ## Database Adapter
 

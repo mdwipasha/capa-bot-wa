@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export default {
-  name: 'randommeme',
+  name: 'meme',
   alias: ['memeimg'],
   category: 'fun',
   description: 'Meme random dari meme API.',

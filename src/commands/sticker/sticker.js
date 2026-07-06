@@ -3,7 +3,7 @@ import { imageToWebp } from '../../lib/sticker.js';
 
 export default {
   name: 'sticker',
-  alias: ['s', 'stiker'],
+  alias: ['s', 'stiker','stik'],
   category: 'sticker',
   description: 'Membuat sticker dari gambar/video.',
   async execute({ sock, msg, args }) {
