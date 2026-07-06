@@ -119,3 +119,90 @@ export const cobalt = async (url, downloadMode = 'auto') => {
   if (data.status === 'local-processing' && data.tunnel?.[0]) return { title: data.output?.filename || 'download', url: data.tunnel[0] };
   throw new Error(data.error?.code || data.text || 'Downloader gagal memproses URL.');
 };
+
+export const instagramDownload = async (url) => {
+  const runner = await ensureYtDlp();
+  await fs.ensureDir(downloadsDir);
+  const jobDir = path.join(downloadsDir, `ig-${Date.now()}-${Math.random().toString(36).slice(2)}`);
+  await fs.ensureDir(jobDir);
+
+  const output = path.join(jobDir, '%(title).80s.%(ext)s');
+  const args = [
+    url,
+    '--no-playlist',
+    '--restrict-filenames',
+    '--no-warnings',
+    '-f', 'b[ext=mp4]/bv*[ext=mp4]+ba[ext=m4a]/best',
+    '--merge-output-format', 'mp4',
+    '-o', output
+  ];
+
+  try {
+    await runner.execPromise(args, { maxBuffer: 1024 * 1024 * 50 });
+    const filePath = await newestFile(jobDir);
+    if (!filePath) throw new Error('File hasil download tidak ditemukan.');
+    const ext = path.extname(filePath).slice(1).toLowerCase();
+    return { filePath, cleanupDir: jobDir, title: path.basename(filePath, path.extname(filePath)), ext, mime: 'video/mp4' };
+  } catch (error) {
+    await fs.remove(jobDir).catch(() => {});
+    throw new Error(`Instagram download gagal: ${error.message}`);
+  }
+};
+
+export const musicSearch = async (query) => {
+  const runner = await ensureYtDlp();
+  await fs.ensureDir(downloadsDir);
+  const jobDir = path.join(downloadsDir, `music-${Date.now()}-${Math.random().toString(36).slice(2)}`);
+  await fs.ensureDir(jobDir);
+
+  const searchQuery = `ytsearch1:${query}`;
+  const output = path.join(jobDir, '%(title).80s.%(ext)s');
+
+  // Coba download dengan konversi mp3 (butuh FFmpeg), fallback ke format audio terbaik
+  const baseArgs = [
+    searchQuery,
+    '--no-playlist',
+    '--restrict-filenames',
+    '--no-warnings',
+    '-o', output
+  ];
+
+  let filePath;
+
+  // Percobaan 1: konversi ke mp3 (perlu FFmpeg)
+  try {
+    await runner.execPromise([
+      ...baseArgs,
+      '-x', '--audio-format', 'mp3', '--audio-quality', '0'
+    ], { maxBuffer: 1024 * 1024 * 100 });
+    filePath = await newestFile(jobDir);
+  } catch (_) {
+    // Fallback: download format audio terbaik tanpa konversi
+    await fs.emptyDir(jobDir);
+  }
+
+  // Percobaan 2: format audio terbaik tanpa konversi (tidak butuh FFmpeg)
+  if (!filePath) {
+    try {
+      await runner.execPromise([
+        ...baseArgs,
+        '-f', 'ba[ext=m4a]/ba[ext=webm]/ba[ext=opus]/bestaudio'
+      ], { maxBuffer: 1024 * 1024 * 100 });
+      filePath = await newestFile(jobDir);
+    } catch (error) {
+      await fs.remove(jobDir).catch(() => {});
+      throw new Error(`Pencarian musik gagal: ${error.message}`);
+    }
+  }
+
+  if (!filePath) {
+    await fs.remove(jobDir).catch(() => {});
+    throw new Error('File hasil download tidak ditemukan.');
+  }
+
+  const ext = path.extname(filePath).slice(1).toLowerCase();
+  const title = path.basename(filePath, path.extname(filePath)).replace(/_/g, ' ');
+  const mime = ext === 'mp3' ? 'audio/mpeg' : ext === 'opus' ? 'audio/ogg' : 'audio/mp4';
+
+  return { filePath, cleanupDir: jobDir, title, ext, mime };
+};

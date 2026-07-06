@@ -4,7 +4,7 @@ import { requireText } from '../../utils/command.js';
 export default {
   name: 'qrgenerator',
   alias: ['qr', 'makeqr'],
-  category: 'text maker',
+  category: 'converter',
   description: 'Membuat QR code dari teks atau URL.',
   cooldownMs: 3000,
   async execute({ sock, msg, args, prefix }) {

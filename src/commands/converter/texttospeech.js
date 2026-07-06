@@ -4,7 +4,7 @@ import { requireText } from '../../utils/command.js';
 export default {
   name: 'texttospeech',
   alias: ['tts'],
-  category: 'text maker',
+  category: 'converter',
   description: 'Mengubah teks menjadi audio TTS.',
   cooldownMs: 5000,
   async execute({ sock, msg, args, prefix }) {

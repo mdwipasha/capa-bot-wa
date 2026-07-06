@@ -1,7 +1,7 @@
 export default {
   name: 'speechtotext',
   alias: ['stt'],
-  category: 'text maker',
+  category: 'converter',
   description: 'Info speech to text.',
   cooldownMs: 3000,
   async execute({ sock, msg }) {
