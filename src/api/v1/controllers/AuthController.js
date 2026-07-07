@@ -14,6 +14,10 @@ import {
  * Delegates to UserModel, AuthManager, and JWT helpers.
  */
 export class AuthController {
+  constructor(botManager = null) {
+    this.botManager = botManager;
+  }
+
   /**
    * POST /auth/login
    */
@@ -45,7 +49,8 @@ export class AuthController {
       }
 
       // Successful login
-      const accessToken = generateAccessToken(user.id, user.role);
+      const sessionJti = randomUUID();
+      const accessToken = generateAccessToken(user.id, user.role, sessionJti);
       const refreshToken = generateRefreshToken(user.id);
 
       await UserModel.addRefreshToken(user.id, refreshToken);
@@ -55,7 +60,7 @@ export class AuthController {
       await authManager.recordLoginAttempt(user.id, { success: true, ip, userAgent, method: 'password' });
 
       const sessionId = await authManager.registerSession(user.id, {
-        sessionId: randomUUID(),
+        sessionId: sessionJti,
         ip,
         userAgent,
         method: 'password'
@@ -83,8 +88,12 @@ export class AuthController {
 
       // Blacklist the current access token JTI
       if (req.tokenJti) {
-        authManager.blacklistToken(req.tokenJti, 15 * 60 * 1000);
+        const revoked = await authManager.revokeSession(req.user.id, req.tokenJti);
+        if (!revoked) authManager.blacklistToken(req.tokenJti, 15 * 60 * 1000);
         authManager.emit('auth.logout', { userId: req.user.id, tokenJti: req.tokenJti });
+        if (this.botManager?.eventBus) {
+          this.botManager.eventBus.emitEvent('auth.logout', { userId: req.user.id, tokenJti: req.tokenJti });
+        }
       }
 
       return ApiResponse.ok(res, null, 'Logout berhasil');
@@ -255,6 +264,12 @@ export class AuthController {
   async revokeAllSessions(req, res, next) {
     try {
       await authManager.revokeAllSessions(req.user.id);
+      if (req.tokenJti) {
+        authManager.blacklistToken(req.tokenJti, 15 * 60 * 1000);
+      }
+      if (this.botManager?.eventBus) {
+        this.botManager.eventBus.emitEvent('auth.logout_all', { userId: req.user.id });
+      }
       return ApiResponse.ok(res, null, 'Semua session berhasil dicabut');
     } catch (err) { next(err); }
   }

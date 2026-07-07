@@ -20,6 +20,26 @@ export class SocketEvents {
     if (this.botManager?.eventBus) {
       this.wildcardListener = (message) => this.forwardEvent(message);
       this.botManager.eventBus.on('*', this.wildcardListener);
+
+      this.authLogoutListener = (message) => {
+        const tokenJti = message?.tokenJti;
+        if (!tokenJti || !this.gateway?.server) return;
+        const disconnected = this.gateway.server.disconnectByTokenJti(tokenJti);
+        if (disconnected > 0) {
+          logger.info(`[websocket] Disconnected ${disconnected} socket(s) after auth.logout (JTI: ${tokenJti})`);
+        }
+      };
+      this.botManager.eventBus.on('auth.logout', this.authLogoutListener);
+
+      this.authLogoutAllListener = (message) => {
+        const userId = message?.userId;
+        if (!userId || !this.gateway?.server) return;
+        const disconnected = this.gateway.server.disconnectByUserId(userId);
+        if (disconnected > 0) {
+          logger.info(`[websocket] Disconnected ${disconnected} socket(s) after auth.logout_all for user ${userId}`);
+        }
+      };
+      this.botManager.eventBus.on('auth.logout_all', this.authLogoutAllListener);
     }
 
     // 2. Hook into Logger to stream realtime logs
@@ -206,9 +226,19 @@ export class SocketEvents {
    */
   stop() {
     this.stopSystemMetrics();
-    if (this.botManager?.eventBus && this.wildcardListener) {
-      this.botManager.eventBus.off('*', this.wildcardListener);
-      this.wildcardListener = null;
+    if (this.botManager?.eventBus) {
+      if (this.wildcardListener) {
+        this.botManager.eventBus.off('*', this.wildcardListener);
+        this.wildcardListener = null;
+      }
+      if (this.authLogoutListener) {
+        this.botManager.eventBus.off('auth.logout', this.authLogoutListener);
+        this.authLogoutListener = null;
+      }
+      if (this.authLogoutAllListener) {
+        this.botManager.eventBus.off('auth.logout_all', this.authLogoutAllListener);
+        this.authLogoutAllListener = null;
+      }
     }
     if (logger.onLog) {
       logger.onLog = null;

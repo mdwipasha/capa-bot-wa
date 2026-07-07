@@ -1,5 +1,10 @@
-import { ApiResponse } from '../../response/ApiResponse.js';
-import { parsePagination, paginate, applySearch, applySort } from '../../response/paginate.js';
+import { ApiResponse } from "../../response/ApiResponse.js";
+import {
+  parsePagination,
+  paginate,
+  applySearch,
+  applySort,
+} from "../../response/paginate.js";
 
 /**
  * BotController — thin delegate to BotManager.
@@ -23,11 +28,18 @@ export class BotController {
     try {
       const { page, limit, sort, order, search } = parsePagination(req.query);
       let bots = this.botManager.getBots();
-      bots = applySearch(bots, search, ['id', 'phoneNumber', 'displayName', 'status']);
+      bots = applySearch(bots, search, [
+        "id",
+        "phoneNumber",
+        "displayName",
+        "status",
+      ]);
       bots = applySort(bots, sort, order);
       const result = paginate(bots, { page, limit });
       return ApiResponse.ok(res, result);
-    } catch (err) { next(err); }
+    } catch (err) {
+      next(err);
+    }
   }
 
   /**
@@ -37,18 +49,36 @@ export class BotController {
     try {
       const info = await this.botManager.getBotInfo(req.params.id);
       return ApiResponse.ok(res, info);
-    } catch (err) { next(err); }
+    } catch (err) {
+      next(err);
+    }
   }
 
   /**
    * POST /bots
-   * body: { phone }
+   * body: { phone, authMethod }
    */
   async create(req, res, next) {
     try {
-      const bot = await this.botManager.createBot(req.body.phone);
-      return ApiResponse.created(res, bot, 'Bot berhasil dibuat');
-    } catch (err) { next(err); }
+      const bot = await this.botManager.createBot(req.body.phone, {
+        authMethod: req.body.authMethod,
+      });
+      return ApiResponse.created(res, bot, "Bot berhasil dibuat");
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  /**
+   * POST /bots/:id/pairing-code
+   */
+  async requestPairingCode(req, res, next) {
+    try {
+      const result = await this.botManager.pairBot(req.params.id);
+      return ApiResponse.ok(res, result, "Pairing code diminta");
+    } catch (err) {
+      next(err);
+    }
   }
 
   /**
@@ -57,8 +87,10 @@ export class BotController {
   async remove(req, res, next) {
     try {
       const result = await this.botManager.removeBot(req.params.id);
-      return ApiResponse.ok(res, result, 'Bot berhasil dihapus');
-    } catch (err) { next(err); }
+      return ApiResponse.ok(res, result, "Bot berhasil dihapus");
+    } catch (err) {
+      next(err);
+    }
   }
 
   /**
@@ -67,8 +99,10 @@ export class BotController {
   async start(req, res, next) {
     try {
       const bot = await this.botManager.startBot(req.params.id);
-      return ApiResponse.ok(res, bot, 'Bot berhasil distart');
-    } catch (err) { next(err); }
+      return ApiResponse.ok(res, bot, "Bot berhasil distart");
+    } catch (err) {
+      next(err);
+    }
   }
 
   /**
@@ -77,8 +111,10 @@ export class BotController {
   async stop(req, res, next) {
     try {
       const bot = await this.botManager.stopBot(req.params.id);
-      return ApiResponse.ok(res, bot, 'Bot berhasil dihentikan');
-    } catch (err) { next(err); }
+      return ApiResponse.ok(res, bot, "Bot berhasil dihentikan");
+    } catch (err) {
+      next(err);
+    }
   }
 
   /**
@@ -87,8 +123,10 @@ export class BotController {
   async restart(req, res, next) {
     try {
       const bot = await this.botManager.restartBot(req.params.id);
-      return ApiResponse.ok(res, bot, 'Bot berhasil direstart');
-    } catch (err) { next(err); }
+      return ApiResponse.ok(res, bot, "Bot berhasil direstart");
+    } catch (err) {
+      next(err);
+    }
   }
 
   /**
@@ -98,6 +136,8 @@ export class BotController {
     try {
       const stats = this.botManager.getBotStats(req.params.id);
       return ApiResponse.ok(res, stats);
-    } catch (err) { next(err); }
+    } catch (err) {
+      next(err);
+    }
   }
 }

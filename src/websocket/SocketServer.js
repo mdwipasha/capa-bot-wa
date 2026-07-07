@@ -74,6 +74,40 @@ export class SocketServer {
   }
 
   /**
+   * Disconnect sockets authenticated with a blacklisted JWT (by JTI).
+   * @param {string} tokenJti
+   * @returns {number} count of disconnected sockets
+   */
+  disconnectByTokenJti(tokenJti) {
+    if (!tokenJti) return 0;
+    let count = 0;
+    for (const [, socket] of this.io.sockets.sockets) {
+      if (socket.tokenJti === tokenJti) {
+        socket.disconnect(true);
+        count += 1;
+      }
+    }
+    return count;
+  }
+
+  /**
+   * Disconnect sockets authenticated as a specific API user.
+   * @param {string} userId
+   * @returns {number} count of disconnected sockets
+   */
+  disconnectByUserId(userId) {
+    if (!userId) return 0;
+    let count = 0;
+    for (const [, socket] of this.io.sockets.sockets) {
+      if (socket.user?.id === userId) {
+        socket.disconnect(true);
+        count += 1;
+      }
+    }
+    return count;
+  }
+
+  /**
    * Close server connection
    */
   close() {

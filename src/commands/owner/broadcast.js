@@ -8,7 +8,7 @@ export default {
     const text = args.join(' ');
     if (!text) return sock.sendMessage(msg.key.remoteJid, { text: 'Masukkan pesan broadcast.' }, { quoted: msg });
     const data = await db.read();
-    const chats = Object.keys(data.chats);
+    const chats = Object.keys(data.chats || {});
     let sent = 0;
     for (const jid of chats) {
       await sock.sendMessage(jid, { text: `*Broadcast*\n\n${text}` }).then(() => { sent += 1; }).catch(() => {});

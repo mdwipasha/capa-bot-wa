@@ -24,6 +24,7 @@ export const config = {
     : 'pairing',
   sessionPath: process.env.SESSION_PATH || 'src/session',
   sessionBasePath: process.env.SESSION_BASE_PATH || 'sessions',
+  logLevel: (process.env.LOG_LEVEL || 'info').toLowerCase(),
   maxSession: Number(process.env.MAX_SESSION || 50),
   reconnect: {
     maxAttempts: Number(process.env.RECONNECT_MAX_ATTEMPTS || 5),

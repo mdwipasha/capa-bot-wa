@@ -18,7 +18,7 @@ import configRoutes from './routes/configRoutes.js';
 export function buildV1Router(botManager) {
   const router = Router();
 
-  router.use('/auth', authRoutes);
+  router.use('/auth', authRoutes(botManager));
   router.use('/bots', botRoutes(botManager));
   router.use('/plugins', pluginRoutes(botManager));
   router.use('/commands', commandRoutes(botManager));

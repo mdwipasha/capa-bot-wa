@@ -129,8 +129,7 @@ export async function optionalAuth(req, res, next) {
 /**
  * Generate JWT access token with JTI for blacklist support.
  */
-export function generateAccessToken(userId, role) {
-  const jti = randomUUID();
+export function generateAccessToken(userId, role, jti = randomUUID()) {
   return jwt.sign(
     { userId, role, jti },
     config.jwtSecret,
